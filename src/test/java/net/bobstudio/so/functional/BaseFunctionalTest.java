@@ -1,4 +1,4 @@
-package org.springside.examples.bootapi.functional;
+package net.bobstudio.so.functional;
 
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -8,8 +8,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springside.examples.bootapi.BootApiApplication;
 import org.springside.modules.test.rule.TestProgress;
+
+import net.bobstudio.so.BootApiApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BootApiApplication.class)

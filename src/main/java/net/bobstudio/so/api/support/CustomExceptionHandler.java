@@ -1,4 +1,4 @@
-package org.springside.examples.bootapi.api.support;
+package net.bobstudio.so.api.support;
 
 import java.util.Map;
 
@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.springside.examples.bootapi.service.exception.ServiceException;
 import org.springside.modules.constants.MediaTypes;
 import org.springside.modules.mapper.JsonMapper;
 
 import com.google.common.collect.Maps;
+
+import net.bobstudio.so.service.exception.ServiceException;
 
 @ControllerAdvice(annotations = { RestController.class })
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {

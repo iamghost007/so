@@ -1,4 +1,4 @@
-package org.springside.examples.bootapi.config;
+package net.bobstudio.so.config;
 
 /**
  * 定义项目中使用的Profiles

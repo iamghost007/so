@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.bobstudio.so.service.AccountService;
-import net.bobstudio.soi.service.exception.ErrorCode;
-import net.bobstudio.soi.service.exception.ServiceException;
+import net.bobstudio.so.service.exception.ErrorCode;
+import net.bobstudio.so.service.exception.ServiceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

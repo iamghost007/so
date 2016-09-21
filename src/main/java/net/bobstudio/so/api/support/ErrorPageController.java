@@ -1,4 +1,4 @@
-package org.springside.examples.bootapi.api.support;
+package net.bobstudio.so.api.support;
 
 import java.util.Map;
 

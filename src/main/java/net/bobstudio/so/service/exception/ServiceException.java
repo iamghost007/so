@@ -1,4 +1,4 @@
-package net.bobstudio.soi.service.exception;
+package net.bobstudio.so.service.exception;
 
 public class ServiceException extends RuntimeException {
 

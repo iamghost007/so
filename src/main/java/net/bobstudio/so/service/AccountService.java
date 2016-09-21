@@ -6,8 +6,8 @@ import javax.annotation.PostConstruct;
 
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.repository.AccountDao;
-import net.bobstudio.soi.service.exception.ErrorCode;
-import net.bobstudio.soi.service.exception.ServiceException;
+import net.bobstudio.so.service.exception.ErrorCode;
+import net.bobstudio.so.service.exception.ServiceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
