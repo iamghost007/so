@@ -1,4 +1,4 @@
-package org.springside.examples.bootapi.service.exception;
+package net.bobstudio.soi.service.exception;
 
 public enum ErrorCode {
 

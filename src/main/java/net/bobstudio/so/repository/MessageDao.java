@@ -1,7 +1,8 @@
-package org.springside.examples.bootapi.repository;
+package net.bobstudio.so.repository;
+
+import net.bobstudio.so.domain.Message;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springside.examples.bootapi.domain.Message;
 
 /**
  * 基于Spring Data JPA的Dao接口, 自动根据接口生成实现.

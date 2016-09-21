@@ -1,8 +1,13 @@
-package org.springside.examples.bootapi.service;
+package net.bobstudio.so.service;
 
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+
+import net.bobstudio.so.domain.Account;
+import net.bobstudio.so.repository.AccountDao;
+import net.bobstudio.soi.service.exception.ErrorCode;
+import net.bobstudio.soi.service.exception.ServiceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -12,10 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.examples.bootapi.domain.Account;
-import org.springside.examples.bootapi.repository.AccountDao;
-import org.springside.examples.bootapi.service.exception.ErrorCode;
-import org.springside.examples.bootapi.service.exception.ServiceException;
 import org.springside.modules.utils.Digests;
 import org.springside.modules.utils.Encodes;
 import org.springside.modules.utils.Ids;

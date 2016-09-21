@@ -1,4 +1,4 @@
-package org.springside.examples.bootapi.domain;
+package net.bobstudio.so.domain;
 
 import java.util.Date;
 
