@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springside.modules.constants.MediaTypes;
@@ -25,7 +26,7 @@ public class AccountEndPoint {
 	@Autowired
 	private AccountService accountServcie;
 
-	@RequestMapping(value = "/api/accounts/login", produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/api/accounts/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Map<String, String> login(@RequestParam("email") String email, @RequestParam("password") String password) {
 
 		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {

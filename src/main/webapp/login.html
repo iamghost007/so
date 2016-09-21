@@ -19,10 +19,10 @@
 		<div class="content">
 			<p th:if="${param.logout}" class="alert">You have been logged out</p>
 			<p th:if="${param.error}" class="alert alert-error">There was an error, please try again</p>
-			<h2>Login with Username and Password</h2>
-			<form name="form" th:action="@{/login}" action="/login" method="POST">
+			<h2>Login with Email and Password</h2>
+			<form name="form" th:action="@{/api/accounts/login}" action="/api/accounts/login" method="POST">
 				<fieldset>
-					<input type="text" name="username" value="" placeholder="Username" />
+					<input type="text" name="email" value="" placeholder="Email" />
 					<input type="password" name="password" placeholder="Password" />
 				</fieldset>
 				<input type="submit" id="login" value="Login"
