@@ -26,7 +26,7 @@ public class AccountEndPoint {
 	@Autowired
 	private AccountService accountServcie;
 
-	@RequestMapping(value = "/api/accounts/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/api/accounts/login", produces = MediaTypes.JSON_UTF_8)
 	public Map<String, String> login(@RequestParam("email") String email, @RequestParam("password") String password) {
 
 		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
