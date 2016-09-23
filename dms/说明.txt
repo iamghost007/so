@@ -1,0 +1,2 @@
+你把上次发的war中lib导过来，放到zip解开后的下面目录，就是完整工程了
+dms\src\main\webapp\WEB-INF\lib\

@@ -53,14 +53,26 @@ $(function(){
 			$("#msg").html("邮箱地址或密码不能为空");
 			return false;
 		}
-		alert(email+','+pwd);
-		$.get("http://localhost:3519/api/accounts/login", {
+
+		var url = 'http://localhost:3519/api/accounts/login';
+		/*
+		$.get(url, {
 			email: $("#email").val(),
 			password: $("#password").val()
 		}, function(data, textStatus) {
 
 			$("#msg").html(data);
 		});
+		*/
+
+		url +='?email='+email+'&password='+pwd;
+		$.getJSON(url, function(data){
+			var html='';
+			$.each(data, function(i,item) {
+				html += i+":="+item+";";
+			});
+			$('#msg').html(html);
+		})
 	})
 
 });
