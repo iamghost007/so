@@ -1,2 +1,0 @@
-解开com.zip，然后覆盖到下面的目录：
-tomcat_home\webapps\dms\WEB-INF\classes
