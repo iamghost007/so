@@ -2,6 +2,8 @@ package net.bobstudio.so.repository;
 
 import net.bobstudio.so.domain.Account;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -14,4 +16,9 @@ import org.springframework.data.repository.CrudRepository;
 public interface AccountDao extends CrudRepository<Account, Long> {
 
 	Account findByEmail(String email);
+	
+	@Modifying
+	@Query("delete from Account  where id=?1")
+	void deleteAccount(Long id);
+
 }

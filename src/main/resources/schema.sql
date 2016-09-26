@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS tb_employee(
     em_roler nvarchar2(64),
     em_phone nvarchar2(12),
     em_email nvarchar2(64),
-    em_family nvarchar2(64),
+    em_family_addr nvarchar2(255),
     remark nvarchar2(256)); 
