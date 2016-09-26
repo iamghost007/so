@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>登陆智能办公系统</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+		href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" th:href="@{/css/signin.css}"
+		href="/css/signin.css" />
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <p th:if="${param.error}" class="alert alert-error">There was an error, please try again</p>
+      <form class="form-signin" role="form" name="form" th:action="@{/login}" action="/login" method="POST">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="email" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" />
+        <input type="password" class="form-control" placeholder="Password" required="required" />
+        <div class="checkbox">
+        
+          <label>
+            <input type="checkbox" value="remember-me" /> 记住我
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登 陆</button>
+      </form>
+
+    </div> <!-- /container -->
+  </body>
+</html>
