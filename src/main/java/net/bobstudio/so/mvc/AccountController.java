@@ -45,6 +45,11 @@ public class AccountController {
 	private AccountDao accountDao;
 
 	@GetMapping
+	public String login(){
+		return "accounts/login";
+	}
+	
+	@GetMapping("list")
 	public ModelAndView list() {
 		Iterable<Account> accounts = accountDao.findAll();
 		return new ModelAndView("accounts/list", "accounts", accounts);

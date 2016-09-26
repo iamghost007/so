@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springside.modules.constants.MediaTypes;
 
 // Spring Restful MVC Controller的标识, 直接输出内容，不调用template引擎.
-@RestController
+//@RestController
 public class AccountEndPoint {
 
 	private static Logger logger = LoggerFactory.getLogger(AccountEndPoint.class);
