@@ -60,6 +60,13 @@ public class AccountController {
 		Iterable<Account> accounts = accountService.findAll();
 		return new ModelAndView("accounts/list", "accounts", accounts);
 	}
+	
+	@GetMapping("home")
+	public ModelAndView home() {
+		Iterable<Account> accounts = accountService.findAll();
+		return new ModelAndView("home", "accounts", accounts);
+		
+	}
 
 	@GetMapping("{id}")
 	public ModelAndView view(@PathVariable("id") Account account) {
@@ -79,7 +86,7 @@ public class AccountController {
 
 		String token = accountService.login(email, password);
 		
-		return token==null ? new ModelAndView("accounts/login", "logerror","log is error") : list();
+		return token==null ? new ModelAndView("accounts/login", "logerror","log is error") : home();
 
 	}
 
