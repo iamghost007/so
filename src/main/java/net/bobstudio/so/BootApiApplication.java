@@ -10,10 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @SpringBootApplication
 public class BootApiApplication extends WebMvcConfigurerAdapter {
 
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/login").setViewName("login");
-	}
+//	@Override
+//	public void addViewControllers(ViewControllerRegistry registry) {
+//		registry.addViewController("/login").setViewName("login");
+//	}
 	
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(BootApiApplication.class, args);

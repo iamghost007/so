@@ -54,12 +54,17 @@ public class AccountService {
 	public String login(String email, String password) {
 		Account account = accountDao.findByEmail(email);
 
+		/*
 		if (account == null) {
 			throw new ServiceException("User not exist", ErrorCode.UNAUTHORIZED);
 		}
 
 		if (!account.hashPassword.equals(hashPassword(password))) {
 			throw new ServiceException("Password wrong", ErrorCode.UNAUTHORIZED);
+		}*/
+		
+		if(account == null || !account.hashPassword.equals(hashPassword(password))) {
+			return null;
 		}
 
 		String token = Ids.uuid2();
@@ -103,7 +108,14 @@ public class AccountService {
 		accountDao.save(account);
 	}
 
+	@Transactional(readOnly = true)
+	public Iterable<Account> findAll() {
+		return accountDao.findAll();
+	}
+
+	
 	protected static String hashPassword(String password) {
 		return Encodes.encodeBase64(Digests.sha1(password));
 	}
+
 }
