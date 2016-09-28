@@ -25,9 +25,9 @@
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="icon-bar">xxx</span>
+            <span class="icon-bar">ddd</span>
+            <span class="icon-bar">ccc</span>
           </button>
           <a class="navbar-brand" href="#">智能办公系统</a>
         </div>
@@ -50,175 +50,174 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview</a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
+            <li><a href="#">入库管理</a></li>
+            <li><a href="#">出库管理</a></li>
+            <li><a href="#">生产计划</a></li>
+            <li><a href="#">原材料管理</a></li>
+            <li><a href="#">产品管理</a></li>
           </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
+            <li><a href="">员工管理</a></li>
+            <li><a href="">角色管理</a></li>
+            <li><a href="">供应商管理</a></li>
           </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
+            <li><a href="">图纸管理</a></li>
+            <li><a href="">生产报表</a></li>
+            <li><a href="">销售报表</a></li>
           </ul>
         </div>
+
+		<!--add user start-->
+	<div class="modal fade" data-backdrop="false" id="addAccount" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">新增用户</h4>
+			</div>
+			<div th:if="${editAccountError}" class="alert alert-danger">错误提示区</div>
+			<div class="modal-body">
+				<form action="#" id="changepwd_form" method="post">
+				<div class="form-body">
+					<div class="row">
+					<div class="form-group col-md-12">
+						<label class="col-md-2 control-label">
+								<span id="username" >姓名</span>
+						</label> 
+						<div class="col-md-10">
+							<input type="text" class="form-control" placeholder="Username"
+								id="username" disabled="disabled" autocomplete="off" />
+						</div>
+					</div>	
+					
+					<div class="form-group col-md-12" id="oldpwd_div">
+						<label class="col-md-2 control-label">
+								<span id="oldpwd" >E-Mail</span>
+								<span class="required">*</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control"
+							id="oldpassword" name="changepwdoldpassword" autocomplete="off" />
+							<span class="help-block"></span>
+							<input type="hidden" id="isSelf" value=""  />
+						</div>
+					</div>
+					<div class="form-group col-md-12" id="oldpwd_div">
+						<label class="col-md-2 control-label">
+								<span id="oldpwd" >职务</span>
+								<span class="required">*</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control"
+							id="oldpassword" name="changepwdoldpassword" autocomplete="off" />
+							<span class="help-block"></span>
+						</div>
+					</div>
+					<div class="form-group col-md-12" id="oldpwd_div">
+						<label class="col-md-2 control-label">
+								<span id="oldpwd" >电话</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control"
+							id="oldpassword" name="changepwdoldpassword" autocomplete="off" />
+							<span class="help-block"></span>
+						</div>
+					</div>
+					
+					<div class="form-group col-md-12">
+						<label class="col-md-2 control-label">
+								<span id="pwd">新密码</span>
+							<span class="required">*</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control"
+							 	id="changepwd_modal_form_password" name="changepwdnewpassword" autocomplete="off"/>
+							 <span class="help-block"></span>
+						</div>
+					</div>
+					<div class="form-group col-md-12">
+						<label class="col-md-2 control-label">
+								<span id="pwd2" >新密码确认</span>
+								<span class="required">*</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control" id="changepwd_modal_form_password2" name="changepwdnewpassword2" autocomplete="off"/>
+							 <span class="help-block"></span>
+						</div>
+					</div>											 
+					<div class="form-group col-md-12" id="oldpwd_div">
+						<label class="col-md-2 control-label">
+								<span id="oldpwd" >家庭住址</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control"
+							id="oldpassword" name="changepwdoldpassword" autocomplete="off" />
+							<span class="help-block"></span>
+						</div>
+					</div>
+					<div class="form-group col-md-12" id="oldpwd_div">
+						<label class="col-md-2 control-label">
+								<span id="oldpwd" >简介</span>
+						</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control"
+							id="oldpassword" name="changepwdoldpassword" autocomplete="off" />
+							<span class="help-block"></span>
+						</div>
+					</div>
+					</div>
+				</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn blue" id="changepwd_modal_save">
+					<span id="user_ok">确认</span>
+				</button>
+				<button type="button" class="btn default" data-dismiss="modal">
+					<span id="user_close">取消</span>
+				</button>
+			</div>
+		</div>
+	</div>
+	</div>
+		<!--add user end  -->
+
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Dashboard</h1>
-
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail" />
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail" />
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail" />
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail" />
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </div>
-
-          <h2 class="sub-header">Section title</h2>
+          <h2 class="sub-header">用户管理
+			<div class="pull-right">
+			<a href="#addAccount" data-toggle="modal" class="btn btn-primary">新增</a>
+			</div>
+		  </h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                  <th>姓名</th>
+                  <th>E-mail</th>
+                  <th>职务</th>
+                  <th>电话</th>
+                  <th>角色</th>
+				  <th>操作</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>Integer</td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>libero</td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
-                </tr>
-                <tr>
-                  <td>1,004</td>
-                  <td>dapibus</td>
-                  <td>diam</td>
-                  <td>Sed</td>
-                  <td>nisi</td>
-                </tr>
-                <tr>
-                  <td>1,005</td>
-                  <td>Nulla</td>
-                  <td>quis</td>
-                  <td>sem</td>
-                  <td>at</td>
-                </tr>
-                <tr>
-                  <td>1,006</td>
-                  <td>nibh</td>
-                  <td>elementum</td>
-                  <td>imperdiet</td>
-                  <td>Duis</td>
-                </tr>
-                <tr>
-                  <td>1,007</td>
-                  <td>sagittis</td>
-                  <td>ipsum</td>
-                  <td>Praesent</td>
-                  <td>mauris</td>
-                </tr>
-                <tr>
-                  <td>1,008</td>
-                  <td>Fusce</td>
-                  <td>nec</td>
-                  <td>tellus</td>
-                  <td>sed</td>
-                </tr>
-                <tr>
-                  <td>1,009</td>
-                  <td>augue</td>
-                  <td>semper</td>
-                  <td>porta</td>
-                  <td>Mauris</td>
-                </tr>
-                <tr>
-                  <td>1,010</td>
-                  <td>massa</td>
-                  <td>Vestibulum</td>
-                  <td>lacinia</td>
-                  <td>arcu</td>
-                </tr>
-                <tr>
-                  <td>1,011</td>
-                  <td>eget</td>
-                  <td>nulla</td>
-                  <td>Class</td>
-                  <td>aptent</td>
-                </tr>
-                <tr>
-                  <td>1,012</td>
-                  <td>taciti</td>
-                  <td>sociosqu</td>
-                  <td>ad</td>
-                  <td>litora</td>
-                </tr>
-                <tr>
-                  <td>1,013</td>
-                  <td>torquent</td>
-                  <td>per</td>
-                  <td>conubia</td>
-                  <td>nostra</td>
-                </tr>
-                <tr>
-                  <td>1,014</td>
-                  <td>per</td>
-                  <td>inceptos</td>
-                  <td>himenaeos</td>
-                  <td>Curabitur</td>
-                </tr>
-                <tr>
-                  <td>1,015</td>
-                  <td>sodales</td>
-                  <td>ligula</td>
-                  <td>in</td>
-                  <td>libero</td>
-                </tr>
-              </tbody>
+			  <tbody>
+				<tr th:if="${accounts.empty}">
+					<td colspan="6">没有记录</td>
+				</tr>
+				<tr th:each="account : ${accounts}">
+					<td th:text="${account.name}">Bob</td>
+					<td th:text="${account.email}">zzb205@163.com</td>
+					<td>总工</td>
+					<td>13912345678</td>
+					<td>管理员</td>
+					<td>
+					<button type="button" class="btn btn-sm btn-info">查看</button>
+					<button type="button" class="btn btn-sm btn-warning">修改</button>
+					<button type="button" class="btn btn-sm btn-danger">删除</button>
+					</td>
+				</tr>
+			  </tbody>
             </table>
           </div>
         </div>
