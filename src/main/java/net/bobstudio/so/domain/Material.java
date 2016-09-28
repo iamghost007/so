@@ -9,33 +9,25 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "tb_employee")
-public class Account {
+@Table(name = "tb_material")
+public class Material {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-	public String code;
-	public String name;
-	public String duty;
-	public String roler;
-	public String phone;
-	public String email;
-	public String password;
-	public String family_addr;
+	public String mate_code;
+	public String mate_name;
+	public String mate_gb_standard;
+	public Integer mate_num_stock; // 库存量
+	public Integer mate_num_alarm; // 告警阈值
 	public String remark;
 
-	public Account() {
-		// do nothing
-	}
-
-	public Account(Long id) {
-		this.id = id;
+	public Material() {
+		// do nothing;
 	}
 
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-
 }

@@ -63,7 +63,7 @@ public class AccountService {
 			throw new ServiceException("Password wrong", ErrorCode.UNAUTHORIZED);
 		}*/
 		
-		if(account == null || !account.hashPassword.equals(hashPassword(password))) {
+		if(account == null || !account.password.equals(hashPassword(password))) {
 			return null;
 		}
 
@@ -104,7 +104,7 @@ public class AccountService {
 		Account account = new Account();
 		account.email = email;
 		account.name = name;
-		account.hashPassword = hashPassword(password);
+		account.password = hashPassword(password);
 		accountDao.save(account);
 	}
 
