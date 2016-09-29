@@ -15,7 +15,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface AccountDao extends CrudRepository<Account, Long> {
 
-	Account findByEmail(String em_email);
+	Account findByEmail(String email);
 	
 	@Modifying
 	@Query("delete from Account  where id=?1")

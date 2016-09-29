@@ -19,7 +19,6 @@ package net.bobstudio.so.mvc;
 import javax.validation.Valid;
 
 import net.bobstudio.so.domain.Account;
-import net.bobstudio.so.repository.AccountDao;
 import net.bobstudio.so.service.AccountService;
 import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
@@ -39,8 +38,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 
- * @author Bob Zhang 
- * 2016.9.26
+ * @author Bob Zhang[zzb205@163.com]
+ *  2016.9.26 
  */
 @Controller
 @RequestMapping("/")
@@ -50,22 +49,30 @@ public class AccountController {
 	private AccountService accountService;
 
 	@GetMapping
-	public String login(){
+	public String login() {
 		System.out.println("开始登陆啦。。。");
 		return "accounts/login";
 	}
-	
-	@GetMapping("list")
-	public ModelAndView list() {
-		Iterable<Account> accounts = accountService.findAll();
-		return new ModelAndView("accounts/list", "accounts", accounts);
+
+	@RequestMapping("login")
+	public ModelAndView login(@RequestParam("email") String email,
+	        @RequestParam("password") String password) {
+		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
+			throw new ServiceException("User or password empty", ErrorCode.BAD_REQUEST);
+		}
+
+		String token = accountService.login(email, password);
+
+		return (null == token) ? new ModelAndView("accounts/login", "logerror", "")
+		        : new ModelAndView("home", "currentAccount",
+		                accountService.getLoginUser(token));
+
 	}
 	
-	@GetMapping("home")
-	public ModelAndView home() {
+	@GetMapping("accounts/main")
+	public ModelAndView list() {
 		Iterable<Account> accounts = accountService.findAll();
-		return new ModelAndView("home", "accounts", accounts);
-		
+		return new ModelAndView("accounts/main", "accounts", accounts);
 	}
 
 	@GetMapping("{id}")
@@ -77,26 +84,14 @@ public class AccountController {
 	public String createForm(@ModelAttribute Account account) {
 		return "accounts/form";
 	}
-	
-	@RequestMapping("login")
-	public ModelAndView login(@RequestParam("email") String email, @RequestParam("password") String password) {
-		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
-			throw new ServiceException("User or password empty", ErrorCode.BAD_REQUEST);
-		}
-
-		String token = accountService.login(email, password);
-		
-		return token==null ? new ModelAndView("accounts/login", "logerror","log is error") : home();
-
-	}
 
 	@PostMapping("create")
 	public ModelAndView create(@Valid Account account, BindingResult result,
-			RedirectAttributes redirect) {
+	        RedirectAttributes redirect) {
 		if (result.hasErrors()) {
 			return new ModelAndView("accounts/form", "formErrors", result.getAllErrors());
 		}
-		//account = accountServcie.register(account);
+		// account = accountServcie.register(account);
 		redirect.addFlashAttribute("globalAccount", "Successfully created a new account");
 		return new ModelAndView("redirect:/{account.id}", "account.id", account.id);
 	}
@@ -108,7 +103,7 @@ public class AccountController {
 
 	@GetMapping(value = "delete/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
-		//accountService.deleteAccount(id);
+		// accountService.deleteAccount(id);
 		Iterable<Account> accounts = accountService.findAll();
 		return new ModelAndView("accounts/list", "accounts", accounts);
 	}

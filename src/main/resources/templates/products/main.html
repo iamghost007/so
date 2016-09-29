@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+
+<title>智能办公系统</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	href="../../static/css/bootstrap.min.css" />
+
+</head>
+
+<body>
+	<div class="mainContent">
+			<!--add user start-->
+			<div class="modal fade" data-backdrop="false" id="addProduct"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title">新增产品</h4>
+						</div>
+						<div th:if="${editProductError}" class="alert alert-danger">错误提示区</div>
+						<div class="modal-body">
+							<form action="#" id="changepwd_form" method="post">
+								<div class="form-body">
+									<div class="row">
+										<div class="form-group col-md-12">
+											<label class="col-md-2 control-label"> <span
+												id="username">姓名</span>
+											</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control"
+													placeholder="Username" id="username" disabled="disabled"
+													autocomplete="off" />
+											</div>
+										</div>
+
+										<div class="form-group col-md-12" id="oldpwd_div">
+											<label class="col-md-2 control-label"> <span
+												id="oldpwd">E-Mail</span> <span class="required">*</span>
+											</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control" id="oldpassword"
+													name="changepwdoldpassword" autocomplete="off" /> <span
+													class="help-block"></span> <input type="hidden" id="isSelf"
+													value="" />
+											</div>
+										</div>
+										<div class="form-group col-md-12" id="oldpwd_div">
+											<label class="col-md-2 control-label"> <span
+												id="oldpwd">职务</span> <span class="required">*</span>
+											</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control" id="oldpassword"
+													name="changepwdoldpassword" autocomplete="off" /> <span
+													class="help-block"></span>
+											</div>
+										</div>
+										<div class="form-group col-md-12" id="oldpwd_div">
+											<label class="col-md-2 control-label"> <span
+												id="oldpwd">电话</span>
+											</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control" id="oldpassword"
+													name="changepwdoldpassword" autocomplete="off" /> <span
+													class="help-block"></span>
+											</div>
+										</div>
+
+										<div class="form-group col-md-12">
+											<label class="col-md-2 control-label"> <span id="pwd">新密码</span>
+												<span class="required">*</span>
+											</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control"
+													id="changepwd_modal_form_password"
+													name="changepwdnewpassword" autocomplete="off" /> <span
+													class="help-block"></span>
+											</div>
+										</div>
+										<div class="form-group col-md-12">
+											<label class="col-md-2 control-label"> <span
+												id="pwd2">新密码确认</span> <span class="required">*</span>
+											</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control"
+													id="changepwd_modal_form_password2"
+													name="changepwdnewpassword2" autocomplete="off" /> <span
+													class="help-block"></span>
+											</div>
+										</div>
+										<div class="form-group col-md-12" id="oldpwd_div">
+											<label class="col-md-2 control-label"> <span
+												id="oldpwd">家庭住址</span>
+											</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control" id="oldpassword"
+													name="changepwdoldpassword" autocomplete="off" /> <span
+													class="help-block"></span>
+											</div>
+										</div>
+										<div class="form-group col-md-12" id="oldpwd_div">
+											<label class="col-md-2 control-label"> <span
+												id="oldpwd">简介</span>
+											</label>
+											<div class="col-md-10">
+												<textarea class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								id="changepwd_modal_save">
+								<span id="user_ok">确认</span>
+							</button>
+							<button type="button" class="btn default" data-dismiss="modal">
+								<span id="user_close">取消</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--add user end  -->
+
+			<!-- User View Start -->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h2 class="sub-header">
+					产品管理
+					<div class="pull-right">
+						<a href="#addProduct" data-toggle="modal" class="btn btn-primary">新增</a>
+					</div>
+				</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>名称</th>
+								<th>规格</th>
+								<th>类别</th>
+								<th>库存量</th>
+								<th>图纸</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${products.empty}">
+								<td colspan="6">没有记录</td>
+							</tr>
+							<tr th:each="product : ${products}">
+								<td >冰箱</td>
+								<td >家用</td>
+								<td>1000</td>
+								<td>图纸1024</td>
+								<td>管理员</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-info">查看</button>
+									<button type="button" class="btn btn-sm btn-warning">修改</button>
+									<button type="button" class="btn btn-sm btn-danger">删除</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- User View End -->
+	</div>
+
+	<script src="../../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+	<script src="../../static/js/bootstrap.min.js"	th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
