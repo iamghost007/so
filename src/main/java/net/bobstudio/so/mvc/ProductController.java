@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @author Bob Zhang[zzb205@163.com]
+ * @author Walter <zhanggx2003@126.com>
  * 2016年9月29日
  */
 @Controller

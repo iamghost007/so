@@ -13,7 +13,7 @@ import net.bobstudio.so.domain.Drawing;
 import net.bobstudio.so.service.DrawingService;
 
 /**
- * @author Bob Zhang[zzb205@163.com]
+ * @author Walter <zhanggx2003@126.com>
  * 2016年9月29日
  */
 @Controller
