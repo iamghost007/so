@@ -1,5 +1,6 @@
 package net.bobstudio.so.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -15,11 +16,21 @@ public class Material {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-	public String mate_code;
-	public String mate_name;
-	public String mate_gb_standard;
-	public Integer mate_num_stock; // 库存量
-	public Integer mate_num_alarm; // 告警阈值
+	@Column(name = "mate_code")
+	public String code;
+	
+	@Column(name = "mate_name")
+	public String name;
+	
+	@Column(name = "mate_gb_standard")
+	public String standard;
+	
+	@Column(name = "mate_num_stock")
+	public Integer numStock; // 库存量
+
+	@Column(name = "mate_num_alarm")
+	public Integer numAlarm; // 告警阈值
+	
 	public String remark;
 
 	public Material() {
