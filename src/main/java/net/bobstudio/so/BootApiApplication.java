@@ -2,21 +2,21 @@ package net.bobstudio.so;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+//import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 // SpringBoot 应用标识
 @SpringBootApplication
-public class BootApiApplication extends WebMvcConfigurerAdapter {
+public class BootApiApplication extends SpringBootServletInitializer {
 
-//	@Override
-//	public void addViewControllers(ViewControllerRegistry registry) {
-//		registry.addViewController("/login").setViewName("login");
-//	}
-	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(BootApiApplication.class);
+	}
+
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(BootApiApplication.class, args);
 	}
-	
+
 }

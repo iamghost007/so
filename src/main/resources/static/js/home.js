@@ -1,24 +1,18 @@
 $(function() {
 	$("#greeting").html($("#greeting").html() + "&nbsp;&nbsp;" + $.getGreetingTime()) ;
 
-	$.loadFunction("/accounts");
-/*
-	var href = window.location.href;
-	var pathname = window.location.pathname;
-	var listPage = href.substring(0, href.length - pathname.length)
-			+ "/accounts/main .accountMain";
-	$("#mainView").load(listPage);
-*/
+	$.loadFunction("/products");
+
+    $("#tabs a").click(function () {  
+        $(this).tab('show');  
+    });  
 
 });
 
 jQuery.extend({
 	loadFunction:function(gotoWhere) {
-		var href = window.location.href;
-		var pathname = window.location.pathname;
-		var listPage = href.substring(0, href.length - pathname.length)
-				+ gotoWhere+"/main .mainContent";
-		$("#mainView").load(listPage);
+		var mainUrl = $.getRootPath() + gotoWhere+"/main .mainContent";
+		$("#mainView").load(mainUrl);
 	},
 
 	getGreetingTime:function () {
@@ -36,6 +30,30 @@ jQuery.extend({
 			greeting = "晚上好！";
 		}
 		return greeting;
-	}
+	},
+	
+	getRootPath:function() {
+        var curWwwPath = window.document.location.href;
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName);
+        var localhostPaht = curWwwPath.substring(0, pos);
+        var projectName = pathName.substring(0, pathName.substr(1).lastIndexOf('/') + 1);
+        return (localhostPaht + projectName);
+    },
+    
+    gotoTAB:function(name) {
+    	$("#tabs a").click(function (e) {  
+            $(this).tab('show'); 
+			
+			var current = this.hash;
+			var pos = current.indexOf("Page");
+			current = current.substring(1,pos).replace(/(\w)/,function(v){return v.toUpperCase()});
+			$("#_add").attr("href","#add"+current);
+
+			name = $("#_add").text().substr(0,2) + name;
+			$("#_add").text(name);
+        }); 
+    }
+    
 });
 

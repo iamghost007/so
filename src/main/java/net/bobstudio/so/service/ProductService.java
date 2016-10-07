@@ -29,4 +29,10 @@ public class ProductService {
 		return productDao.findAll();
 	}
 
+	@Transactional
+	public void saveProduct(Product product) {
+		productDao.save(product);
+		
+	}
+
 }
