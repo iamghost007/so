@@ -1,33 +1,24 @@
-/**
- * 
- */
 package net.bobstudio.so.dto;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-/**
- * @author Bob Zhang
- * 2016.9.28
- */
-public class ProductDto {
-	public Long id;
+public class MaterialVo {
+	private Long id;
 
-	public String code;
+	private String code;
 	
-	public String name;
+	private String name;
 	
-	public String standard;
+	private String standard;
 	
-	public String type;
-	
-	public Integer numStock;
-	
-	public Integer numAlarm;
-	
-	public String remark;
+	private Integer numStock; // 库存量
 
-	public ProductDto(){
-		//
+	private Integer numAlarm; // 告警阈值
+	
+	private String remark;
+
+	public MaterialVo() {
+		// do nothing;
 	}
 
 	public Long getId() {
@@ -60,14 +51,6 @@ public class ProductDto {
 
 	public void setStandard(String standard) {
 		this.standard = standard;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public Integer getNumStock() {

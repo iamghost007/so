@@ -24,5 +24,10 @@ public class DrawingService {
 	public Iterable<Drawing> findAll() {
 		return drawingDao.findAll();
 	}
+	
+	@Transactional
+	public void saveDrawing(Drawing drawing) {
+		drawingDao.save(drawing);
+	}
 
 }

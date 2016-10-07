@@ -4,7 +4,7 @@
 package net.bobstudio.so.mvc;
 
 import net.bobstudio.so.domain.Product;
-import net.bobstudio.so.dto.ProductDto;
+import net.bobstudio.so.dto.ProductVo;
 import net.bobstudio.so.service.ProductService;
 
 import javax.validation.Valid;
@@ -32,23 +32,23 @@ public class ProductController {
 	private ProductService productService;
 	
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute ProductDto productDto) {
+	public ModelAndView list(@ModelAttribute ProductVo productVo) {
 		Iterable<Product> products = productService.findAll();
 		
-		return new ModelAndView("products/main", "products", BeanMapper.mapList(products, ProductDto.class));
+		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products, ProductVo.class));
 	}
 	
 	@PostMapping("create")
-	public ModelAndView create(@Valid ProductDto productDto, BindingResult result,
+	public ModelAndView create(@Valid ProductVo productVo, BindingResult result,
 	        RedirectAttributes redirect) {
 		if (result.hasErrors()) {
 			return new ModelAndView("products/main#addProduct", "formErrors", result.getAllErrors());
 		}
 		redirect.addFlashAttribute("globalProduct", "Successfully created a new product");
 		
-		Product product = BeanMapper.map(productDto, Product.class);
+		Product product = BeanMapper.map(productVo, Product.class);
 		productService.saveProduct(product);
-		return list(new ProductDto());
+		return list(new ProductVo());
 	}
 
 }

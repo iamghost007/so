@@ -34,18 +34,18 @@
 					</div>
 					<div th:if="${editProductError}" class="alert alert-danger">错误提示区</div>
 					<form th:action="@{/products/create}" method="post"
-						th:object="${productDto}">
+						th:object="${productVo}">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span id="code">代码</span>
+										<label class="col-md-2 control-label"> <span>代码</span>
 										</label>
 										<div class="col-md-4" align="left">
 											<input type="text" th:field="*{code}" class="form-control"
 												placeholder="产品代码" autofocus="autofocus" />
 										</div>
-										<label class="col-md-2 control-label"> <span id="name">名称</span>
+										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
@@ -62,7 +62,7 @@
 											<input type="text" class="form-control"
 												th:field="*{standard}" />
 										</div>
-										<label class="col-md-2 control-label"> <span id="type">类别</span>
+										<label class="col-md-2 control-label"> <span>类别</span>
 										</label>
 										<div class="col-md-4">
 											<input type="text" class="form-control" th:field="*{type}" />
@@ -94,7 +94,7 @@
 											<input type="text" class="form-control" name="drawingCode" />
 										</div>
 									</div>
-									<div class="form-group col-md-12" id="oldpwd_div">
+									<div class="form-group col-md-12" >
 										<label class="col-md-2 control-label"> <span
 											id="remark">产品描述</span>
 										</label>
@@ -132,60 +132,56 @@
 						<h4 class="modal-title  btn grey radius_l">新增原材料</h4>
 					</div>
 					<div th:if="${editProductError}" class="alert alert-danger">错误提示区</div>
-					<form th:action="@{/products/create}" method="post"
-						th:object="${productDto}">
+					<form th:action="@{/products/create}" method="post"	>
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span id="code">代码</span>
+										<label class="col-md-2 control-label"> <span>代码</span>
 										</label>
 										<div class="col-md-4" align="left">
-											<input type="text" th:field="*{code}" class="form-control"
+											<input type="text" name="code" class="form-control"
 												placeholder="原料代码" autofocus="autofocus" />
 										</div>
-										<label class="col-md-2 control-label"> <span id="name">名称</span>
+										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{name}"
+											<input type="text" class="form-control" name="name"
 												required="required" placeholder="原料名称" />
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span
-											id="standard">规格</span>
+										<label class="col-md-2 control-label"> <span>规格</span>
 										</label>
 										<div class="col-md-4">
 											<input type="text" class="form-control"
-												th:field="*{standard}" />
+												name="standard" />
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span
-											id="numStock">库存量</span> <span class="required">*</span>
+										<label class="col-md-2 control-label"> <span>库存量</span> <span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input class="form-control" th:field="*{numStock}"
+											<input class="form-control" name="numStock"
 												required="required" type="number" placeholder="只能输入数字" />
 										</div>
-										<label class="col-md-2 control-label"> <span
-											id="numAlarm">告警值</span> <span class="required">*</span>
+										<label class="col-md-2 control-label"> <span>告警值</span> <span class="required">*</span>
 										</label>
 										<div class="col-md-4">
 											<input type="number" class="form-control"
-												th:field="*{numAlarm}" required="required"
+												name="numAlarm" required="required"
 												placeholder="库存告警阈值" />
 										</div>
 									</div>
-									<div class="form-group col-md-12" id="oldpwd_div">
+									<div class="form-group col-md-12" >
 										<label class="col-md-2 control-label"> <span
 											id="remark">原料描述</span>
 										</label>
 										<div class="col-md-10">
-											<textarea class="form-control" th:field="*{remark}"
+											<textarea class="form-control" name="remark"
 												placeholder="原料描述" rows="5"></textarea>
 										</div>
 									</div>
@@ -218,23 +214,22 @@
 						<h4 class="modal-title  btn grey radius_l">新增图纸</h4>
 					</div>
 					<div th:if="${editProductError}" class="alert alert-danger">错误提示区</div>
-					<form th:action="@{/products/create}" method="post"
-						th:object="${productDto}">
+					<form th:action="@{/products/create}" method="post">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span id="code">代码</span>
+										<label class="col-md-2 control-label"> <span >代码</span>
 										</label>
 										<div class="col-md-4" align="left">
-											<input type="text" th:field="*{code}" class="form-control"
+											<input type="text" name="code" class="form-control"
 												placeholder="图纸编号" autofocus="autofocus" />
 										</div>
-										<label class="col-md-2 control-label"> <span id="name">名称</span>
+										<label class="col-md-2 control-label"> <span >名称</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{name}"
+											<input type="text" class="form-control" name="name"
 												required="required" placeholder="图纸名称" />
 										</div>
 									</div>
@@ -245,16 +240,15 @@
 										</label>
 										<div class="col-md-4">
 											<input type="text" class="form-control"
-												th:field="*{designer}" />
+												name="designer" />
 										</div>
 									</div>
 
-									<div class="form-group col-md-12" id="oldpwd_div">
-										<label class="col-md-2 control-label"> <span
-											id="remark">图纸描述</span>
+									<div class="form-group col-md-12" >
+										<label class="col-md-2 control-label"> <span>图纸描述</span>
 										</label>
 										<div class="col-md-10">
-											<textarea class="form-control" th:field="*{remark}"
+											<textarea class="form-control" name="remark"
 												placeholder="图纸描述" rows="5"></textarea>
 										</div>
 									</div>
@@ -290,6 +284,7 @@
 			</ul>
 			<div class="table-responsive tab-content">
 			  <div class="tab-pane active" id="productPage">
+			  	<input type="hidden" value="1" id="productFlag"/>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -322,7 +317,8 @@
 				</div>
 
 			  <div class="tab-pane" id="materialPage">
-				<table class="table table-striped " id="" >
+			  	<input type="hidden" value="0" id="materialFlag"/>
+				<table class="table table-striped " >
 					<thead>
 						<tr>
 							<th>名称</th>
@@ -333,14 +329,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${drawings.empty}">
+						<tr th:if="${materials.empty}">
 							<td colspan="6">没有记录</td>
 						</tr>
-						<tr th:each="drawing : ${drawings}">
-							<td th:text="${drawing.name}">抽屉</td>
-							<td th:text="${drawing.standard}">30*40cm</td>
-							<td th:text="${drawing.numStock}">1000</td>
-							<td th:text="${drawing.numAlarm}">800</td>
+						<tr th:each="material : ${materials}">
+							<td th:text="${material.name}">抽屉</td>
+							<td th:text="${material.standard}">30*40cm</td>
+							<td th:text="${material.numStock}">1000</td>
+							<td th:text="${material.numAlarm}">800</td>
 							<td>
 								<button type="button" class="btn btn-sm btn-info">查看</button>
 								<button type="button" class="btn btn-sm btn-warning">修改</button>
@@ -352,6 +348,7 @@
 				</div>
 
 			  <div class="tab-pane" id="drawingPage">
+			  	<input type="hidden" value="0" id="drawingFlag"/>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -364,7 +361,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${products.empty}">
+						<tr th:if="${drawings.empty}">
 							<td colspan="6">没有记录</td>
 						</tr>
 						<tr th:each="drawing : ${drawings}">
@@ -372,7 +369,7 @@
 							<td th:text="${drawing.designer}">Bob</td>
 							<td th:text="${drawing.date}">2016-10-10</td>
 							<td >双门冰箱</td>
-							<td th:text="${drawing.date}">用于双门冰箱设计</td>
+							<td th:text="${drawing.remark}">用于双门冰箱设计</td>
 							<td>
 								<button type="button" class="btn btn-sm btn-info">查看</button>
 								<button type="button" class="btn btn-sm btn-warning">修改</button>

@@ -6,12 +6,19 @@ $(function() {
     $("#tabs a").click(function () {  
         $(this).tab('show');  
     });  
+    
+    //ajax submit::http://www.cnblogs.com/nangong/archive/2013/07/23/3208302.html
 
 });
 
 jQuery.extend({
 	loadFunction:function(gotoWhere) {
 		var mainUrl = $.getRootPath() + gotoWhere+"/main .mainContent";
+		$("#mainView").load(mainUrl);
+	},
+	
+	load2:function(gototab){
+		var mainUrl = $.getRootPath() + "/materials"+"/main .mainContent";
 		$("#mainView").load(mainUrl);
 	},
 
@@ -47,11 +54,22 @@ jQuery.extend({
 			
 			var current = this.hash;
 			var pos = current.indexOf("Page");
-			current = current.substring(1,pos).replace(/(\w)/,function(v){return v.toUpperCase()});
-			$("#_add").attr("href","#add"+current);
+			var flag = current.substring(1,pos);
+			current = "#add"+ flag.replace(/(\w)/,function(v){return v.toUpperCase()});
+			$("#_add").attr("href",current);
 
 			name = $("#_add").text().substr(0,2) + name;
 			$("#_add").text(name);
+			
+			var isLoad = $(flag +"Flag").val();
+			if(isLoad == 0){
+				//alert("Loading data");
+				$("#"+flag +"Flag").val("1")
+				$.loadFunction("/"+flag+"s");
+			}
+			else {
+				//alert("don't Load data");
+			}
         }); 
     }
     

@@ -25,4 +25,10 @@ public class MaterialService {
 		return materialDao.findAll();
 	}
 
+
+	public void saveMaterial(Material material) {
+		materialDao.save(material);
+		
+	}
+
 }
