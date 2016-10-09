@@ -38,7 +38,7 @@ public class DrawingController {
 	
 	@PostMapping("create")
 	//@RequestMapping(value = "create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
-	public void create(@Valid DrawingVo drawingVo, BindingResult result,
+	public ModelAndView create(@Valid DrawingVo drawingVo, BindingResult result,
 	        RedirectAttributes redirect) {
 		if (result.hasErrors()) {
 			//return new ModelAndView("drawings/main#addProduct", "formErrors", result.getAllErrors());
@@ -47,7 +47,7 @@ public class DrawingController {
 		
 		Drawing drawing = BeanMapper.map(drawingVo, Drawing.class);
 		drawingService.saveDrawing(drawing);
-		//return list(new DrawingVo());
+		return list(new DrawingVo());
 	}
 
 }

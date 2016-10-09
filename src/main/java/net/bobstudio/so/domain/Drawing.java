@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * @author Bob Zhang[zzb205@163.com] 2016年9月29日
  */
 @Entity
-@Table(name = "tb_drawing")
+@Table(name = "t_drawing")
 public class Drawing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Drawing {
 	public Date date;
 
 	@ManyToOne
-	@JoinColumn(name = "drw_product_id")
+	@JoinColumn(name = "drw_prod_id")
 	public Product product;
 
 	public String remark;

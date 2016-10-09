@@ -36,9 +36,9 @@ public class MaterialController {
 	@PostMapping("create")
 	public ModelAndView create(@Valid MaterialVo materialVo, BindingResult result, RedirectAttributes redirect) {
 		if (result.hasErrors()) {
-			return new ModelAndView("products/main#addProduct", "formErrors", result.getAllErrors());
+			return new ModelAndView("materials/main#addProduct", "formErrors", result.getAllErrors());
 		}
-		redirect.addFlashAttribute("globalProduct", "Successfully created a new product");
+		redirect.addFlashAttribute("globalMaterial", "Successfully created a new material");
 
 		Material material = BeanMapper.map(materialVo, Material.class);
 		materialService.saveMaterial(material);

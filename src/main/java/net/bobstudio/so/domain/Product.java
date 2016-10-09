@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 2016.9.28
  */
 @Entity
-@Table(name = "tb_product")
+@Table(name = "t_product")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

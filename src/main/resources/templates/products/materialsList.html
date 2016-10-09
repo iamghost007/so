@@ -23,7 +23,7 @@
 						<h4 class="modal-title  btn grey radius_l">新增原材料</h4>
 					</div>
 					<div th:if="${editMaterialError}" class="alert alert-danger">错误提示区</div>
-					<form th:action="@{/products/create}" method="post"	th:object="${materialVo}">
+					<form th:action="@{/materials/create}" method="post"	th:object="${materialVo}">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
@@ -94,7 +94,7 @@
 		</div>
 		<!--Add Material end  -->
 
-		<!-- Product View Start -->
+		<!-- Material View Start -->
 		<div
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
@@ -148,7 +148,7 @@
 
 			</div>
 		</div>
-		<!-- Product View End -->
+		<!--Material  View End -->
 	</div>
 
 <script src="../../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>

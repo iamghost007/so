@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "tb_employee")
+@Table(name = "t_employee")
 public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "tb_material")
+@Table(name = "t_material")
 public class Material {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
