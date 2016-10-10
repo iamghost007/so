@@ -72,27 +72,26 @@ jQuery
 			},
 
 			dataSave : function(module) {
-				var form=$('#'+module+'Form');
-				if(!form.valid()){
-	                return false;
-	            }
+				var form = $('#' + module + 'Form');
+				if (!form.valid()) {
+					return false;
+				}
 
-				var reqUrl = "/"+module+"s/create";
+				var reqUrl = "/" + module + "s/create";
 				var errorTip = $("#errorTip");
-				var successTip=$("#successTip");
-				var modal = $("#"+module+"Modal");
-				
+				var successTip = $("#successTip");
+				var modal = $("#" + module + "Modal");
 
 				var content = form.serialize();
 				$.sendAjaxReq("POST", reqUrl, content, function(data,
 						textStatus) {
-					successTip.show();
-					// $("body").hideLoading();
 					modal.modal('hide');
+					//insertTable(module, content);
+					$.loadFunction("/"+module+"s");
+					successTip.show();
 				}, function() {
 					errorTip.text('添加失败哦');
 					errorTip.show();
-					//modal.modal('hide');
 				});
 
 			},
@@ -117,3 +116,22 @@ jQuery
 			}
 
 		});
+
+function insertTable(module, content) {
+	var tab = module + "Table";
+	var trHtml = "<tr >";
+
+	if (module == 'drawing') {
+		trHtml += "<td>"+$('#name').val()+"</td>";
+		trHtml += "<td>"+$('#designer').val()+"</td>";
+		trHtml += "<td>2016-10-10</td>";
+		trHtml += "<td>双门冰箱</td>";
+		trHtml += "<td>"+$('#remark').val()+"</td>";
+		trHtml += "<td><button type='button' class='btn btn-sm btn-info'>查看</button>";
+		trHtml += " <button type='button' class='btn btn-sm btn-warning'>修改</button>";
+		trHtml += " <button type='button' class='btn btn-sm btn-danger'>删除</button></td>";
+	}
+	trHtml += "</tr>"
+
+	addTr(tab, 0, trHtml);
+}
