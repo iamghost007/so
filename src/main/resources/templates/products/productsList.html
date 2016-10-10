@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+
+<title>智慧办公</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	href="../../static/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/style.css}"
+	href="../../static/css/style.css" />
+<style type="text/css">
+.show-grid [class^="col-"] {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #eee;
+	border: 1px solid #ddd;
+	background-color: rgba(86, 61, 124, .15);
+	border: 1px solid rgba(86, 61, 124, .2);
+}
+</style>
+</head>
+
+<body>
+	<div class="mainContent">
+		<!--Add Product start-->
+		<div class="modal fade" data-backdrop="false" id="addProduct"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title  btn grey radius_l">新增产品</h4>
+					</div>
+					<div th:if="${editProductError}" class="alert alert-danger">错误提示区</div>
+					<form th:action="@{/products/create}" method="post"
+						th:object="${productVo}">
+						<div class="modal-body">
+							<div class="form-body">
+								<div class="row ">
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>代码</span>
+										</label>
+										<div class="col-md-4" align="left">
+											<input type="text" th:field="*{code}" class="form-control"
+												placeholder="产品代码" autofocus="autofocus" />
+										</div>
+										<label class="col-md-2 control-label"> <span>名称</span>
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{name}"
+												required="required" placeholder="产品名称" />
+										</div>
+									</div>
+
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span
+											id="standard">规格</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control"
+												th:field="*{standard}" />
+										</div>
+										<label class="col-md-2 control-label"> <span>类别</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{type}" />
+										</div>
+									</div>
+
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span
+											id="numStock">库存量</span> <span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input class="form-control" th:field="*{numStock}"
+												required="required" type="number" placeholder="只能输入数字" />
+										</div>
+										<label class="col-md-2 control-label"> <span
+											id="numAlarm">告警值</span> <span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="number" class="form-control"
+												th:field="*{numAlarm}" required="required"
+												placeholder="库存告警阈值" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span
+											id="drawingCode">图纸</span>
+										</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" name="drawingCode" />
+										</div>
+									</div>
+									<div class="form-group col-md-12" >
+										<label class="col-md-2 control-label"> <span
+											id="remark">产品描述</span>
+										</label>
+										<div class="col-md-10">
+											<textarea class="form-control" th:field="*{remark}"
+												placeholder="产品描述" rows="5"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary"
+								id="changepwd_modal_save">
+								<span id="user_ok">确认</span>
+							</button>
+							<button type="button" class="btn default" data-dismiss="modal">
+								<span id="user_close">取消</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--Add Product end  -->
+
+		<!-- Product View Start -->
+		<div
+			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
+			<h3 class="sub-header"></h3>
+			<div class="pull-right">
+				<a href="#addProduct" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a>
+			</div>
+			<ul class="nav-tabs nav" id="tabs">
+				<li class="active"><a href="#productPage" onclick="$.gotoTAB('产品');">产品管理</a></li>
+				<li><a href="#materialPage"  onclick="$.gotoTAB('原料');">原料管理</a></li>
+				<li><a href="#drawingPage" onclick="$.gotoTAB('图纸');">图纸管理</a></li>
+			</ul>
+			<div class="table-responsive tab-content">
+			  <div class="tab-pane active" id="productPage">
+			  	<input type="hidden" value="1" id="productFlag"/>
+			  	<div style="height: 1px;"></div>
+			  	<div class="alert alert-success" th:if="${globalProduct}"
+			th:text="${globalProduct}" onclick="$(this).hide();">Some Success message</div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>名称</th>
+							<th>规格</th>
+							<th>类别</th>
+							<th>库存量</th>
+							<th>图纸</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${products.empty}">
+							<td colspan="6">没有记录</td>
+						</tr>
+						<tr th:each="product : ${products}">
+							<td th:text="${product.name}">冰箱</td>
+							<td th:text="${product.standard}">196L</td>
+							<td th:text="${product.type}">家用</td>
+							<td th:text="${product.numStock}">1000</td>
+							<td th:text="${globalProduct}">图纸1024</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-info">查看</button>
+								<button type="button" class="btn btn-sm btn-warning">修改</button>
+								<button type="button" class="btn btn-sm btn-danger">删除</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+
+			  <div class="tab-pane" id="materialPage">
+			  	<input type="hidden" value="0" id="materialFlag"/>
+			  </div>
+
+			  <div class="tab-pane" id="drawingPage">
+			  	<input type="hidden" value="0" id="drawingFlag"/>
+			  </div>
+
+			</div>
+		</div>
+		<!-- Product View End -->
+	</div>
+
+<script src="../../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../../static/js/home.js" th:src="@{/js/home.js}"></script>
+</body>
+</html>

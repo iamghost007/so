@@ -16,7 +16,9 @@
 	href="../static/css/home.css" />
 <link rel="stylesheet" th:href="@{/css/style.css}"
 	href="../static/css/style.css" />
-
+<style>
+span.error{color:#C00; padding:0 6px;}
+</style>
 </head>
 
 <body>
@@ -75,6 +77,8 @@
 	</div>
 
 	<script src="../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script src="../static/js/jquery-validation/js/jquery.validate.js" th:src="@{/js/jquery-validation/js/jquery.validate.js}"></script>
+    <script src="../static/js/myvalidate.js" th:src="@{/js/myvalidate.js}"></script>
 	<script src="../static/js/bootstrap.min.js"	th:src="@{/js/bootstrap.min.js}"></script>
 	<script src="../static/js/home.js"	th:src="@{/js/home.js}"></script>
 </body>

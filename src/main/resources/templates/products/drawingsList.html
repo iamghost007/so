@@ -8,12 +8,15 @@
 	href="../../static/css/bootstrap.min.css" />
 <link rel="stylesheet" th:href="@{/css/style.css}"
 	href="../../static/css/style.css" />
+<style>
+span.error{color:#C00; padding:0 6px;}
+</style>
 </head>
 
 <body>
 	<div class="mainContent">
 		<!--Add Drawing start-->
-		<div class="modal fade" data-backdrop="false" id="addDrawing"
+		<div class="modal fade" data-backdrop="false" id="drawingModal"
 			aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -22,23 +25,23 @@
 							aria-hidden="true">&times;</button>
 						<h4 class="modal-title  btn grey radius_l">新增图纸</h4>
 					</div>
-					<div th:if="${editDrawingError}" class="alert alert-danger">错误提示区</div>
-					<form th:action="@{/drawings/create}" method="post" th:object="${drawingVo}">
+					<div class="alert alert-danger" id="errorTip" style='display: none;' onclick="$(this).hide();">错误提示区</div>
+					<form id="drawingForm" th:action="@{/drawings/create}" method="post" th:object="${drawingVo}">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span >代码</span>
+										<label class="col-md-2 control-label"> <span id="code">代码</span><span class="required">*</span>
 										</label>
 										<div class="col-md-4" align="left">
-											<input type="text" th:field="*{code}" class="form-control"
-												placeholder="图纸编号" autofocus="autofocus" />
+											<input type="text" name="code" th:field="*{code}" class="form-control"
+												placeholder="图纸编号" autofocus="autofocus" required="required"/>
 										</div>
 										<label class="col-md-2 control-label"> <span >名称</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{name}"
+											<input type="text" class="form-control" name="name" th:field="*{name}"
 												required="required" placeholder="图纸名称" />
 										</div>
 									</div>
@@ -47,7 +50,7 @@
 										<label class="col-md-2 control-label"> <span>设计师</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" name="designer"
 												th:field="*{designer}" />
 										</div>
 									</div>
@@ -56,7 +59,7 @@
 										<label class="col-md-2 control-label"> <span>图纸描述</span>
 										</label>
 										<div class="col-md-10">
-											<textarea class="form-control" th:field="*{remark}"
+											<textarea class="form-control" th:field="*{remark}" name="remark"
 												placeholder="图纸描述" rows="5"></textarea>
 										</div>
 									</div>
@@ -64,12 +67,12 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary"
-								id="changepwd_modal_save">
-								<span id="user_ok">确认</span>
+							<button type="button" class="btn btn-primary"
+								id="dataSave" onclick="$.dataSave('drawing');">
+								<span >确认</span>
 							</button>
 							<button type="button" class="btn default" data-dismiss="modal">
-								<span id="user_close">取消</span>
+								<span >取消</span>
 							</button>
 						</div>
 					</form>
@@ -83,7 +86,7 @@
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-				<a href="#addDrawing" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增图纸</a>
+				<a href="#drawingModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增图纸</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li><a href="#productPage" onclick="$.gotoTAB('产品');">产品管理</a></li>
@@ -101,6 +104,8 @@
 
 			  <div class="tab-pane active" id="drawingPage">
 			  	<input type="hidden" value="1" id="drawingFlag"/>
+                <div style="height: 1px;"></div>
+                <div id="successTip" class="alert alert-success" style='display: none;' onclick="$(this).hide();">新增一条记录成功</div>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -137,7 +142,9 @@
 		<!-- Product View End -->
 	</div>
 
-<script src="../../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+<script src="../../static/js/jquery-validation/js/jquery.validate.js" th:src="@{/js/jquery-validation/js/jquery.validate.js}"></script>
+<script src="../../static/js/myvalidate.js" th:src="@{/myvalidate.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/home.js" th:src="@{/js/home.js}"></script>
 </body>
