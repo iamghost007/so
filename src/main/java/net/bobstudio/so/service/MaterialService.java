@@ -31,4 +31,15 @@ public class MaterialService {
 		
 	}
 
+	@Transactional(readOnly = true)
+	public Material findOne(Long id) {
+		return materialDao.findOne(id);
+	}
+
+	@Transactional
+	public void deleteMaterial(Long id) {
+		materialDao.delete(id);
+		
+	}
+
 }

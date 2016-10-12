@@ -29,5 +29,15 @@ public class DrawingService {
 	public void saveDrawing(Drawing drawing) {
 		drawingDao.save(drawing);
 	}
+	
+	@Transactional(readOnly = true)
+	public Drawing findOne(Long id) {
+		return drawingDao.findOne(id);
+	}
+	
+	@Transactional
+	public void deleteDrawing(Long id){
+		drawingDao.delete(id);
+	}
 
 }

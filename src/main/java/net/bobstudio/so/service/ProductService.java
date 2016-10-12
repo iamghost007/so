@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author Bob Zhang[zzb205@163.com]
- * 2016年9月29日
+ * @author Bob Zhang[zzb205@163.com] 2016年9月29日
  */
 @Service
 public class ProductService {
@@ -22,7 +21,6 @@ public class ProductService {
 
 	@Autowired
 	private ProductDao productDao;
-
 
 	@Transactional(readOnly = true)
 	public Iterable<Product> findAll() {
@@ -32,7 +30,17 @@ public class ProductService {
 	@Transactional
 	public void saveProduct(Product product) {
 		productDao.save(product);
-		
+
+	}
+
+	@Transactional(readOnly = true)
+	public Product findOne(Long id) {
+		return productDao.findOne(id);
+	}
+	
+	@Transactional
+	public void deleteProduct(Long id){
+		productDao.delete(id);
 	}
 
 }
