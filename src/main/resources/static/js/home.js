@@ -10,6 +10,22 @@ $(function() {
 
 });
 
+$.fn.serializeObject = function() {
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if (o[this.name]) {
+			if (!o[this.name].push) {
+				o[this.name] = [ o[this.name] ];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+};
+
 jQuery
 		.extend({
 			loadFunction : function(gotoWhere) {
@@ -77,21 +93,21 @@ jQuery
 					return false;
 				}
 
-				var reqUrl = "/" + module + "s/create";
+				var reqUrl = "/api/" + module + "s/create";
 				var errorTip = $("#errorTip");
 				var successTip = $("#successTip");
 				var modal = $("#" + module + "Modal");
 
-				var content = form.serialize();
-				$.sendAjaxReq("POST", reqUrl, content, function(data,
-						textStatus) {
-					modal.modal('hide');
-					//insertTable(module, content);
-					$.loadFunction("/"+module+"s");
-					successTip.show();
-				}, function() {
-					errorTip.text('添加失败哦');
-					errorTip.show();
+				var content = form.serializeObject();
+				$.sendAjaxReq("POST", reqUrl, content, 
+						function(data,textStatus) {
+							modal.modal('hide');
+							// insertTable(module, content);
+							$.loadFunction("/" + module + "s");
+							successTip.show();
+						}, function() {
+							errorTip.text('添加失败哦');
+							errorTip.show();
 				});
 
 			},
@@ -101,7 +117,9 @@ jQuery
 				$.ajax({
 					type : requestType,
 					url : restUrl,
-					data : content,
+					data : JSON.stringify(content),
+					dataType : "json",
+					contentType : "application/json",
 					success : function(data, textStatus) {
 						if (tCallBack) {
 							tCallBack(data, textStatus);
@@ -122,11 +140,11 @@ function insertTable(module, content) {
 	var trHtml = "<tr >";
 
 	if (module == 'drawing') {
-		trHtml += "<td>"+$('#name').val()+"</td>";
-		trHtml += "<td>"+$('#designer').val()+"</td>";
+		trHtml += "<td>" + $('#name').val() + "</td>";
+		trHtml += "<td>" + $('#designer').val() + "</td>";
 		trHtml += "<td>2016-10-10</td>";
 		trHtml += "<td>双门冰箱</td>";
-		trHtml += "<td>"+$('#remark').val()+"</td>";
+		trHtml += "<td>" + $('#remark').val() + "</td>";
 		trHtml += "<td><button type='button' class='btn btn-sm btn-info'>查看</button>";
 		trHtml += " <button type='button' class='btn btn-sm btn-warning'>修改</button>";
 		trHtml += " <button type='button' class='btn btn-sm btn-danger'>删除</button></td>";

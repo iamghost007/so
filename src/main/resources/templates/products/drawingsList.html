@@ -26,7 +26,7 @@ span.error{color:#C00; padding:0 6px;}
 						<h4 class="modal-title  btn grey radius_l">新增图纸</h4>
 					</div>
 					<div class="alert alert-danger" id="errorTip" style='display: none;' onclick="$(this).hide();">错误提示区</div>
-					<form id="drawingForm" th:action="@{/drawings/create}" method="post" th:object="${drawingVo}">
+					<form id="drawingForm" action="" method="post" th:object="${drawingVo}">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
