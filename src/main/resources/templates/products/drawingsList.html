@@ -131,7 +131,7 @@ span.error{color:#C00; padding:0 6px;}
 							<td>
 								<button type="button" class="btn btn-sm btn-info">查看</button>
 								<button type="button" class="btn btn-sm btn-warning">修改</button>
-								<button type="button" class="btn btn-sm btn-danger">删除</button>
+								<button type="button" class="btn btn-sm btn-danger" th:onclick="'javascript:$.dataDelete(\'drawing\',\''+${drawing.id}+'\');'" >删除</button>
 							</td>
 						</tr>
 					</tbody>

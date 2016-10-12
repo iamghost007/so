@@ -111,6 +111,25 @@ jQuery
 				});
 
 			},
+			
+			dataDelete : function(module, id){
+				var form = $('#' + module + 'Form');
+				var successTip = $("#successTip");
+				var reqUrl = "/api/"+module+"s/"+id+"/delete";
+				
+				$.sendAjaxReq("GET", reqUrl, "",
+						function(data,textStatus){
+							$.loadFunction("/" + module + "s");	//也可以采取删除表格一行，而不读取服务端数据
+							successTip.text('删除记录成功!');
+							successTip.show();
+						},
+						function(){
+							successTip.text('删除失败!');
+							//改变Tip颜色为红色
+							successTip.show();
+						}
+					);
+			},
 
 			sendAjaxReq : function(requestType, restUrl, content, tCallBack,
 					fCallBack) {
