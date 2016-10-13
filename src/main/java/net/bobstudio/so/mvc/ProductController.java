@@ -4,6 +4,10 @@
 package net.bobstudio.so.mvc;
 
 import net.bobstudio.so.domain.Product;
+import net.bobstudio.so.domain.ProductInstock;
+import net.bobstudio.so.domain.ProductOutstock;
+import net.bobstudio.so.dto.ProductInstockVo;
+import net.bobstudio.so.dto.ProductOutstockVo;
 import net.bobstudio.so.dto.ProductVo;
 import net.bobstudio.so.service.ProductService;
 
@@ -36,6 +40,20 @@ public class ProductController {
 		Iterable<Product> products = productService.findAll();
 		
 		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products, ProductVo.class));
+	}
+	
+	@GetMapping("/instocks/main")
+	public ModelAndView listInstock() {
+		Iterable<ProductInstock> prodInstocks = productService.findAllInstock();
+		
+		return new ModelAndView("products/prodInstocksList", "prodInstocks", BeanMapper.mapList(prodInstocks, ProductInstockVo.class));
+	}
+	
+	@GetMapping("/outstocks/main")
+	public ModelAndView listOutstock() {
+		Iterable<ProductOutstock> prodOutstocks = productService.findAllOutstock();
+		
+		return new ModelAndView("products/prodOutstocksList", "prodOutstocks", BeanMapper.mapList(prodOutstocks, ProductOutstockVo.class));
 	}
 	
 	@PostMapping("create")

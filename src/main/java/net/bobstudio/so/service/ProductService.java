@@ -4,7 +4,11 @@
 package net.bobstudio.so.service;
 
 import net.bobstudio.so.domain.Product;
+import net.bobstudio.so.domain.ProductInstock;
+import net.bobstudio.so.domain.ProductOutstock;
 import net.bobstudio.so.repository.ProductDao;
+import net.bobstudio.so.repository.ProductInstockDao;
+import net.bobstudio.so.repository.ProductOutstockDao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +45,56 @@ public class ProductService {
 	@Transactional
 	public void deleteProduct(Long id){
 		productDao.delete(id);
+	}
+
+	/////////////////////////////////////////////////
+	@Autowired
+	private ProductInstockDao prodInstockDao;
+
+	@Transactional(readOnly = true)
+	public Iterable<ProductInstock> findAllInstock() {
+		return prodInstockDao.findAll();
+	}
+
+	@Transactional
+	public void saveProdInstock(ProductInstock prodInstock) {
+		prodInstockDao.save(prodInstock);
+
+	}
+
+	@Transactional(readOnly = true)
+	public ProductInstock findOneProdInstock(Long id) {
+		return prodInstockDao.findOne(id);
+	}
+	
+	@Transactional
+	public void deleteProdInstock(Long id){
+		prodInstockDao.delete(id);
+	}
+	
+	////////////////////////////////////////////
+	@Autowired
+	private ProductOutstockDao prodOutstockDao;
+
+	@Transactional(readOnly = true)
+	public Iterable<ProductOutstock> findAllOutstock() {
+		return prodOutstockDao.findAll();
+	}
+
+	@Transactional
+	public void saveProdOutstock(ProductOutstock prodOutstock) {
+		prodOutstockDao.save(prodOutstock);
+
+	}
+
+	@Transactional(readOnly = true)
+	public ProductOutstock findOneProdOutstock(Long id) {
+		return prodOutstockDao.findOne(id);
+	}
+	
+	@Transactional
+	public void deleteProdOutstock(Long id){
+		prodInstockDao.delete(id);
 	}
 
 }

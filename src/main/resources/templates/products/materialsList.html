@@ -102,13 +102,13 @@
 				<a href="#addMaterial" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增原料</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
-				<li><a href="#productPage" onclick="$.gotoTAB('产品');">原料信息</a></li>
-				<li class="active"><a href="#materialPage"  onclick="$.gotoTAB('原料');">入库原料</a></li>
-				<li><a href="#drawingPage" onclick="$.gotoTAB('图纸');">出库原料</a></li>
+				<li class="active"><a href="#materialPage" onclick="$.gotoTAB('产品');">原料信息</a></li>
+				<li><a href="#mateInstockPage"  onclick="$.gotoTAB('原料');">入库原料</a></li>
+				<li><a href="#mateOutstockPage" onclick="$.gotoTAB('图纸');">出库原料</a></li>
 			</ul>
 			<div class="table-responsive tab-content">
-			  <div class="tab-pane" id="productPage">
-			  	<input type="hidden" value="0" id="productFlag"/>
+			  <div class="tab-pane" id="mateInstockPage">
+			  	<input type="hidden" value="0" id="mateInstockFlag"/>
 				</div>
 
 			  <div class="tab-pane active" id="materialPage">
@@ -142,8 +142,8 @@
 				</table>
 				</div>
 
-			  <div class="tab-pane" id="drawingPage">
-			  	<input type="hidden" value="0" id="drawingFlag"/>
+			  <div class="tab-pane" id="mateOutstockPage">
+			  	<input type="hidden" value="0" id="mateOutstockFlag"/>
 			  </div>
 
 			</div>

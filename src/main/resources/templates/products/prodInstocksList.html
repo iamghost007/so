@@ -17,48 +17,44 @@
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
 			<ul class="nav-tabs nav" id="tabs">
-				<li class="active"><a href="#productPage" onclick="$.gotoTAB('产品');">入库产品</a></li>
-				<li><a href="#materialPage"  onclick="$.gotoTAB('原料');">入库原料</a></li>
+				<li class="active"><a href="#instockPage" onclick="$.gotoTAB();">入库产品</a></li>
+				<li><a href="#mateInstockPage"  onclick="$.gotoTAB();">入库原料</a></li>
 			</ul>
 			<div class="table-responsive tab-content">
-			  <div class="tab-pane" id="productPage">
-			  	<input type="hidden" value="0" id="productFlag"/>
-				</div>
-
-			  <div class="tab-pane active" id="materialPage">
-			  	<input type="hidden" value="1" id="materialFlag"/>
+			  <div class="tab-pane active" id="instockPage">
+			  	<input type="hidden" value="1" id="instockFlag"/>
 				<table class="table table-striped " >
 					<thead>
 						<tr>
 							<th>名称</th>
 							<th>规格</th>
-							<th>库存量</th>
-							<th>告警阈值</th>
+							<th>入库数量</th>
+							<th>入库人</th>
+							<th>入库时间</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${materials.empty}">
+						<tr th:if="${prodInstocks.empty}">
 							<td colspan="6">没有记录</td>
 						</tr>
-						<tr th:each="material : ${materials}">
-							<td th:text="${material.name}">抽屉</td>
-							<td th:text="${material.standard}">30*40cm</td>
-							<td th:text="${material.numStock}">1000</td>
-							<td th:text="${material.numAlarm}">800</td>
+						<tr th:each="instock : ${prodInstocks}">
+							<td th:text="${instock.product.name}">冰箱</td>
+							<td th:text="${instock.standard}">350L</td>
+							<td th:text="${instock.numStock}">1000</td>
+							<td >Bob</td>
+							<td th:text="${instock.pisDate}">2016-10-10 10:10</td>
 							<td>
 								<button type="button" class="btn btn-sm btn-info">查看</button>
-								<button type="button" class="btn btn-sm btn-warning">修改</button>
-								<button type="button" class="btn btn-sm btn-danger">删除</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 				</div>
 
-			  <div class="tab-pane" id="drawingPage">
-			  	<input type="hidden" value="0" id="drawingFlag"/>
-			  </div>
+			  <div class="tab-pane" id="mateInstockPage">
+			  	<input type="hidden" value="0" id="mateInstockFlag"/>
+				</div>
 
 			</div>
 		</div>

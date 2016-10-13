@@ -73,8 +73,10 @@ jQuery
 					});
 					$("#_add").attr("href", current);
 
-					name = $("#_add").text().substr(0, 2) + name;
-					$("#_add").text(name);
+					if(name){
+						name = $("#_add").text().substr(0, 2) + name;
+						$("#_add").text(name);
+					}
 
 					var isLoad = $(flag + "Flag").val();
 					if (isLoad == 0) {

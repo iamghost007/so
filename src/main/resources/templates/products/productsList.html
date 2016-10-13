@@ -17,13 +17,18 @@
 	background-color: rgba(86, 61, 124, .15);
 	border: 1px solid rgba(86, 61, 124, .2);
 }
+span.error {
+	color: #C00;
+	padding: 0 6px;
+}
+
 </style>
 </head>
 
 <body>
 	<div class="mainContent">
 		<!--Add Product start-->
-		<div class="modal fade" data-backdrop="false" id="addProduct"
+		<div class="modal fade" data-backdrop="false" id="productModal"
 			aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -32,8 +37,9 @@
 							aria-hidden="true">&times;</button>
 						<h4 class="modal-title  btn grey radius_l">新增产品</h4>
 					</div>
-					<div th:if="${editProductError}" class="alert alert-danger">错误提示区</div>
-					<form th:action="@{/products/create}" method="post"
+					<div class="alert alert-danger" id="errorTip"
+						style='display: none;' onclick="$(this).hide();">错误提示区</div>
+					<form id="productForm" action="" method="post"
 						th:object="${productVo}">
 						<div class="modal-body">
 							<div class="form-body">
@@ -42,14 +48,14 @@
 										<label class="col-md-2 control-label"> <span>代码</span>
 										</label>
 										<div class="col-md-4" align="left">
-											<input type="text" th:field="*{code}" class="form-control"
-												placeholder="产品代码" autofocus="autofocus" />
+											<input type="text" id="code" name="code" th:field="*{code}" class="form-control"
+												placeholder="产品代码" autofocus="autofocus" required="required" />
 										</div>
 										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{name}"
+											<input type="text" id="name" name="name" class="form-control" th:field="*{name}"
 												required="required" placeholder="产品名称" />
 										</div>
 									</div>
@@ -59,47 +65,40 @@
 											id="standard">规格</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" id="standard" name="standard"
 												th:field="*{standard}" />
 										</div>
 										<label class="col-md-2 control-label"> <span>类别</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{type}" />
+											<input type="text" id="type" name="type" class="form-control" th:field="*{type}" />
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span
-											id="numStock">库存量</span> <span class="required">*</span>
+											>告警值</span> <span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input class="form-control" th:field="*{numStock}"
-												required="required" type="number" placeholder="只能输入数字" />
-										</div>
-										<label class="col-md-2 control-label"> <span
-											id="numAlarm">告警值</span> <span class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="number" class="form-control"
+											<input type="number" class="form-control" id="numAlarm" name="numAlarm"
 												th:field="*{numAlarm}" required="required"
 												placeholder="库存告警阈值" />
 										</div>
 									</div>
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span
-											id="drawingCode">图纸</span>
+											>图纸</span>
 										</label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" name="drawingCode" />
+											<input type="text" class="form-control" name="drawingCode"  placeholder="需要和图纸管理关联，下拉"/>
 										</div>
 									</div>
 									<div class="form-group col-md-12" >
 										<label class="col-md-2 control-label"> <span
-											id="remark">产品描述</span>
+											>产品描述</span>
 										</label>
 										<div class="col-md-10">
-											<textarea class="form-control" th:field="*{remark}"
+											<textarea class="form-control" id="remark" name="remark" th:field="*{remark}"
 												placeholder="产品描述" rows="5"></textarea>
 										</div>
 									</div>
@@ -107,12 +106,12 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary"
-								id="changepwd_modal_save">
-								<span id="user_ok">确认</span>
+							<button type="button" class="btn btn-primary" id="dataSave"
+								onclick="$.dataSave('product');">
+								<span >确认</span>
 							</button>
 							<button type="button" class="btn default" data-dismiss="modal">
-								<span id="user_close">取消</span>
+								<span >取消</span>
 							</button>
 						</div>
 					</form>
@@ -126,21 +125,24 @@
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-				<a href="#addProduct" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a>
+				<a href="#productModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a>
+				 <a href="#"
+					class="btn blue1 radius_l" onclick="$.loadFunction('/products');">刷新</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#productPage" onclick="$.gotoTAB('产品');">产品信息</a></li>
-				<li><a href="#materialPage"  onclick="$.gotoTAB('原料');">入库产品</a></li>
-                <li><a href="#drawingPage" onclick="$.gotoTAB('图纸');">出库产品</a></li>
-                <li><a href="#drawingPage" onclick="$.gotoTAB('图纸');">产品与原料对应关系</a></li>
+				<li><a href="#instockPage"  onclick="$.gotoTAB();">入库产品</a></li>
+                <li><a href="#outstockPage" onclick="$.gotoTAB();">出库产品</a></li>
+                <li><a href="#pmRelationalPage" onclick="$.gotoTAB();">产品与原料对应关系</a></li>
 			</ul>
 			<div class="table-responsive tab-content">
 			  <div class="tab-pane active" id="productPage">
 			  	<input type="hidden" value="1" id="productFlag"/>
 			  	<div style="height: 1px;"></div>
-			  	<div class="alert alert-success" th:if="${globalProduct}"
-			th:text="${globalProduct}" onclick="$(this).hide();">Some Success message</div>
-				<table class="table table-striped">
+					<div id="globalTip" class="alert alert-success"
+						style='display: none;' th:text="${globalTip}"
+						onclick="$(this).hide();">新增一条记录成功</div>
+				<table  id="productTable" class="table table-striped">
 					<thead>
 						<tr>
 							<th>名称</th>
@@ -160,23 +162,29 @@
 							<td th:text="${product.standard}">196L</td>
 							<td th:text="${product.type}">家用</td>
 							<td th:text="${product.numStock}">1000</td>
-							<td th:text="${globalProduct}">图纸1024</td>
+							<td >图纸1024</td>
 							<td>
 								<button type="button" class="btn btn-sm btn-info">查看</button>
 								<button type="button" class="btn btn-sm btn-warning">修改</button>
-								<button type="button" class="btn btn-sm btn-danger">删除</button>
+									<button type="button" class="btn btn-sm btn-danger"
+										onclick="$.dataDelete(this,'product','1');"
+										th:onclick="'javascript:$.dataDelete(this, \'product\',\''+${product.id}+'\');'">删除</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 				</div>
 
-			  <div class="tab-pane" id="materialPage">
-			  	<input type="hidden" value="0" id="materialFlag"/>
+			  <div class="tab-pane" id="instockPage">
+			  	<input type="hidden" value="0" id="instockFlag"/>
 			  </div>
 
-			  <div class="tab-pane" id="drawingPage">
-			  	<input type="hidden" value="0" id="drawingFlag"/>
+			  <div class="tab-pane" id="outstockPage">
+			  	<input type="hidden" value="0" id="outstockFlag"/>
+			  </div>
+
+			  <div class="tab-pane" id="pmRelationPage">
+			  	<input type="hidden" value="0" id="pmRelationFlag"/>
 			  </div>
 
 			</div>
