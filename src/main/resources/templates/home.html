@@ -53,11 +53,11 @@ span.error{color:#C00; padding:0 6px;}
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li class="active"><a id="greeting" href="#"  th:text="${currentAccount.name}">尚未登陆</a></li>
-					<li><a href="#" onclick="$.loadFunction('/products');">入库管理</a></li>
-					<li><a href="#">出库管理</a></li>
-					<li><a href="#">生产计划</a></li>
-					<li><a href="#" onclick="$.loadFunction('/materials');">原材料管理</a></li>
 					<li><a href="#" onclick="$.loadFunction('/products');">产品管理</a></li>
+					<li><a href="#" onclick="$.loadFunction('/materials');">原料管理</a></li>
+					<li><a href="#" onclick="$.loadFunction('/instocks');">入库管理</a></li>
+                    <li><a href="#" onclick="$.loadFunction('/onstocks');">出库管理</a></li>
+                    <li><a href="#">生产计划</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="#" onclick="$.loadFunction('/accounts');">员工管理</a></li>

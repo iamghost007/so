@@ -1,6 +1,8 @@
 
 package net.bobstudio.so.api;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -84,6 +86,7 @@ public class ProductEndPoint {
 	public DrawingVo createDrawing(@RequestBody DrawingVo drawingVo,
 	        UriComponentsBuilder uriBuilder) {
 		Drawing drawing = BeanMapper.map(drawingVo, Drawing.class);
+		drawing.date = new Date();
 		drawingService.saveDrawing(drawing);
 
 //		// 按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.

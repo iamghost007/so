@@ -95,16 +95,15 @@ jQuery
 
 				var reqUrl = "/api/" + module + "s/create";
 				var errorTip = $("#errorTip");
-				var successTip = $("#successTip");
 				var modal = $("#" + module + "Modal");
 
 				var content = form.serializeObject();
 				$.sendAjaxReq("POST", reqUrl, content, 
 						function(data,textStatus) {
 							modal.modal('hide');
-							// insertTable(module, content);
 							$.loadFunction("/" + module + "s");
-							successTip.show();
+							//var globalTip = $("#globalTip");
+							//globalTip.show();
 						}, function() {
 							errorTip.text('添加失败哦');
 							errorTip.show();
@@ -112,21 +111,25 @@ jQuery
 
 			},
 			
-			dataDelete : function(module, id){
-				var form = $('#' + module + 'Form');
-				var successTip = $("#successTip");
+			dataDelete : function(btn,module, id){
+				if(!window.confirm("警告：您即将删除一条记录，该操作不可撤销。\n单击“确定”继续删除动作。单击“取消”不删除。")){
+					return false;
+				}
+				
+				var globalTip = $("#globalTip");
 				var reqUrl = "/api/"+module+"s/"+id+"/delete";
 				
 				$.sendAjaxReq("GET", reqUrl, "",
 						function(data,textStatus){
-							$.loadFunction("/" + module + "s");	//也可以采取删除表格一行，而不读取服务端数据
-							successTip.text('删除记录成功!');
-							successTip.show();
+							//$.loadFunction("/" + module + "s");	//删除多行时需要重新读取服务端数据
+							$(btn).parent().parent().remove();
+							globalTip.text('删除记录成功!');
+							globalTip.show();
 						},
-						function(){
-							successTip.text('删除失败!');
-							//改变Tip颜色为红色
-							successTip.show();
+						function(textStatus){
+							globalTip.text('删除失败!');
+							globalTip.attr("class", "alert alert-danger");
+							globalTip.show();
 						}
 					);
 			},
@@ -137,7 +140,6 @@ jQuery
 					type : requestType,
 					url : restUrl,
 					data : JSON.stringify(content),
-					dataType : "json",
 					contentType : "application/json",
 					success : function(data, textStatus) {
 						if (tCallBack) {
