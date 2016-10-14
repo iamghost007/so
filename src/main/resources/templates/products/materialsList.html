@@ -9,11 +9,17 @@
 <link rel="stylesheet" th:href="@{/css/style.css}"
 	href="../../static/css/style.css" />
 </head>
+<style type="text/css">
+span.error {
+	color: #C00;
+	padding: 0 6px;
+}
 
+</style>
 <body>
 	<div class="mainContent">
 		<!--Add Material start-->
-		<div class="modal fade" data-backdrop="false" id="addMaterial"
+		<div class="modal fade" data-backdrop="false" id="materialModal"
 			aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -23,7 +29,7 @@
 						<h4 class="modal-title  btn grey radius_l">新增原材料</h4>
 					</div>
 					<div th:if="${editMaterialError}" class="alert alert-danger">错误提示区</div>
-					<form th:action="@{/materials/create}" method="post"	th:object="${materialVo}">
+					<form  id="materialForm" th:action="@{/materials/create}" method="post"	th:object="${materialVo}">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
@@ -31,14 +37,14 @@
 										<label class="col-md-2 control-label"> <span>代码</span>
 										</label>
 										<div class="col-md-4" align="left">
-											<input type="text"  th:field="*{code}" class="form-control"
+											<input type="text" id="code" name="code"  th:field="*{code}" class="form-control"
 												placeholder="原料代码" autofocus="autofocus" />
 										</div>
 										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{name}"
+											<input type="text" class="form-control" th:field="*{name}" name="name" id="name" 
 												required="required" placeholder="原料名称" />
 										</div>
 									</div>
@@ -47,22 +53,16 @@
 										<label class="col-md-2 control-label"> <span>规格</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control"
+											<input type="text" id="standard" name="standard"  class="form-control"
 												th:field="*{standard}" />
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>库存量</span> <span class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input class="form-control" th:field="*{numStock}"
-												required="required" type="number" placeholder="只能输入数字" />
-										</div>
 										<label class="col-md-2 control-label"> <span>告警值</span> <span class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="number" class="form-control"
+											<input type="number" id="numAlarm" name="numAlarm" class="form-control"
 												th:field="*{numAlarm}" required="required"
 												placeholder="库存告警阈值" />
 										</div>
@@ -72,7 +72,7 @@
 											id="remark">原料描述</span>
 										</label>
 										<div class="col-md-10">
-											<textarea class="form-control" th:field="*{remark}"
+											<textarea class="form-control" id="remark" name="remark" th:field="*{remark}"
 												placeholder="原料描述" rows="5"></textarea>
 										</div>
 									</div>
@@ -80,9 +80,9 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary"
-								id="changepwd_modal_save">
-								<span id="user_ok">确认</span>
+							<button type="button" class="btn btn-primary" id="dataSave"
+								onclick="$.dataSave('material');">
+								<span >确认</span>
 							</button>
 							<button type="button" class="btn default" data-dismiss="modal">
 								<span id="user_close">取消</span>
@@ -99,12 +99,13 @@
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-				<a href="#addMaterial" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增原料</a>
+				<a href="#materialModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增原料</a> <a href="#"
+					class="btn blue1 radius_l" onclick="$.loadFunction('/materials');">刷新</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#materialPage" onclick="$.gotoTAB('产品');">原料信息</a></li>
-				<li><a href="#mateInstockPage"  onclick="$.gotoTAB('原料');">入库原料</a></li>
-				<li><a href="#mateOutstockPage" onclick="$.gotoTAB('图纸');">出库原料</a></li>
+				<li><a href="#mateInstockPage"  onclick="$.gotoTAB();">入库原料</a></li>
+				<li><a href="#mateOutstockPage" onclick="$.gotoTAB('图纸';">出库原料</a></li>
 			</ul>
 			<div class="table-responsive tab-content">
 			  <div class="tab-pane" id="mateInstockPage">
@@ -113,7 +114,11 @@
 
 			  <div class="tab-pane active" id="materialPage">
 			  	<input type="hidden" value="1" id="materialFlag"/>
-				<table class="table table-striped " >
+			  	<div style="height: 1px;"></div>
+					<div id="globalTip" class="alert alert-success"
+						style='display: none;' th:text="${globalTip}"
+						onclick="$(this).hide();">新增一条记录成功</div>
+				<table id="materialTable" class="table table-striped " >
 					<thead>
 						<tr>
 							<th>名称</th>
@@ -135,7 +140,9 @@
 							<td>
 								<button type="button" class="btn btn-sm btn-info">查看</button>
 								<button type="button" class="btn btn-sm btn-warning">修改</button>
-								<button type="button" class="btn btn-sm btn-danger">删除</button>
+								<button type="button" class="btn btn-sm btn-danger"
+										onclick="$.dataDelete(this,'material','1');"
+										th:onclick="'javascript:$.dataDelete(this, \'material\',\''+${material.id}+'\');'">删除</button>
 							</td>
 						</tr>
 					</tbody>
