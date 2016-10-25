@@ -36,14 +36,6 @@ span.error {
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>代码</span><span
-											class="required">*</span>
-										</label>
-										<div class="col-md-4" align="left">
-											<input type="text" id="code" name="code" th:field="*{code}"
-												class="form-control" placeholder="图纸编号"
-												autofocus="autofocus" required="required" />
-										</div>
 										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
 										</label>
@@ -58,7 +50,7 @@ span.error {
 										</label>
 										<div class="col-md-4">
 											<input type="text" class="form-control" id="designer"
-												name="designer" th:field="*{designer}" />
+												name="designer"  />
 										</div>
 									</div>
 
@@ -131,7 +123,7 @@ span.error {
 							</tr>
 							<tr th:each="drawing : ${drawings}">
 								<td th:text="${drawing.name}">冰箱设计图</td>
-								<td th:text="${drawing.designer}">Bob</td>
+								<td th:text="${drawing.designer.name}">Bob</td>
 								<td th:text="${drawing.date}">2016-10-10</td>
 								<td>双门冰箱</td>
 								<td th:text="${drawing.remark}">用于双门冰箱设计</td>

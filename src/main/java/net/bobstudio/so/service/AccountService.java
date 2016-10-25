@@ -118,4 +118,23 @@ public class AccountService {
 		return Encodes.encodeBase64(Digests.sha1(password));
 	}
 
+	@Transactional
+	public void saveAccount(Account account) {
+		if(account.status == null || "".equals(account.status)){
+			account.status = "有效";
+		}
+		accountDao.save(account);
+		
+	}
+	
+	@Transactional(readOnly = true)
+	public Account findOne(Long id) {
+		return accountDao.findOne(id);
+	}
+	
+	@Transactional
+	public void deleteAccount(Long id){
+		accountDao.delete(id);
+	}
+
 }

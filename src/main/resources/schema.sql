@@ -4,7 +4,7 @@ drop table `t_barcode`;
 drop table `t_customer`;
 drop table `t_drawing`;
 drop table `t_employee`;
-drop table `t_ex_pm`;
+drop table `t_pm`;
 drop table `t_material`;
 drop table `t_mate_instock_info`;
 drop table `t_mate_outstock_info`;
@@ -20,7 +20,7 @@ drop table `message`;
 /*
 -- 导出 zm_db_data 的数据库结构
 DROP DATABASE IF EXISTS `zm_db_data`;
-CREATE DATABASE IF NOT EXISTS `zm_db_data` 
+CREATE DATABASE IF NOT EXISTS `zm_db_data` ;
 USE `zm_db_data`;
 
 
@@ -100,16 +100,13 @@ INSERT INTO `t_employee` (`id`, `code`, `name`, `duty`, `roler_id`, `phone`, `em
     (4, '1004', 'Yema', '会计', 1, '13333333333', 'ma.fei@163.com', 'QPfAH0GJUQAxrczZxgShKK2vmwA=', '山东分公司的风格是大法官', '', '说过分手的风格是大法官');
 
 
--- 导出  表 zm_db_data.t_ex_pm 结构
-DROP TABLE IF EXISTS `t_ex_pm`;
-CREATE TABLE IF NOT EXISTS `t_ex_pm` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `prod_id` bigint(20) DEFAULT NULL COMMENT '产品ID',
-  `mate_id` bigint(20) DEFAULT NULL COMMENT '原料ID',
-  `mate_num` int(11) unsigned zerofill DEFAULT NULL COMMENT '数量',
-  `remark` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='产品原料关系表';
+DROP TABLE IF EXISTS `t_pm`;
+CREATE TABLE IF NOT EXISTS `t_pm` (
+  `prod_id` bigint(20) NOT NULL COMMENT '产品ID',
+  `mate_id` bigint(20) NOT NULL COMMENT '原料ID',
+  `mate_num` int(11) unsigned zerofill DEFAULT '00000000000000000000' COMMENT '数量',
+  UNIQUE KEY `prod_id_mate_id` (`prod_id`,`mate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci COMMENT='产品与原料配置关系表';
 
 
 -- 导出  表 zm_db_data.t_material 结构
@@ -223,7 +220,6 @@ CREATE TABLE IF NOT EXISTS `t_prod_outstock_info` (
   `pos_receipt` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '出库单据号',
   `pos_salesperson_id` bigint(20) DEFAULT NULL COMMENT '业务员ID',
   `pos_customer_id` bigint(20) DEFAULT NULL COMMENT '客户ID',
-  `prod_cost` bigint(20) unsigned zerofill DEFAULT NULL COMMENT '产品成本（涉密字段）',
   `remark` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='产品出库明细';
