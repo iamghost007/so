@@ -6,6 +6,7 @@ public class AccountVo {
 	public Long id;
 	public String email;
 	public String name;
+	public String status;
 
 	@Override
 	public String toString() {

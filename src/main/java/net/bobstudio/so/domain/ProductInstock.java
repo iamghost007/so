@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,8 +28,8 @@ public class ProductInstock {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-	@Column(name="pis_code")
-	public String code;
+//	@Column(name="pis_code")
+//	public String code;
 	
 	@ManyToOne
 	@JoinColumn(name = "prod_ID")
@@ -47,6 +48,16 @@ public class ProductInstock {
 	public Date pisDate;
 	
 	public String remark;
+	
+	@OneToOne
+	@JoinColumn(name="pis_em_id")
+	public Account instocker;	//入库人
+	
+	@Column(name="pis_receipt")
+	public String receipt;
+	
+	@Column(name="prod_cost")
+	public Double cost;
 
 	public ProductInstock(){
 		//

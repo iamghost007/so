@@ -5,6 +5,8 @@ package net.bobstudio.so.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,9 +24,9 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-
-	@Column(name="prod_code")
-	public String code;
+//
+//	@Column(name="prod_code")
+//	public String code;
 	
 	@Column(name="prod_name")
 	public String name;
@@ -41,10 +43,13 @@ public class Product {
 	@Column(name="prod_num_alarm")
 	public Integer numAlarm;
 	
-//	@Column(name="prod_drawing_code")
-//	public String drawingCode;
+	@OneToOne
+	@JoinColumn(name="prod_drawing_id")
+	public Drawing drawing;
 	
 	public String remark;
+	
+	public String status;
 
 	public Product(){
 		//

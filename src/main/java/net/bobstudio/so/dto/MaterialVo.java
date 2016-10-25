@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class MaterialVo {
 	private Long id;
 
-	private String code;
+	private String status;
 	
 	private String name;
 	
@@ -27,14 +27,6 @@ public class MaterialVo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getName() {
@@ -75,6 +67,14 @@ public class MaterialVo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

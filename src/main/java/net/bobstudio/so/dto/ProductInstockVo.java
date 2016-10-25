@@ -12,21 +12,25 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 2016.9.28
  */
 public class ProductInstockVo {
-	public Long id;
+	private Long id;
 
-	public String code;
+	//public String code;
 	
-	public ProductVo product;
+	private ProductVo product;
 	
-	public String standard;
+	private String standard;
 	
-	public String barcode;
+	private String barcode;
 	
-	public Integer numStock;
+	private Integer numStock;
 	
-	public Date pisDate;
+	private Date pisDate;
 	
-	public String remark;
+	private String remark;
+	
+	private String receipt;
+	
+	private Double cost;
 
 	public ProductInstockVo(){
 		//
@@ -38,14 +42,6 @@ public class ProductInstockVo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public ProductVo getProduct() {
@@ -94,6 +90,22 @@ public class ProductInstockVo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getReceipt() {
+		return receipt;
+	}
+
+	public void setReceipt(String receipt) {
+		this.receipt = receipt;
+	}
+
+	public Double getCost() {
+		return cost;
+	}
+
+	public void setCost(Double cost) {
+		this.cost = cost;
 	}
 
 	@Override

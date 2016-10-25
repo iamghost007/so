@@ -18,12 +18,13 @@ public class Account {
 	public String code;
 	public String name;
 	public String duty;
-	public String roler;
+	//public String roler;
 	public String phone;
 	public String email;
 	public String password;
 	public String family_addr;
 	public String remark;
+	public String status;
 
 	public Account() {
 		// do nothing

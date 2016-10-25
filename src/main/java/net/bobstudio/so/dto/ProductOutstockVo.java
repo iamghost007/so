@@ -12,21 +12,27 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 2016.9.28
  */
 public class ProductOutstockVo {
-	public Long id;
+	private Long id;
 
-	public String code;
+	//private String code;
 	
-	public ProductVo product;
+	private ProductVo product;
 	
-	public String standard;
+	private String standard;
 	
-	public String barcode;
+	private String barcode;
 	
-	public Integer numStock;
+	private Integer numStock;
 	
-	public Date posDate;
+	private Date posDate;
 	
-	public String remark;
+	private String remark;
+	
+	private String receipt;	//出库单据号
+	
+	private String outstocker;	//出库人
+	
+	private String salesman;	//业务员
 
 	public ProductOutstockVo(){
 		//
@@ -38,14 +44,6 @@ public class ProductOutstockVo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public ProductVo getProduct() {
@@ -94,6 +92,30 @@ public class ProductOutstockVo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getReceipt() {
+		return receipt;
+	}
+
+	public void setReceipt(String receipt) {
+		this.receipt = receipt;
+	}
+
+	public String getOutstocker() {
+		return outstocker;
+	}
+
+	public void setOutstocker(String outstocker) {
+		this.outstocker = outstocker;
+	}
+
+	public String getSalesman() {
+		return salesman;
+	}
+
+	public void setSalesman(String salesman) {
+		this.salesman = salesman;
 	}
 
 	@Override

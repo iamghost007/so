@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class ProductVo {
 	public Long id;
 
-	public String code;
+	//public String code;
 	
 	public String name;
 	
@@ -25,6 +25,8 @@ public class ProductVo {
 	public Integer numAlarm;
 	
 	public String remark;
+	
+	public String status;
 
 	public ProductVo(){
 		//
@@ -38,12 +40,12 @@ public class ProductVo {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getName() {

@@ -10,15 +10,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class DrawingVo {
 	private Long id;
 
-	private String code;
-
 	private String name;
 
-	private String designer;
+	private AccountVo designer;
 
 	private Date date;
 
 	private String remark;
+	
+	private String status;
 
 	public Long getId() {
 		return id;
@@ -26,14 +26,6 @@ public class DrawingVo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getName() {
@@ -44,11 +36,11 @@ public class DrawingVo {
 		this.name = name;
 	}
 
-	public String getDesigner() {
+	public AccountVo getDesigner() {
 		return designer;
 	}
 
-	public void setDesigner(String designer) {
+	public void setDesigner(AccountVo designer) {
 		this.designer = designer;
 	}
 
@@ -66,6 +58,14 @@ public class DrawingVo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

@@ -15,9 +15,9 @@ public class Material {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-
-	@Column(name = "mate_code")
-	public String code;
+//
+//	@Column(name = "mate_code")
+//	public String code;
 	
 	@Column(name = "mate_name")
 	public String name;
@@ -32,6 +32,8 @@ public class Material {
 	public Integer numAlarm; // 告警阈值
 	
 	public String remark;
+	
+	public String status;
 
 	public Material() {
 		// do nothing;
