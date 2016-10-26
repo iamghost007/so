@@ -20,114 +20,114 @@ span.error {
 
 <body>
 	<div class="mainContent">
-			<!--add user start-->
-			<div class="modal fade" data-backdrop="false" id="accountModal"
-				aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-								aria-hidden="true">&times;</button>
-							<h4 class="modal-title btn grey radius_l">新增用户</h4>
-						</div>
+		<!--add user start-->
+		<div class="modal fade" data-backdrop="false" id="accountModal"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title btn grey radius_l">新增用户</h4>
+					</div>
 					<div class="alert alert-danger" id="errorTip"
 						style='display: none;' onclick="$(this).hide();">错误提示区</div>
-						<div class="modal-body">
-							<form action="#" id="accountForm" method="post" th:object="${accountVo}">
-								<div class="form-body">
-									<div class="row">
-										<div class="form-group col-md-12">
-											<label class="col-md-2 control-label"> <span
-												>工号</span><span class="required">*</span>
-											</label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" th:field="*{code}"
-													placeholder="工号" id="code" name="code" autofocus="autofocus" required="required"/>
-											</div>
-											<label class="col-md-2 control-label"> <span
-												>姓名</span><span class="required">*</span>
-											</label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" th:field="*{name}" 
-													placeholder="姓名" id="name" name="name" required="required"/>
-											</div>
+					<div class="modal-body">
+						<form action="#" id="accountForm" method="post"
+							th:object="${accountVo}">
+							<div class="form-body">
+								<div class="row">
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>工号</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{code}"
+												placeholder="工号" id="code" name="code" autofocus="autofocus"
+												required="required" />
 										</div>
+										<label class="col-md-2 control-label"> <span>姓名</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{name}"
+												placeholder="姓名" id="name" name="name" required="required" />
+										</div>
+									</div>
 
-										<div class="form-group col-md-12">
-											<label class="col-md-2 control-label"> <span
-												>职务</span>
-											</label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" id="duty" name="duty"
-													th:field="*{duty}" />
-											</div>
-											<label class="col-md-2 control-label"> <span
-												>电话</span>
-											</label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" id="phone" name="phone"
-													th:field="*{phone}" />
-											</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>职务</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="duty" name="duty"
+												th:field="*{duty}" />
 										</div>
-										<div class="form-group col-md-12">
-											<label class="col-md-2 control-label"> <span>密码</span>
-												<span class="required">*</span>
-											</label>
-											<div class="col-md-4">
-												<input type="password" class="form-control"
-													id="password" name="password" th:field="*{password}" autocomplete="off" /> 
-											</div>
-											<label class="col-md-2 control-label"> <span>密码确认</span>
-											</label>
-											<div class="col-md-4">
-												<input type="password" class="form-control"
-													id="password2" autocomplete="off" /> 
-											</div>
+										<label class="col-md-2 control-label"> <span>手机</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="phone"
+												name="phone" th:field="*{phone}" data-rule-mobile="true"/>
 										</div>
-										<div class="form-group col-md-12" >
-											<label class="col-md-2 control-label"> <span
-												>E-Mail</span>
-											</label>
-											<div class="col-md-10">
-												<input type="email" class="form-control" id="email"
-													th:field="*{email}" name="email"/>
-											</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>密码</span>
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="password" class="form-control" id="password"
+												name="password" th:field="*{password}" required="required" autocomplete="off" />
 										</div>
-										<div class="form-group col-md-12" >
-											<label class="col-md-2 control-label"> <span>家庭住址</span>
-											</label>
-											<div class="col-md-10">
-												<input type="text" class="form-control" id="family_addr"
-													th:field="*{family_addr}" /> 
-											</div>
+										<label class="col-md-2 control-label"> <span>密码确认</span>
+										</label>
+										<div class="col-md-4">
+											<input type="password" class="form-control" id="password2"
+												autocomplete="off" required="required" equalTo="#password"/>
 										</div>
-										<div class="form-group col-md-12" >
-											<label class="col-md-2 control-label"> <span>简介</span>
-											</label>
-											<div class="col-md-10">
-												<textarea class="form-control" id="remark" th:field="*{remark}"></textarea>
-											</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>E-Mail</span>
+										</label>
+										<div class="col-md-10">
+											<input type="email" class="form-control" id="email"
+												th:field="*{email}" name="email" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>家庭住址</span>
+										</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" id="family_addr"
+												th:field="*{family_addr}" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>简介</span>
+										</label>
+										<div class="col-md-10">
+											<textarea class="form-control" id="remark"
+												th:field="*{remark}"></textarea>
 										</div>
 									</div>
 								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-primary"
-								id="dataSave" onclick="$.dataSave('account');">
-								<span>确认</span>
-							</button>
-							<button type="button" class="btn default" data-dismiss="modal">
-								<span >取消</span>
-							</button>
-						</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="dataSave"
+							onclick="$.dataSave('account');">
+							<span>确认</span>
+						</button>
+						<button type="button" class="btn default" data-dismiss="modal">
+							<span>取消</span>
+						</button>
 					</div>
 				</div>
 			</div>
-			<!--add user end  -->
+		</div>
+		<!--add user end  -->
 
-			<!-- User View Start -->
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<!-- User View Start -->
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
 				<a href="#accountModal" data-toggle="modal"
@@ -139,14 +139,15 @@ span.error {
 					onclick="$.gotoTAB('用户');">用户管理</a></li>
 				<li><a href="#rolePage" onclick="$.gotoTAB('角色');">角色管理</a></li>
 			</ul>
-				
+
+			<div class="table-responsive tab-content">
 				<div class="tab-pane active" id="accountPage">
 					<input type="hidden" value="1" id="accountFlag" />
 					<div style="height: 1px;"></div>
 					<div id="globalTip" class="alert alert-success"
 						style='display: none;' th:text="${globalTip}"
 						onclick="$(this).hide();">新增一条记录成功</div>
-					<table  id="accountTable" class="table table-striped">
+					<table id="accountTable" class="table table-striped">
 						<thead>
 							<tr>
 								<th>姓名</th>
@@ -180,8 +181,13 @@ span.error {
 						</tbody>
 					</table>
 				</div>
+				<div class="tab-pane" id="rolePage">
+					<input type="hidden" value="0" id="roleFlag" />
+				</div>
+
 			</div>
-			<!-- User View End -->
+		</div>
+		<!-- User View End -->
 	</div>
 
 	<script src="../../static/js/jquery-1.12.4.min.js"

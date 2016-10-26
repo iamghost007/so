@@ -104,7 +104,7 @@ DROP TABLE IF EXISTS `t_pm`;
 CREATE TABLE IF NOT EXISTS `t_pm` (
   `prod_id` bigint(20) NOT NULL COMMENT '产品ID',
   `mate_id` bigint(20) NOT NULL COMMENT '原料ID',
-  `mate_num` int(11) unsigned zerofill DEFAULT '00000000000000000000' COMMENT '数量',
+  `mate_num` int(11) unsigned zerofill DEFAULT 0 COMMENT '数量',
   UNIQUE KEY `prod_id_mate_id` (`prod_id`,`mate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci COMMENT='产品与原料配置关系表';
 

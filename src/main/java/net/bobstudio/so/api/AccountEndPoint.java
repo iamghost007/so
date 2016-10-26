@@ -4,8 +4,11 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.bobstudio.so.domain.Account;
+import net.bobstudio.so.domain.Role;
 import net.bobstudio.so.dto.AccountVo;
+import net.bobstudio.so.dto.RoleVo;
 import net.bobstudio.so.service.AccountService;
+import net.bobstudio.so.service.RoleService;
 import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
 
@@ -78,7 +81,7 @@ public class AccountEndPoint {
 	}
 
 	@RequestMapping(value = "/api/accounts/{id}", produces = MediaTypes.JSON_UTF_8)
-	public AccountVo listOneAccount(@PathVariable("id") Long id) {
+	public AccountVo getOneAccount(@PathVariable("id") Long id) {
 		Account account = accountService.findOne(id);
 
 		return BeanMapper.map(account, AccountVo.class);
@@ -89,4 +92,30 @@ public class AccountEndPoint {
 		accountService.deleteAccount(id);
 	}
 
+	///////////////////////ROLE Start/////////////////////////
+	@Autowired
+	private RoleService roleService;
+
+	@RequestMapping(value = "/api/roles/create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	public RoleVo createRole(@RequestBody RoleVo roleVo,
+	        UriComponentsBuilder uriBuilder) {
+		Role role = BeanMapper.map(roleVo, Role.class);
+		roleService.saveRole(role);
+
+		return BeanMapper.map(role, RoleVo.class);
+	}
+
+	@RequestMapping(value = "/api/roles/{id}", produces = MediaTypes.JSON_UTF_8)
+	public RoleVo getOneRole(@PathVariable("id") Long id) {
+		Role role = roleService.findOne(id);
+
+		return BeanMapper.map(role, RoleVo.class);
+	}
+
+	@RequestMapping(value = "/api/roles/{id}/delete")
+	public void deleteRole(@PathVariable("id") Long id) {
+		roleService.deleteRole(id);
+	}
+
+	///////////////////////////////////////////////////////
 }
