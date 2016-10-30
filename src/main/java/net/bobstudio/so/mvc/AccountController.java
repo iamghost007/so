@@ -56,12 +56,12 @@ public class AccountController {
 	}
 
 	@RequestMapping("login")
-	public ModelAndView login(@RequestParam("email") String email, @RequestParam("password") String password) {
-		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
-			throw new ServiceException("User or password empty", ErrorCode.BAD_REQUEST);
+	public ModelAndView login(@RequestParam("code") String code, @RequestParam("password") String password) {
+		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(password)) {
+			throw new ServiceException("User code or password empty", ErrorCode.BAD_REQUEST);
 		}
 
-		String token = accountService.login(email, password);
+		String token = accountService.login(code, password);
 
 		return (null == token) ? new ModelAndView("accounts/login", "logerror", "")
 				: new ModelAndView("home", "currentAccount", accountService.getLoginUser(token));

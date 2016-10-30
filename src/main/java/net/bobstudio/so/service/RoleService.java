@@ -21,7 +21,12 @@ public class RoleService {
 	private RoleDao roleDao;
 
 	@Transactional(readOnly = true)
-	public Iterable<Role> findAll() {
+	public Iterable<Role> findRoles() {
+		return roleDao.findRoles();
+	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Role> findRoleTree() {
 		return roleDao.findAll();
 	}
 

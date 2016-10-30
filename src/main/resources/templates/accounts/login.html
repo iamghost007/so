@@ -21,10 +21,11 @@
 		<form class="form-signin" role="form" name="form"
 			th:action="@{/login}" action="/login" method="POST">
 			<h2 class="form-signin-heading">南京行知管业</h2>
-			<input name="email" type="email" class="form-control"
-				placeholder="Email address" required="required"
-				autofocus="autofocus" /> <input name="password" type="password"
-				class="form-control" placeholder="Password" required="required" />
+			<input name="code" type="text" class="form-control"
+				placeholder="工号" required="required"
+				autofocus="autofocus" />
+			<input name="password" type="password"
+				class="form-control" placeholder="密码" required="required" />
 			<div class="checkbox">
 
 				<label> <input type="checkbox" value="remember-me" /> 记住我

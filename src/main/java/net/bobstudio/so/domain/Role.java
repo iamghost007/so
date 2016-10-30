@@ -15,9 +15,14 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
+	
+	public Long pId;
 
 	@Column(name="rl_name")
 	public String name;
+	
+	@Column(name="rl_priv")
+	public String priv;
 	
 	public String remark;
 

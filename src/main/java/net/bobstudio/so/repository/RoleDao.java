@@ -20,5 +20,8 @@ public interface RoleDao extends CrudRepository<Role, Long> {
 	@Modifying
 	@Query("delete from Role  where id=?1")
 	void deleteRole(Long id);
+	
+	@Query("from Role where id>0")
+	Iterable<Role> findRoles();
 
 }

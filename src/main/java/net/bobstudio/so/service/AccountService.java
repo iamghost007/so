@@ -10,6 +10,7 @@ import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.utils.Digests;
 import org.springside.modules.utils.Encodes;
 import org.springside.modules.utils.Ids;
+//import org.springside.modules.persistence.Hibernates;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -51,8 +53,8 @@ public class AccountService {
 	}
 
 	@Transactional(readOnly = true)
-	public String login(String email, String password) {
-		Account account = accountDao.findByEmail(email);
+	public String login(String code, String password) {
+		Account account = accountDao.findByCode(code);
 
 		/*
 		if (account == null) {
@@ -123,6 +125,7 @@ public class AccountService {
 		if(account.status == null || "".equals(account.status)){
 			account.status = "有效";
 		}
+		account.password = hashPassword(account.password);
 		accountDao.save(account);
 		
 	}
@@ -135,6 +138,18 @@ public class AccountService {
 	@Transactional
 	public void deleteAccount(Long id){
 		accountDao.delete(id);
+	}
+	
+	/**
+	 * 查询用户, 并在返回前对用户的延迟加载关联角色进行初始化.
+	 */
+	@Transactional(readOnly = true)
+	public Account findUserByIdInitialized(Long id) {
+		Account account = accountDao.findOne(id);
+		if (account != null) {
+			Hibernate.initialize(account.roleList);
+		}
+		return account;
 	}
 
 }

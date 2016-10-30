@@ -25,7 +25,7 @@ public class RoleController {
 
 	@GetMapping("roles/main")
 	public ModelAndView list(@ModelAttribute RoleVo roleVo) {
-		Iterable<Role> roles = roleService.findAll();
+		Iterable<Role> roles = roleService.findRoles();
 		return new ModelAndView("accounts/roleList", "roles", BeanMapper.mapList(roles, RoleVo.class));
 	}
 

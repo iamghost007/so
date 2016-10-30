@@ -73,7 +73,7 @@ jQuery
 					});
 					$("#_add").attr("href", current);
 
-					if(name){
+					if (name) {
 						name = $("#_add").text().substr(0, 2) + name;
 						$("#_add").text(name);
 					}
@@ -100,40 +100,38 @@ jQuery
 				var modal = $("#" + module + "Modal");
 
 				var content = form.serializeObject();
-				$.sendAjaxReq("POST", reqUrl, content, 
-						function(data,textStatus) {
-							modal.modal('hide');
-							$.loadFunction("/" + module + "s");
-							//var globalTip = $("#globalTip");
-							//globalTip.show();
-						}, function() {
-							errorTip.text('添加失败哦');
-							errorTip.show();
+				$.sendAjaxReq("POST", reqUrl, content, function(data,
+						textStatus) {
+					modal.modal('hide');
+					$.loadFunction("/" + module + "s");
+					// var globalTip = $("#globalTip");
+					// globalTip.show();
+				}, function() {
+					errorTip.text('添加失败哦');
+					errorTip.show();
 				});
 
 			},
-			
-			dataDelete : function(btn,module, id){
-				if(!window.confirm("警告：您即将删除一条记录，该操作不可撤销。\n单击“确定”继续删除动作。单击“取消”不删除。")){
+
+			dataDelete : function(btn, module, id) {
+				if (!window
+						.confirm("警告：您即将删除一条记录，该操作不可撤销。\n单击“确定”继续删除动作。单击“取消”不删除。")) {
 					return false;
 				}
-				
+
 				var globalTip = $("#globalTip");
-				var reqUrl = "/api/"+module+"s/"+id+"/delete";
-				
-				$.sendAjaxReq("GET", reqUrl, "",
-						function(data,textStatus){
-							//$.loadFunction("/" + module + "s");	//删除多行时需要重新读取服务端数据
-							$(btn).parent().parent().remove();
-							globalTip.text('删除记录成功!');
-							globalTip.show();
-						},
-						function(textStatus){
-							globalTip.text('删除失败!');
-							globalTip.attr("class", "alert alert-danger");
-							globalTip.show();
-						}
-					);
+				var reqUrl = "/api/" + module + "s/" + id + "/delete";
+
+				$.sendAjaxReq("GET", reqUrl, "", function(data, textStatus) {
+					// $.loadFunction("/" + module + "s"); //删除多行时需要重新读取服务端数据
+					$(btn).parent().parent().remove();
+					globalTip.text('删除记录成功!');
+					globalTip.show();
+				}, function(textStatus) {
+					globalTip.text('删除失败!');
+					globalTip.attr("class", "alert alert-danger");
+					globalTip.show();
+				});
 			},
 
 			sendAjaxReq : function(requestType, restUrl, content, tCallBack,
@@ -154,6 +152,69 @@ jQuery
 						}
 					}
 				});
+			},
+
+			showModule : function(module, title) {
+				$('#errorTip').hide();
+				$('#dataSave').show();
+				$('#currentTitle').html(title);
+				$('#' + module + "Form")[0].reset();
+				$('#' + module + 'Modal').modal('show');
+				
+				if(module == 'account'){
+					$('#pwdLine').show();
+				}
+			},
+
+			editData : function(btn, module, moduleId, readOnly) {
+				var title = $(btn).html();
+
+				$.showModule(module, "当前操作--" + title);
+
+				
+				var tip = $("#errorTip");
+				var reqUrl = "/api/" + module + "s/" + moduleId;
+
+				$.sendAjaxReq("GET", reqUrl, "", function(data, textStatus) {
+					if(data.length<1){
+						tip.text('对不起，不能发现对应的记录!');
+						tip.show();
+						$('#dataSave').hide();
+					}
+					
+					$.bindFormValue(module,data,readOnly);
+					
+				}, function(textStatus) {
+					tip.text('对不起，不能发现对应的记录!');
+					tip.show();
+					$('#dataSave').hide();
+				});
+
+			},
+			
+			bindFormValue : function(module,data,readOnly){
+				var names,values;
+				if(module == 'role'){
+					names =["#id","#name","#remark"];
+					values =[data.id, data.name,data.remark];
+				}
+				else if(module == 'account'){
+					names =["#id","#code","#name","#duty","#phone","#email","#family_addr","#remark"];
+					values =[data.id, data.code, data.name, data.duty, data.phone, data.email, data.family_addr, data.remark];
+
+					$('#pwdLine').hide();
+				}
+
+				for(var i=0;i<names.length;i++) {
+					$(names[i]).val(values[i]);
+					if(i>0){
+						$(names[i]).attr("readonly", readOnly);
+					}
+				}
+				
+				if(readOnly){
+					$('#dataSave').hide();
+				}
 			}
 
 		});

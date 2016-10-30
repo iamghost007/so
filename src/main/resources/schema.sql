@@ -74,32 +74,6 @@ CREATE TABLE IF NOT EXISTS `t_drawing` (
 INSERT INTO `t_drawing` (`id`, `drw_name`, `drw_designer_id`, `drw_date`, `status`, `remark`) VALUES
     (1, '螺栓A', 1, '2010-01-01 00:00:00', '', '测试数据用');
 
-
--- 导出  表 zm_db_data.t_employee 结构
-DROP TABLE IF EXISTS `t_employee`;
-CREATE TABLE IF NOT EXISTS `t_employee` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `code` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT '员工编号',
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT '姓名',
-  `duty` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '职务',
-  `roler_id` bigint(20) DEFAULT NULL COMMENT '角色',
-  `phone` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '手机号码',
-  `email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT '邮箱',
-  `password` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '密码',
-  `family_addr` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '家庭住址',
-  `status` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT '状态：有效、失效',
-  `remark` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='员工信息表';
-
-INSERT INTO `t_employee` (`id`, `code`, `name`, `duty`, `roler_id`, `phone`, `email`, `password`, `family_addr`, `status`, `remark`) VALUES
-    (1, '1001', 'Calvin', '总理', 1, '13399999999', 'calvin.xiao@springside.io', '+2MunThvGcEfdYIFlT4NQQHt6z4=', '阿斯顿发斯蒂芬', '', '阿斯顿发生大法师打发斯蒂芬'),
-    (2, '1002', 'David', '总理', 1, '13809555523', 'david.wang@springside.io', '+2MunThvGcEfdYIFlT4NQQHt6z4=', '谁谁谁水水水水', '', '事实上事实上事实上'),
-    (3, '1003', 'Bob', '员工', 1, '13888888888', 'zzb205@163.com', 'QPfAH0GJUQAxrczZxgShKK2vmwA=', '这地方被各种地方工作的风格', '', '上的规划是大法官 山东分公司的股份'),
-    (4, '1004', 'Yema', '会计', 1, '13333333333', 'ma.fei@163.com', 'QPfAH0GJUQAxrczZxgShKK2vmwA=', '山东分公司的风格是大法官', '', '说过分手的风格是大法官');
-
-
 DROP TABLE IF EXISTS `t_pm`;
 CREATE TABLE IF NOT EXISTS `t_pm` (
   `prod_id` bigint(20) NOT NULL COMMENT '产品ID',
@@ -228,15 +202,19 @@ CREATE TABLE IF NOT EXISTS `t_prod_outstock_info` (
 DROP TABLE IF EXISTS `t_roler`;
 CREATE TABLE IF NOT EXISTS `t_roler` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `p_id` bigint(20),
   `rl_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT '角色名称',
   `rl_priv` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '权限',
   `remark` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='角色信息表';
 
-INSERT INTO `t_roler` (`id`, `rl_name`, `rl_priv`, `remark`) VALUES
-    (1, '管理者', '1111', '测试数据');
-
+DROP TABLE IF EXISTS `t_user_role`;
+CREATE TABLE IF NOT EXISTS `t_user_role` (
+   user_id bigint(20) not null,
+   role_id bigint(20) not null,
+   primary key (user_id, role_id)
+ );
 
 -- 导出  表 zm_db_data.t_supplier 结构
 DROP TABLE IF EXISTS `t_supplier`;

@@ -36,6 +36,7 @@ span.error {
                     <div class="modal-body">
                         <form action="#" id="accountForm" method="post"
                             th:object="${accountVo}">
+ 							<input type="hidden" id="id" name="id" th:field="*{id}"/>
                             <div class="form-body">
                                 <div class="row">
                                     <div class="form-group col-md-12">
@@ -70,7 +71,7 @@ span.error {
                                                 name="phone" th:field="*{phone}" data-rule-mobile="true"/>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12" id="pwdLine">
                                         <label class="col-md-2 control-label"> <span>密码</span>
                                             <span class="required">*</span>
                                         </label>
@@ -86,9 +87,15 @@ span.error {
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label class="col-md-2 control-label"> <span>E-Mail</span>
+                                        <label class="col-md-2 control-label"> <span>状态</span>
                                         </label>
-                                        <div class="col-md-10">
+                                        <div class="col-md-4">
+                                             <input id="status" name="status" type="radio" th:field="*{status}" th:value="*{status}" value="无效"/>无效
+                                            <input id="status" name="status" type="radio" th:field="*{status}" th:value="*{status}" value="有效"/>有效
+                                        </div>
+                                         <label class="col-md-2 control-label"> <span>E-Mail</span>
+                                        </label>
+                                        <div class="col-md-4">
                                             <input type="email" class="form-control" id="email"
                                                 th:field="*{email}" name="email" />
                                         </div>
@@ -137,11 +144,11 @@ span.error {
                             aria-hidden="true">&times;</button>
                         <h4 class="modal-title btn grey radius_l">设置角色</h4>
                     </div>
-                    <div class="alert alert-danger" id="errorTip"
+                    <div class="alert alert-danger" id="errorRoleTip"
                         style='display: none;' onclick="$(this).hide();">错误提示区</div>
                     <div class="modal-body">
                         <ul id="roleTree" class="ztree"></ul>
-                    	<input type="text" class="form-control" id="selectedRoles" name="selectedRoles" />
+                    	<input type="hidden" class="form-control" id="user_id" name="user_id" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="getSelectedRoles"
@@ -161,10 +168,10 @@ span.error {
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h3 class="sub-header"></h3>
             <div class="pull-right">
-                <a href="#accountModal" data-toggle="modal"
-                    class="btn blue1 radius_l" id="_add">新增用户</a>
+                <a href="#" onclick="$.showModule('account','新增用户');" class="btn blue1 radius_l"
+					id="_add">新增用户</a>
                 <a href="#"
-                    class="btn blue1 radius_l" onclick="$.loadFunction('/account');">刷新</a>
+                    class="btn blue1 radius_l" onclick="$.loadFunction('/accounts');">刷新</a>
             </div>
             <ul class="nav-tabs nav" id="tabs">
                 <li class="active"><a href="#accountPage"
@@ -179,7 +186,7 @@ span.error {
                     <div id="globalTip" class="alert alert-success"
                         style='display: none;' th:text="${globalTip}"
                         onclick="$(this).hide();">新增一条记录成功</div>
-                    <table id="accountTable" class="table table-striped">
+                    <table id="accountTable" class="table table-striped table-bordered table-condensed" >
                         <thead>
                             <tr>
                                 <th>姓名</th>
@@ -200,13 +207,19 @@ span.error {
                                 <td th:text="${account.email}">zzb205@163.com</td>
                                 <td th:text="${account.duty}">总工</td>
                                 <td th:text="${account.phone}">13912345678</td>
-                                <td>管理员</td>
+                                <td >
+									<span th:each="role:${account.roleList}">
+									<span th:text="${role.name}+' | '"></span>
+									</span>
+								</td>
                                 <td th:text="${account.status}">有效</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-info">查看</button>
+ 									<button type="button" class="btn btn-sm btn-info" onclick="$.editData(this, 'account','1',true);"
+                                        th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',true);'">查看</button>
                                     <button type="button" class="btn btn-sm btn-warning" onclick="$.setRole('1');"
                                         th:onclick="'javascript:$.setRole(\''+${account.id}+'\');'">设置角色</button>
-                                    <button type="button" class="btn btn-sm btn-warning">修改</button>
+									<button type="button" class="btn btn-sm btn-warning" onclick="$.editData(this, 'account','1',false);"
+                                        th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',false);'">修改</button>
                                     <button type="button" class="btn btn-sm btn-danger"
                                         onclick="$.dataDelete(this,'account','1');"
                                         th:onclick="'javascript:$.dataDelete(this, \'account\',\''+${account.id}+'\');'">删除</button>

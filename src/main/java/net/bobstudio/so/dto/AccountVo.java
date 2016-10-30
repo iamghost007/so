@@ -1,5 +1,7 @@
 package net.bobstudio.so.dto;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class AccountVo {
@@ -15,6 +17,8 @@ public class AccountVo {
 	private String family_addr;
 	private String remark;
 	private String status;
+	
+	private List<RoleVo> roleList;
 
 	public Long getId() {
 		return id;
@@ -94,6 +98,14 @@ public class AccountVo {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public List<RoleVo> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<RoleVo> roleList) {
+		this.roleList = roleList;
 	}
 
 	@Override

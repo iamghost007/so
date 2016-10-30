@@ -17,6 +17,8 @@ public interface AccountDao extends CrudRepository<Account, Long> {
 
 	Account findByEmail(String email);
 	
+	Account findByCode(String code);
+	
 	@Modifying
 	@Query("delete from Account  where id=?1")
 	void deleteAccount(Long id);

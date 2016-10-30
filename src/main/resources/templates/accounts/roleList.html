@@ -28,12 +28,13 @@ span.error {
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title btn grey radius_l">新增角色</h4>
+						<h4 class="modal-title btn grey radius_l" id="currentTitle">当前操作--新增</h4>
 					</div>
 					<div class="alert alert-danger" id="errorTip"
 						style='display: none;' onclick="$(this).hide();">错误提示区</div>
 					<div class="modal-body">
 						<form action="#" id="roleForm" method="post" th:object="${roleVo}">
+							<input type="hidden" id="id" name="id" th:field="*{id}"/>
 							<div class="form-body">
 								<div class="row">
 									<div class="form-group col-md-12">
@@ -76,9 +77,9 @@ span.error {
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-				<a href="#roleModal" data-toggle="modal" class="btn blue1 radius_l"
+				<a href="#" onclick="$.showModule('role','新增角色');" class="btn blue1 radius_l"
 					id="_add">新增角色</a> <a href="#" class="btn blue1 radius_l"
-					onclick="$.loadFunction('/role');">刷新</a>
+					onclick="$.loadFunction('/roles');">刷新</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li><a href="#rolePage" onclick="$.gotoTAB('用户');">用户管理</a></li>
@@ -109,8 +110,10 @@ span.error {
 								<td th:text="${role.name}">Bob</td>
 								<td th:text="${role.remark}">默认角色</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info">查看</button>
-									<button type="button" class="btn btn-sm btn-warning">修改</button>
+									<button type="button" class="btn btn-sm btn-info" onclick="$.editData(this, 'role','1',true);"
+                                        th:onclick="'javascript:$.editData(this, \'role\',\''+${role.id}+'\',true);'">查看</button>
+									<button type="button" class="btn btn-sm btn-warning" onclick="$.editData(this, 'role','1',false);"
+                                        th:onclick="'javascript:$.editData(this, \'role\',\''+${role.id}+'\',false);'">修改</button>
 									<button type="button" class="btn btn-sm btn-danger"
 										onclick="$.dataDelete(this,'role','1');"
 										th:onclick="'javascript:$.dataDelete(this, \'role\',\''+${role.id}+'\');'">删除</button>
