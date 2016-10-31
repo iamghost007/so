@@ -36,7 +36,8 @@ public class AccountEndPoint {
 	private AccountService accountService;
 
 	@RequestMapping(value = "/api/accounts/login", produces = MediaTypes.JSON_UTF_8)
-	public Map<String, String> login(@RequestParam("code") String code, @RequestParam("password") String password) {
+	public Map<String, String> login(@RequestParam("code") String code,
+	        @RequestParam("password") String password) {
 
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(password)) {
 			throw new ServiceException("User code or password empty", ErrorCode.BAD_REQUEST);
@@ -54,7 +55,8 @@ public class AccountEndPoint {
 
 	@RequestMapping(value = "/api/accounts/register")
 	public void register(@RequestParam("code") String code,
-			@RequestParam(value = "name", required = false) String name, @RequestParam("password") String password) {
+	        @RequestParam(value = "name", required = false) String name,
+	        @RequestParam("password") String password) {
 
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(name) || StringUtils.isEmpty(password)) {
 			throw new ServiceException("User or name or password empty", ErrorCode.BAD_REQUEST);
@@ -64,25 +66,34 @@ public class AccountEndPoint {
 	}
 
 	@RequestMapping(value = "/api/accounts/create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
-	public AccountVo createAccount(@RequestBody AccountVo accountVo, UriComponentsBuilder uriBuilder) {
+	public AccountVo createAccount(@RequestBody AccountVo accountVo) {
 		Account account = BeanMapper.map(accountVo, Account.class);
-		accountService.saveAccount(account);
-
-		// // 按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
-		// URI uri = uriBuilder.path("/products/accountsList").build().toUri();
-		// HttpHeaders headers = new HttpHeaders();
-		// headers.setLocation(uri);
-		//
-		// return new ResponseEntity<AccountVo>(headers, HttpStatus.CREATED);
+		accountService.saveAccount(account, accountVo.getUpdate());
 
 		return BeanMapper.map(account, AccountVo.class);
+	}
+
+	@RequestMapping(value = "/api/accounts/set_roles/{user_id}/{ids}", produces = MediaTypes.JSON_UTF_8)
+	public void setRolesForOneAccount(@PathVariable("user_id") Long userId,
+	        @PathVariable("ids") String ids) {
+		String[] role_ids = ids.split(",");
+
+		Account account = accountService.findUserByIdInitialized(userId);
+		account.roleList.clear();
+		for (String roleId : role_ids) {
+			Role role = new Role(new Long(roleId));
+			account.roleList.add(role);
+		}
+		accountService.saveAccount(account, true);
+
 	}
 
 	@RequestMapping(value = "/api/accounts/{id}", produces = MediaTypes.JSON_UTF_8)
 	public AccountVo getOneAccount(@PathVariable("id") Long id) {
 		Account account = accountService.findOne(id);
 
-		return BeanMapper.map(account, AccountVo.class);
+		AccountVo vo = BeanMapper.map(account, AccountVo.class);
+		return vo;
 	}
 
 	@RequestMapping(value = "/api/account_roles/{id}", produces = MediaTypes.JSON_UTF_8)
@@ -97,21 +108,7 @@ public class AccountEndPoint {
 		accountService.deleteAccount(id);
 	}
 
-	@RequestMapping(value = "/api/accounts/set_roles/{user_id}/{ids}", produces = MediaTypes.JSON_UTF_8)
-	public void setRolesForOneAccount(@PathVariable("user_id") Long userId,@PathVariable("ids") String ids) {
-	    String [] role_ids=ids.split(",");
-	    
-	    Account account = accountService.findUserByIdInitialized(userId);
-	    account.roleList.clear();
-		for (String roleId : role_ids) {
-			Role role = new Role(new Long(roleId));
-			account.roleList.add(role);
-		}
-		accountService.saveAccount(account);
-
-	}
-
-	/////////////////////// ROLE Start/////////////////////////
+	// ///////////////////// ROLE Start/////////////////////////
 	@Autowired
 	private RoleService roleService;
 
@@ -136,10 +133,10 @@ public class AccountEndPoint {
 		List<Role> currentRoles = accountService.findUserByIdInitialized(userId).roleList;
 
 		List<RoleVo> tree = BeanMapper.mapList(allRoles, RoleVo.class);
-		if (currentRoles != null && currentRoles.size()>0) {
+		if (currentRoles != null && currentRoles.size() > 0) {
 			for (RoleVo role : tree) {
-				for(Role existRole : currentRoles){
-					if(existRole.id ==role.getId()){
+				for (Role existRole : currentRoles) {
+					if (existRole.id == role.getId()) {
 						role.setChecked(true);
 					}
 				}
@@ -149,15 +146,10 @@ public class AccountEndPoint {
 		return tree;
 	}
 
-	private boolean needChecked(String ids, RoleVo role) {
-		String sid = role.getId().toString() + ",";
-		return ids.indexOf(sid) > 0;
-	}
-
 	@RequestMapping(value = "/api/roles/{id}/delete")
 	public void deleteRole(@PathVariable("id") Long id) {
 		roleService.deleteRole(id);
 	}
 
-	///////////////////////////////////////////////////////
+	// /////////////////////////////////////////////////////
 }

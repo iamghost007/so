@@ -16,16 +16,20 @@
 
 package net.bobstudio.so.mvc;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.dto.AccountVo;
+import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.AccountService;
 import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +60,8 @@ public class AccountController {
 	}
 
 	@RequestMapping("login")
-	public ModelAndView login(@RequestParam("code") String code, @RequestParam("password") String password) {
+	public ModelAndView login(@RequestParam("code") String code,
+	        @RequestParam("password") String password) {
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(password)) {
 			throw new ServiceException("User code or password empty", ErrorCode.BAD_REQUEST);
 		}
@@ -64,14 +69,17 @@ public class AccountController {
 		String token = accountService.login(code, password);
 
 		return (null == token) ? new ModelAndView("accounts/login", "logerror", "")
-				: new ModelAndView("home", "currentAccount", accountService.getLoginUser(token));
+		        : new ModelAndView("home", "currentAccount", accountService.getLoginUser(token));
 
 	}
 
 	@GetMapping("accounts/main")
-	public ModelAndView list(@ModelAttribute AccountVo accountVo) {
+	public ModelAndView list(@ModelAttribute AccountVo accountVo, Model model) {
 		Iterable<Account> accounts = accountService.findAll();
-		return new ModelAndView("accounts/userList", "accounts", BeanMapper.mapList(accounts, AccountVo.class));
+		model.addAttribute("allStatus", Arrays.asList(Status.有效,Status.无效));
+
+		return new ModelAndView("accounts/userList", "accounts", BeanMapper.mapList(accounts,
+		        AccountVo.class));
 	}
 
 	@GetMapping("{id}")
@@ -85,7 +93,8 @@ public class AccountController {
 	}
 
 	@PostMapping("create")
-	public ModelAndView create(@Valid Account account, BindingResult result, RedirectAttributes redirect) {
+	public ModelAndView create(@Valid Account account, BindingResult result,
+	        RedirectAttributes redirect) {
 		if (result.hasErrors()) {
 			return new ModelAndView("accounts/form", "formErrors", result.getAllErrors());
 		}

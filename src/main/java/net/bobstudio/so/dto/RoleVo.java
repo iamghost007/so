@@ -6,14 +6,25 @@ public class RoleVo {
 	private Long id;
 
 	private String name;
-	
+
 	private String remark;
-	
+
 	private Boolean open = true;
-	
+
 	private Boolean checked = false;
-	
+
 	private Long pId = -1L;
+
+	public RoleVo() {
+	}
+
+	public RoleVo(Long id) {
+		this.id = id;
+	}
+
+	public RoleVo(String sid) {
+		this.id = new Long(sid);
+	}
 
 	public Long getId() {
 		return id;

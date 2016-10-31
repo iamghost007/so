@@ -199,10 +199,23 @@ jQuery
 					values =[data.id, data.name,data.remark];
 				}
 				else if(module == 'account'){
-					names =["#id","#code","#name","#duty","#phone","#email","#family_addr","#remark"];
-					values =[data.id, data.code, data.name, data.duty, data.phone, data.email, data.family_addr, data.remark];
+					names =["#id","#code","#name","#duty","#phone","#email","#family_addr","#remark","#password"];
+					values =[data.id, data.code, data.name, data.duty, data.phone, data.email, data.family_addr, data.remark,data.password];
 
 					$('#pwdLine').hide();
+					var status = (data.status == '有效') ? "#status1" :"#status2";
+					$(status).attr("checked","checked");
+					$("#update").val(true);
+					
+					var rList = data.roleList;
+					if(rList.length > 0){	//角色不修改，值要回传
+						var roles = "<input type='hidden' id='roleList' name='roleList' value='-1'/> "; 
+						for(var i=0;i<rList.length;i++) {
+							roles += "<input type='hidden' id='roleList"+i+"' name='roleList' value='"+rList[i].id+"'/> ";
+						}
+						$("#roles").html(roles);
+					}
+
 				}
 
 				for(var i=0;i<names.length;i++) {

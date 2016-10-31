@@ -43,7 +43,7 @@ jQuery.extend({
 			}
 		};
 
-		var zNodes =[
+		/*var zNodes =[
 			{ id:-1, pId:0, name:"请选择角色", remark:"测试数据", open:false},
 			{ id:10, pId:-1, name:"角色 1",  remark:"测试数据", open:false},
 			{ id:11, pId:10, name:"角色 1-1", remark:"测试数据", open:true},
@@ -58,7 +58,7 @@ jQuery.extend({
 			{ id:221, pId:22, name:"角色 2-2-1", remark:"测试数据", checked:true},
 			{ id:222, pId:22, name:"角色 2-2-2", remark:"测试数据"},
 			{ id:23, pId:20, name:"角色 2-3", remark:"测试数据"}
-		];
+		];*/
 
 		$('#setRoleModal').modal('show');	
 		$("#user_id").val(userId);  

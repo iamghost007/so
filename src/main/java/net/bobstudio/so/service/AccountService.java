@@ -1,10 +1,12 @@
 package net.bobstudio.so.service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
 import net.bobstudio.so.domain.Account;
+import net.bobstudio.so.domain.Role;
 import net.bobstudio.so.repository.AccountDao;
 import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
@@ -48,8 +50,8 @@ public class AccountService {
 
 	@PostConstruct
 	public void init() {
-		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
-				.build();
+		loginUsers = CacheBuilder.newBuilder().maximumSize(1000)
+		        .expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS).build();
 	}
 
 	@Transactional(readOnly = true)
@@ -57,15 +59,14 @@ public class AccountService {
 		Account account = accountDao.findByCode(code);
 
 		/*
-		if (account == null) {
-			throw new ServiceException("User not exist", ErrorCode.UNAUTHORIZED);
-		}
+		 * if (account == null) { throw new ServiceException("User not exist",
+		 * ErrorCode.UNAUTHORIZED); }
+		 * 
+		 * if (!account.hashPassword.equals(hashPassword(password))) { throw new
+		 * ServiceException("Password wrong", ErrorCode.UNAUTHORIZED); }
+		 */
 
-		if (!account.hashPassword.equals(hashPassword(password))) {
-			throw new ServiceException("Password wrong", ErrorCode.UNAUTHORIZED);
-		}*/
-		
-		if(account == null || !account.password.equals(hashPassword(password))) {
+		if (account == null || !account.password.equals(hashPassword(password))) {
 			return null;
 		}
 
@@ -115,31 +116,41 @@ public class AccountService {
 		return accountDao.findAll();
 	}
 
-	
 	protected static String hashPassword(String password) {
 		return Encodes.encodeBase64(Digests.sha1(password));
 	}
 
 	@Transactional
-	public void saveAccount(Account account) {
-		if(account.status == null || "".equals(account.status)){
+	public void saveAccount(Account account, Boolean update) {
+		if (account.status == null || "".equals(account.status)) {
 			account.status = "有效";
 		}
-		account.password = hashPassword(account.password);
+		if (!update) { // 密码单独修改，不随对象变化
+			account.password = hashPassword(account.password);
+		} else if(account.roleList != null){
+			List<Role> roles = account.roleList;
+			for (Role role : roles) { // delete remain role;
+				if (role.id < 0) {
+					account.roleList.remove(role);
+					break;
+				}
+			}
+		}
+
 		accountDao.save(account);
-		
+
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Account findOne(Long id) {
 		return accountDao.findOne(id);
 	}
-	
+
 	@Transactional
-	public void deleteAccount(Long id){
+	public void deleteAccount(Long id) {
 		accountDao.delete(id);
 	}
-	
+
 	/**
 	 * 查询用户, 并在返回前对用户的延迟加载关联角色进行初始化.
 	 */

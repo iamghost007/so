@@ -5,250 +5,263 @@
 
 <title>智慧办公</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
-    href="../../static/css/bootstrap.min.css" />
+	href="../../static/css/bootstrap.min.css" />
 <link rel="stylesheet" th:href="@{/css/style.css}"
-    href="../../static/css/style.css" />
-<link rel="stylesheet"  th:href="@{/css/zTreeStyle/zTreeStyle.css}" href="../../static/css/zTreeStyle/zTreeStyle.css" type="text/css" />
+	href="../../static/css/style.css" />
+<link rel="stylesheet" th:href="@{/css/zTreeStyle/zTreeStyle.css}"
+	href="../../static/css/zTreeStyle/zTreeStyle.css" type="text/css" />
 <!-- link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"
     href="../../static/font-awesome/css/font-awesome.min.css" / -->
 <style>
 span.error {
-    color: #C00;
-    padding: 0 6px;
+	color: #C00;
+	padding: 0 6px;
 }
 </style>
 </head>
 
 <body>
-    <div class="mainContent">
-        <!--add user start-->
-        <div class="modal fade" data-backdrop="false" id="accountModal"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">&times;</button>
-                        <h4 class="modal-title btn grey radius_l">新增用户</h4>
-                    </div>
-                    <div class="alert alert-danger" id="errorTip"
-                        style='display: none;' onclick="$(this).hide();">错误提示区</div>
-                    <div class="modal-body">
-                        <form action="#" id="accountForm" method="post"
-                            th:object="${accountVo}">
- 							<input type="hidden" id="id" name="id" th:field="*{id}"/>
-                            <div class="form-body">
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-2 control-label"> <span>工号</span><span
-                                            class="required">*</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" th:field="*{code}"
-                                                placeholder="工号" id="code" name="code" autofocus="autofocus"
-                                                required="required" />
-                                        </div>
-                                        <label class="col-md-2 control-label"> <span>姓名</span><span
-                                            class="required">*</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" th:field="*{name}"
-                                                placeholder="姓名" id="name" name="name" required="required" />
-                                        </div>
-                                    </div>
+	<div class="mainContent">
+		<!--add user start-->
+		<div class="modal fade" data-backdrop="false" id="accountModal"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title btn grey radius_l">新增用户</h4>
+					</div>
+					<div class="alert alert-danger" id="errorTip"
+						style='display: none;' onclick="$(this).hide();">错误提示区</div>
+					<div class="modal-body">
+						<form action="#" id="accountForm" method="post"
+							th:object="${accountVo}">
+                            <input type="hidden" id="id" name="id" th:field="*{id}" />
+                            <input type="hidden" id="update" name="update" th:field="*{update}" />
+                            <div id="roles"><!-- role temporary save area --></div>
+							<div class="form-body">
+								<div class="row">
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>工号</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{code}"
+												placeholder="工号" id="code" name="code" autofocus="autofocus"
+												required="required" />
+										</div>
+										<label class="col-md-2 control-label"> <span>姓名</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{name}"
+												placeholder="姓名" id="name" name="name" required="required" />
+										</div>
+									</div>
 
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-2 control-label"> <span>职务</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" id="duty" name="duty"
-                                                th:field="*{duty}" />
-                                        </div>
-                                        <label class="col-md-2 control-label"> <span>手机</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" id="phone"
-                                                name="phone" th:field="*{phone}" data-rule-mobile="true"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12" id="pwdLine">
-                                        <label class="col-md-2 control-label"> <span>密码</span>
-                                            <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="password" class="form-control" id="password"
-                                                name="password" th:field="*{password}" required="required" autocomplete="off" />
-                                        </div>
-                                        <label class="col-md-2 control-label"> <span>密码确认</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="password" class="form-control" id="password2"
-                                                autocomplete="off" required="required" equalTo="#password"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-2 control-label"> <span>状态</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                             <input id="status" name="status" type="radio" th:field="*{status}" th:value="*{status}" value="无效"/>无效
-                                            <input id="status" name="status" type="radio" th:field="*{status}" th:value="*{status}" value="有效"/>有效
-                                        </div>
-                                         <label class="col-md-2 control-label"> <span>E-Mail</span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="email" class="form-control" id="email"
-                                                th:field="*{email}" name="email" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-2 control-label"> <span>家庭住址</span>
-                                        </label>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control" id="family_addr"
-                                                th:field="*{family_addr}" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-2 control-label"> <span>简介</span>
-                                        </label>
-                                        <div class="col-md-10">
-                                            <textarea class="form-control" id="remark"
-                                                th:field="*{remark}"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="dataSave"
-                            onclick="$.dataSave('account');">
-                            <span>确认</span>
-                        </button>
-                        <button type="button" class="btn default" data-dismiss="modal">
-                            <span>取消</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--add user end  -->
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>职务</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="duty" name="duty"
+												th:field="*{duty}" />
+										</div>
+										<label class="col-md-2 control-label"> <span>手机</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="phone"
+												name="phone" th:field="*{phone}" data-rule-mobile="true" />
+										</div>
+									</div>
+									<div class="form-group col-md-12" id="pwdLine">
+										<label class="col-md-2 control-label"> <span>密码</span>
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="password" class="form-control" id="password"
+												name="password" th:field="*{password}" required="required"
+												autocomplete="off" />
+										</div>
+										<label class="col-md-2 control-label"> <span>密码确认</span>
+										</label>
+										<div class="col-md-4">
+											<input type="password" class="form-control" id="password2"
+												autocomplete="off" required="required" equalTo="#password" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>状态</span>
+										</label>
+										<div class="col-md-4">
+											<label th:each="status : ${allStatus}" class="radio inline">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" th:value="${status}" th:field="*{status}" required="required"/> 
+												<span th:for="${#ids.prev('status')}" th:text="${status.description}">有效</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											</label>
+											<label th:remove="all" class="radio inline">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" /> <span>无效</span>
+											</label>
+										</div>
+										<label class="col-md-2 control-label"> <span>E-Mail</span>
+										</label>
+										<div class="col-md-4">
+											<input type="email" class="form-control" id="email"
+												th:field="*{email}" name="email" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>家庭住址</span>
+										</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" id="family_addr"
+												th:field="*{family_addr}" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>简介</span>
+										</label>
+										<div class="col-md-10">
+											<textarea class="form-control" id="remark"
+												th:field="*{remark}"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="dataSave"
+							onclick="$.dataSave('account');">
+							<span>确认</span>
+						</button>
+						<button type="button" class="btn default" data-dismiss="modal">
+							<span>取消</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--add user end  -->
 
-        <!--set role start-->
-        <div class="modal fade" data-backdrop="false" id="setRoleModal"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">&times;</button>
-                        <h4 class="modal-title btn grey radius_l">设置角色</h4>
-                    </div>
-                    <div class="alert alert-danger" id="errorRoleTip"
-                        style='display: none;' onclick="$(this).hide();">错误提示区</div>
-                    <div class="modal-body">
-                        <ul id="roleTree" class="ztree"></ul>
-                    	<input type="hidden" class="form-control" id="user_id" name="user_id" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="getSelectedRoles"
-							onclick="$.getSelectedRoles();">
-                            <span>确认</span>
-                        </button>
-                        <button type="button" class="btn default" data-dismiss="modal">
-                            <span>取消</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--set role end  -->
+		<!--set role start-->
+		<div class="modal fade" data-backdrop="false" id="setRoleModal"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title btn grey radius_l">设置角色</h4>
+					</div>
+					<div class="alert alert-danger" id="errorRoleTip"
+						style='display: none;' onclick="$(this).hide();">错误提示区</div>
+					<div class="modal-body">
+						<ul id="roleTree" class="ztree"></ul>
+						<input type="hidden" class="form-control" id="user_id"
+							name="user_id" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary"
+							id="getSelectedRoles" onclick="$.getSelectedRoles();">
+							<span>确认</span>
+						</button>
+						<button type="button" class="btn default" data-dismiss="modal">
+							<span>取消</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--set role end  -->
 
-        <!-- User View Start -->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h3 class="sub-header"></h3>
-            <div class="pull-right">
-                <a href="#" onclick="$.showModule('account','新增用户');" class="btn blue1 radius_l"
-					id="_add">新增用户</a>
-                <a href="#"
-                    class="btn blue1 radius_l" onclick="$.loadFunction('/accounts');">刷新</a>
-            </div>
-            <ul class="nav-tabs nav" id="tabs">
-                <li class="active"><a href="#accountPage"
-                    onclick="$.gotoTAB('用户');">用户管理</a></li>
-                <li><a href="#rolePage" onclick="$.gotoTAB('角色');">角色管理</a></li>
-            </ul>
+		<!-- User View Start -->
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h3 class="sub-header"></h3>
+			<div class="pull-right">
+				<a href="#" onclick="$.showModule('account','新增用户');"
+					class="btn blue1 radius_l" id="_add">新增用户</a> <a href="#"
+					class="btn blue1 radius_l" onclick="$.loadFunction('/accounts');">刷新</a>
+			</div>
+			<ul class="nav-tabs nav" id="tabs">
+				<li class="active"><a href="#accountPage"
+					onclick="$.gotoTAB('用户');">用户管理</a></li>
+				<li><a href="#rolePage" onclick="$.gotoTAB('角色');">角色管理</a></li>
+			</ul>
 
-            <div class="table-responsive tab-content">
-                <div class="tab-pane active" id="accountPage">
-                    <input type="hidden" value="1" id="accountFlag" />
-                    <div style="height: 1px;"></div>
-                    <div id="globalTip" class="alert alert-success"
-                        style='display: none;' th:text="${globalTip}"
-                        onclick="$(this).hide();">新增一条记录成功</div>
-                    <table id="accountTable" class="table table-striped table-bordered table-condensed" >
-                        <thead>
-                            <tr>
-                                <th>姓名</th>
-                                <th>E-mail</th>
-                                <th>职务</th>
-                                <th>电话</th>
-                                <th>角色</th>
-                                <th>状态</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${accounts.empty}">
-                                <td colspan="6">没有记录</td>
-                            </tr>
-                            <tr th:each="account : ${accounts}">
-                                <td th:text="${account.name}">Bob</td>
-                                <td th:text="${account.email}">zzb205@163.com</td>
-                                <td th:text="${account.duty}">总工</td>
-                                <td th:text="${account.phone}">13912345678</td>
-                                <td >
-									<span th:each="role:${account.roleList}">
-									<span th:text="${role.name}+' | '"></span>
-									</span>
+			<div class="table-responsive tab-content">
+				<div class="tab-pane active" id="accountPage">
+					<input type="hidden" value="1" id="accountFlag" />
+					<div style="height: 1px;"></div>
+					<div id="globalTip" class="alert alert-success"
+						style='display: none;' th:text="${globalTip}"
+						onclick="$(this).hide();">新增一条记录成功</div>
+					<table id="accountTable"
+						class="table table-striped table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>E-mail</th>
+								<th>职务</th>
+								<th>电话</th>
+								<th>角色</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${accounts.empty}">
+								<td colspan="6">没有记录</td>
+							</tr>
+							<tr th:each="account : ${accounts}">
+								<td th:text="${account.name}">Bob</td>
+								<td th:text="${account.email}">zzb205@163.com</td>
+								<td th:text="${account.duty}">总工</td>
+								<td th:text="${account.phone}">13912345678</td>
+								<td><span th:each="role:${account.roleList}"> <span
+										th:text="${role.name}+' | '"></span>
+								</span></td>
+								<td th:text="${account.status}">有效</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-info"
+										onclick="$.editData(this, 'account','1',true);"
+										th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',true);'">查看</button>
+									<button type="button" class="btn btn-sm btn-warning"
+										onclick="$.setRole('1');"
+										th:onclick="'javascript:$.setRole(\''+${account.id}+'\');'">设置角色</button>
+									<button type="button" class="btn btn-sm btn-warning"
+										onclick="$.editData(this, 'account','1',false);"
+										th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',false);'">修改</button>
+									<button type="button" class="btn btn-sm btn-danger"
+										onclick="$.dataDelete(this,'account','1');"
+										th:onclick="'javascript:$.dataDelete(this, \'account\',\''+${account.id}+'\');'">删除</button>
 								</td>
-                                <td th:text="${account.status}">有效</td>
-                                <td>
- 									<button type="button" class="btn btn-sm btn-info" onclick="$.editData(this, 'account','1',true);"
-                                        th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',true);'">查看</button>
-                                    <button type="button" class="btn btn-sm btn-warning" onclick="$.setRole('1');"
-                                        th:onclick="'javascript:$.setRole(\''+${account.id}+'\');'">设置角色</button>
-									<button type="button" class="btn btn-sm btn-warning" onclick="$.editData(this, 'account','1',false);"
-                                        th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',false);'">修改</button>
-                                    <button type="button" class="btn btn-sm btn-danger"
-                                        onclick="$.dataDelete(this,'account','1');"
-                                        th:onclick="'javascript:$.dataDelete(this, \'account\',\''+${account.id}+'\');'">删除</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane" id="rolePage">
-                    <input type="hidden" value="0" id="roleFlag" />
-                </div>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane" id="rolePage">
+					<input type="hidden" value="0" id="roleFlag" />
+				</div>
 
-            </div>
-        </div>
-        <!-- User View End -->
-    </div>
+			</div>
+		</div>
+		<!-- User View End -->
+	</div>
 
-    <script src="../../static/js/jquery-1.12.4.min.js"
-        th:src="@{/js/jquery-1.12.4.min.js}"></script>
-    <script src="../../static/js/jquery-validation/js/jquery.validate.js"
-        th:src="@{/js/jquery-validation/js/jquery.validate.js}"></script>
-    <script src="../../static/js/myvalidate.js" th:src="@{/myvalidate.js}"></script>
-    <script src="../../static/js/bootstrap.min.js"
-        th:src="@{/js/bootstrap.min.js}"></script>
-    <script src="../../static/js/home.js" th:src="@{/js/home.js}"></script>
-    <script src="../../static/js/dynamictable.js"
-        th:src="@{/js/dynamictable.js}"></script>
-	<script src="../../static/js/jquery.ztree.core.min.js" th:src="@{/js/jquery.ztree.core.min.js}"></script>
-	<script src="../../static/js/jquery.ztree.excheck.min.js" th:src="@{/js/jquery.ztree.excheck.min.js}"></script>
+	<script src="../../static/js/jquery-1.12.4.min.js"
+		th:src="@{/js/jquery-1.12.4.min.js}"></script>
+	<script src="../../static/js/jquery-validation/js/jquery.validate.js"
+		th:src="@{/js/jquery-validation/js/jquery.validate.js}"></script>
+	<script src="../../static/js/myvalidate.js" th:src="@{/myvalidate.js}"></script>
+	<script src="../../static/js/bootstrap.min.js"
+		th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="../../static/js/home.js" th:src="@{/js/home.js}"></script>
+	<script src="../../static/js/dynamictable.js"
+		th:src="@{/js/dynamictable.js}"></script>
+	<script src="../../static/js/jquery.ztree.core.min.js"
+		th:src="@{/js/jquery.ztree.core.min.js}"></script>
+	<script src="../../static/js/jquery.ztree.excheck.min.js"
+		th:src="@{/js/jquery.ztree.excheck.min.js}"></script>
 	<script src="../../static/js/myrole.js" th:src="@{/js/myrole.js}"></script>
 
 </body>

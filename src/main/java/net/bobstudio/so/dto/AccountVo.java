@@ -10,14 +10,14 @@ public class AccountVo {
 	private String code;
 	private String name;
 	private String duty;
-	// private String roler;
 	private String phone;
 	private String email;
 	private String password;
 	private String family_addr;
 	private String remark;
-	private String status;
-	
+	private Status status;
+	private Boolean update = false;	//true则不更新密码/角色
+
 	private List<RoleVo> roleList;
 
 	public Long getId() {
@@ -92,11 +92,11 @@ public class AccountVo {
 		this.remark = remark;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
@@ -106,6 +106,14 @@ public class AccountVo {
 
 	public void setRoleList(List<RoleVo> roleList) {
 		this.roleList = roleList;
+	}
+
+	public Boolean getUpdate() {
+		return update;
+	}
+
+	public void setUpdate(Boolean update) {
+		this.update = update;
 	}
 
 	@Override
