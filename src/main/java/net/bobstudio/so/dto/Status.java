@@ -2,7 +2,7 @@ package net.bobstudio.so.dto;
 
 public enum Status {
     
-    有效("有效"), 无效("无效");
+    ENABLE("有效"), DISABLE("无效");
 
     private String description;
     
@@ -12,6 +12,11 @@ public enum Status {
     
     public String getDescription() {
         return this.description;
+    }
+    
+    @Override
+    public String toString(){
+    	return this.description;
     }
     
 }

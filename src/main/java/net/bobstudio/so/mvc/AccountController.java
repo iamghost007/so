@@ -76,7 +76,7 @@ public class AccountController {
 	@GetMapping("accounts/main")
 	public ModelAndView list(@ModelAttribute AccountVo accountVo, Model model) {
 		Iterable<Account> accounts = accountService.findAll();
-		model.addAttribute("allStatus", Arrays.asList(Status.有效,Status.无效));
+		model.addAttribute("allStatus", Arrays.asList(Status.ENABLE,Status.DISABLE));
 
 		return new ModelAndView("accounts/userList", "accounts", BeanMapper.mapList(accounts,
 		        AccountVo.class));
@@ -119,5 +119,5 @@ public class AccountController {
 	public ModelAndView modifyForm(@PathVariable("id") Account account) {
 		return new ModelAndView("accounts/form", "account", account);
 	}
-
+	
 }

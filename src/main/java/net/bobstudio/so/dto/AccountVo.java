@@ -15,7 +15,7 @@ public class AccountVo {
 	private String password;
 	private String family_addr;
 	private String remark;
-	private Status status;
+	private String status;
 	private Boolean update = false;	//true则不更新密码/角色
 
 	private List<RoleVo> roleList;
@@ -92,11 +92,11 @@ public class AccountVo {
 		this.remark = remark;
 	}
 
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
