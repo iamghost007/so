@@ -12,10 +12,11 @@ jQuery
 
 				var content = 
 					{"variables":
-						{"productName" : {"value" : "冰箱", "type": "String"},
-						 "productAmount" : {"value" : 300, "type": "Double"},
-						 "productType" : {"value" : "家用", "type": "String"},
-						 "customer" : {"value" : "zte", "type": "String"},
+						{"productId" : {"value" : $("#id"), "type": "Integer"},
+						 "productName" : {"value" : $("#productName"), "type": "String"},
+						 "productAmount" : {"value" : $("#productAmount"), "type": "Double"},
+						 "productType" : {"value" : $("#productType"), "type": "String"},
+						 "customer" : {"value" : $("#customer"), "type": "String"},
 						},
 				     "businessKey" : "rest-so-order"
                     };

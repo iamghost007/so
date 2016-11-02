@@ -24,9 +24,8 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-//
-//	@Column(name="prod_code")
-//	public String code;
+
+	public String code;
 	
 	@Column(name="prod_name")
 	public String name;
@@ -43,9 +42,9 @@ public class Product {
 	@Column(name="prod_num_alarm")
 	public Integer numAlarm;
 	
-	@OneToOne
-	@JoinColumn(name="prod_drawing_id")
-	public Drawing drawing;
+//	@OneToOne
+//	@JoinColumn(name="prod_drawing_id")
+//	public Drawing drawing;
 	
 	public String remark;
 	

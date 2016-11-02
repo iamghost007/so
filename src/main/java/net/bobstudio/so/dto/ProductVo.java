@@ -10,23 +10,23 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 2016.9.28
  */
 public class ProductVo {
-	public Long id;
+	private Long id;
 
-	//public String code;
+	private String code;
 	
-	public String name;
+	private String name;
 	
-	public String standard;
+	private String standard;
 	
-	public String type;
+	private String type;
 	
-	public Integer numStock;
+	private Integer numStock;
 	
-	public Integer numAlarm;
+	private Integer numAlarm;
 	
-	public String remark;
+	private String remark;
 	
-	public String status;
+	private String status;
 
 	public ProductVo(){
 		//
@@ -94,6 +94,14 @@ public class ProductVo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
