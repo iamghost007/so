@@ -10,7 +10,7 @@ jQuery.extend({
 				}
 			}
 		}
-		var reqUrl = "/api/accounts/set_roles/"+$("#user_id").val()+"/"+ids;
+		var reqUrl = $.getRootPath() + "/api/accounts/set_roles/"+$("#user_id").val()+"/"+ids;
 		$.sendAjaxReq("GET", reqUrl, "",
 				function(data,textStatus){
 					//var globalTip = $("#globalTip");
@@ -65,7 +65,7 @@ jQuery.extend({
 		//$.fn.zTree.init($("#roleTree"), setting, zNodes);  //For debug
 		
 		var module="role";
-		var reqUrl = "/api/"+module+"s/tree/"+userId;
+		var reqUrl = $.getRootPath() + "/api/"+module+"s/tree/"+userId;
 		$.sendAjaxReq("GET", reqUrl, "",
 				function(data,textStatus){
 					$.fn.zTree.init($("#roleTree"), setting, data);

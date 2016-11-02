@@ -95,7 +95,7 @@ jQuery
 					return false;
 				}
 
-				var reqUrl = "/api/" + module + "s/create";
+				var reqUrl = $.getRootPath() + "/api/" + module + "s/create";
 				var errorTip = $("#errorTip");
 				var modal = $("#" + module + "Modal");
 
@@ -120,7 +120,7 @@ jQuery
 				}
 
 				var globalTip = $("#globalTip");
-				var reqUrl = "/api/" + module + "s/" + id + "/delete";
+				var reqUrl = $.getRootPath() + "/api/" + module + "s/" + id + "/delete";
 
 				$.sendAjaxReq("GET", reqUrl, "", function(data, textStatus) {
 					// $.loadFunction("/" + module + "s"); //删除多行时需要重新读取服务端数据
@@ -173,7 +173,7 @@ jQuery
 
 				
 				var tip = $("#errorTip");
-				var reqUrl = "/api/" + module + "s/" + moduleId;
+				var reqUrl = $.getRootPath() + "/api/" + module + "s/" + moduleId;
 
 				$.sendAjaxReq("GET", reqUrl, "", function(data, textStatus) {
 					if(data.length<1){
