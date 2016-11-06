@@ -10,13 +10,14 @@ jQuery
 				var errorTip = $("#errorTip");
 				var modal = $("#" + module + "Modal");
 
+				var productId = $("#productId").val();
 				var content = 
 					{"variables":
-						{"productId" : {"value" : $("#id"), "type": "Integer"},
-						 "productName" : {"value" : $("#productName"), "type": "String"},
-						 "productAmount" : {"value" : $("#productAmount"), "type": "Double"},
-						 "productType" : {"value" : $("#productType"), "type": "String"},
-						 "customer" : {"value" : $("#customer"), "type": "String"},
+						{"productId" : {"value" : productId, "type": "Long"},
+						 "productName" : {"value" : $("#productName").val(), "type": "String"},
+						 "productAmount" : {"value" : $("#productAmount").val(), "type": "Double"},
+						 "productType" : {"value" : $("#productType").val(), "type": "String"},
+						 "customer" : {"value" : $("#customer").val(), "type": "String"},
 						},
 				     "businessKey" : "rest-so-order"
                     };

@@ -17,13 +17,13 @@ import org.springside.modules.mapper.BeanMapper;
  * @author Bob Zhang[zzb205@163.com] 2016.9.26
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/roles")
 public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
 
-	@GetMapping("roles/main")
+	@GetMapping("main")
 	public ModelAndView list(@ModelAttribute RoleVo roleVo) {
 		Iterable<Role> roles = roleService.findRoles();
 		return new ModelAndView("accounts/roleList", "roles", BeanMapper.mapList(roles, RoleVo.class));

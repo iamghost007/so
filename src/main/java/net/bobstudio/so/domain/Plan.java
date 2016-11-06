@@ -14,30 +14,26 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 // JPA实体类的标识
 @Entity
-@Table(name = "t_message")
-public class Message {
-
-	// JPA 主键标识, 策略为由数据库生成主键
+@Table(name = "t_plan")
+public class Plan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
+	
+	public Long productId;
 
-	@ManyToOne
-	@JoinColumn(name = "to")
-	public Account receiver;
+	public String productName;
 
-	public String message;
+	public String productType;
+	
+	public Double productAmount;
+	
+	public String customer;
 
-	public Date receiveDate;
+	public Date orderDate;
 
-	public Message() {
+	public Plan() {
 
-	}
-
-	public Message(Account receiver, String message, Date receiveDate) {
-		this.receiver = receiver;
-		this.message = message;
-		this.receiveDate = receiveDate;
 	}
 
 	@Override
