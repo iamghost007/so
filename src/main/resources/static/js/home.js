@@ -159,6 +159,7 @@ jQuery
 				$('#dataSave').show();
 				$('#currentTitle').html(title);
 				$('#' + module + "Form")[0].reset();
+				$('#id').val("");
 				$('#' + module + 'Modal').modal('show');
 				
 				if(module == 'account'){
@@ -195,8 +196,8 @@ jQuery
 			bindFormValue : function(module,data,readOnly){
 				var names,values;
 				if(module == 'role'){
-					names =["#id","#name","#remark"];
-					values =[data.id, data.name,data.remark];
+					names =["#id","#name","#priv","#remark"];
+					values =[data.id, data.name,data.priv,data.remark];
 				}
 				else if(module == 'account'){
 					names =["#id","#code","#name","#duty","#phone","#email","#family_addr","#remark","#password"];

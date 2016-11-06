@@ -35,6 +35,7 @@ span.error {
 					<div class="modal-body">
 						<form action="#" id="roleForm" method="post" th:object="${roleVo}">
 							<input type="hidden" id="id" name="id" th:field="*{id}"/>
+							<input type="hidden" id="priv" name="priv" th:field="*{priv}"/>
 							<div class="form-body">
 								<div class="row">
 									<div class="form-group col-md-12">
@@ -51,7 +52,7 @@ span.error {
 										<label class="col-md-2 control-label"> <span>角色描述</span>
 										</label>
 										<div class="col-md-10">
-											<textarea class="form-control" id="remark"
+											<textarea class="form-control" id="remark" rows="3"
 												th:field="*{remark}"></textarea>
 										</div>
 									</div>

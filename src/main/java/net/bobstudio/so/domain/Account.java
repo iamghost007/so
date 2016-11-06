@@ -3,6 +3,7 @@ package net.bobstudio.so.domain;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,7 +39,7 @@ public class Account {
 	public String remark;
 	public String status;
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "t_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	// Fecth策略定义
 	@Fetch(FetchMode.SUBSELECT)

@@ -14,6 +14,8 @@ public class RoleVo {
 	private Boolean checked = false;
 
 	private Long pId = -1L;
+	
+	private String priv;
 
 	public RoleVo() {
 	}
@@ -72,6 +74,14 @@ public class RoleVo {
 
 	public void setpId(Long pId) {
 		this.pId = pId;
+	}
+
+	public String getPriv() {
+		return priv;
+	}
+
+	public void setPriv(String priv) {
+		this.priv = priv;
 	}
 
 	@Override

@@ -47,33 +47,13 @@ import org.springside.modules.mapper.BeanMapper;
  * @author Bob Zhang[zzb205@163.com] 2016.9.26
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/accounts")
 public class AccountController {
 
 	@Autowired
 	private AccountService accountService;
 
-	@GetMapping
-	public String login() {
-		System.out.println("开始登陆啦。。。");
-		return "accounts/login";
-	}
-
-	@RequestMapping("login")
-	public ModelAndView login(@RequestParam("code") String code,
-	        @RequestParam("password") String password) {
-		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(password)) {
-			throw new ServiceException("User code or password empty", ErrorCode.BAD_REQUEST);
-		}
-
-		String token = accountService.login(code, password);
-
-		return (null == token) ? new ModelAndView("accounts/login", "logerror", "")
-		        : new ModelAndView("home", "currentAccount", accountService.getLoginUser(token));
-
-	}
-
-	@GetMapping("accounts/main")
+	@GetMapping("main")
 	public ModelAndView list(@ModelAttribute AccountVo accountVo, Model model) {
 		Iterable<Account> accounts = accountService.findAll();
 		model.addAttribute("allStatus", Arrays.asList(Status.ENABLE,Status.DISABLE));
@@ -82,42 +62,4 @@ public class AccountController {
 		        AccountVo.class));
 	}
 
-	@GetMapping("{id}")
-	public ModelAndView view(@PathVariable("id") Account account) {
-		return new ModelAndView("accounts/view", "account", account);
-	}
-
-	@GetMapping(params = "form")
-	public String createForm(@ModelAttribute Account account) {
-		return "accounts/form";
-	}
-
-	@PostMapping("create")
-	public ModelAndView create(@Valid Account account, BindingResult result,
-	        RedirectAttributes redirect) {
-		if (result.hasErrors()) {
-			return new ModelAndView("accounts/form", "formErrors", result.getAllErrors());
-		}
-		// account = accountServcie.register(account);
-		redirect.addFlashAttribute("globalAccount", "Successfully created a new account");
-		return new ModelAndView("redirect:/{account.id}", "account.id", account.id);
-	}
-
-	@RequestMapping("foo")
-	public String foo() {
-		throw new RuntimeException("Expected exception in controller");
-	}
-
-	@GetMapping(value = "delete/{id}")
-	public ModelAndView delete(@PathVariable("id") Long id) {
-		// accountService.deleteAccount(id);
-		Iterable<Account> accounts = accountService.findAll();
-		return new ModelAndView("accounts/list", "accounts", accounts);
-	}
-
-	@GetMapping(value = "modify/{id}")
-	public ModelAndView modifyForm(@PathVariable("id") Account account) {
-		return new ModelAndView("accounts/form", "account", account);
-	}
-	
 }

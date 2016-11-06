@@ -1,9 +1,13 @@
 package net.bobstudio.so.dto;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class PlanVo {
 	private Long id;
+	
+	private Long productId;
 
 	private String productName;
 
@@ -12,8 +16,18 @@ public class PlanVo {
 	private Double productAmount;
 
 	private String customer;
+	
+	private Date orderDate;
 
 	public PlanVo() {
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public Long getId() {
@@ -24,7 +38,6 @@ public class PlanVo {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getProductName() {
 		return productName;
@@ -65,6 +78,13 @@ public class PlanVo {
 		this.customer = customer;
 	}
 
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
 
 	@Override
 	public String toString() {

@@ -18,17 +18,17 @@
 	<div class="container">
 
 		<p th:if="${logerror}" class="alert alert-danger">您登陆的用户名或密码错误，请注意区分大小写</p>
-		<form class="form-signin" role="form" name="form"
+		<form class="form-signin" role="form"  id="loginForm"
 			th:action="@{/login}" action="/login" method="POST">
 			<h2 class="form-signin-heading">南京行知管业</h2>
-			<input name="code" type="text" class="form-control"
+			<input id="username" name="username" type="text" class="form-control"
 				placeholder="工号" required="required"
 				autofocus="autofocus" />
-			<input name="password" type="password"
+			<input id="password" name="password" type="password"
 				class="form-control" placeholder="密码" required="required" />
 			<div class="checkbox">
 
-				<label> <input type="checkbox" value="remember-me" /> 记住我
+				<label> <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"/> 记住我
 				</label>
 			</div>
 			<button class="btn btn-lg btn-primary btn-block" type="submit">登

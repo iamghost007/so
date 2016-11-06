@@ -8,10 +8,12 @@ import javax.annotation.PostConstruct;
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Role;
 import net.bobstudio.so.repository.AccountDao;
+import net.bobstudio.so.security.ShiroDbRealm.ShiroUser;
 import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,17 +22,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.utils.Digests;
-import org.springside.modules.utils.Encodes;
 import org.springside.modules.utils.Ids;
 //import org.springside.modules.persistence.Hibernates;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import static net.bobstudio.so.security.CustomCredentialsMatcher.hashPassword;
+
 // Spring Bean的标识.
 @Service
 public class AccountService {
+	public static final String HASH_ALGORITHM = "SHA-1";
+	public static final int HASH_INTERATIONS = 1024;
 
 	private static Logger logger = LoggerFactory.getLogger(AccountService.class);
 
@@ -116,10 +120,6 @@ public class AccountService {
 		return accountDao.findAll();
 	}
 
-	protected static String hashPassword(String password) {
-		return Encodes.encodeBase64(Digests.sha1(password));
-	}
-
 	@Transactional
 	public void saveAccount(Account account, Boolean update) {
 		if (account.status == null || "".equals(account.status)) {
@@ -146,6 +146,18 @@ public class AccountService {
 		return accountDao.findOne(id);
 	}
 
+	/**
+	 * 按登录名(工号)查询用户.
+	 */
+	@Transactional(readOnly = true)
+	public Account findUserByLoginName(String code) {
+		Account account = accountDao.findByCode(code);
+//		if (account != null) {
+//			Hibernate.initialize(account.roleList);
+//		}
+		return account;
+	}
+
 	@Transactional
 	public void deleteAccount(Long id) {
 		accountDao.delete(id);
@@ -161,6 +173,14 @@ public class AccountService {
 			Hibernate.initialize(account.roleList);
 		}
 		return account;
+	}
+
+	/**
+	 * 取出Shiro中的当前用户LoginName.
+	 */
+	public String getCurrentUserName() {
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		return user==null ? "未登陆" : user.name;
 	}
 
 }
