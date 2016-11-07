@@ -4,7 +4,6 @@ import net.bobstudio.so.domain.Plan;
 import net.bobstudio.so.dto.PlanVo;
 import net.bobstudio.so.service.PlanService;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +32,8 @@ public class PlanEndPoint {
 	public PlanVo createPlan(@RequestBody PlanVo planVo, UriComponentsBuilder uriBuilder) {
 		Plan plan = BeanMapper.map(planVo, Plan.class);
 		planService.savePlan(plan);
+		
+		planService.recordProcess(plan);
 
 		return BeanMapper.map(plan, PlanVo.class);
 	}

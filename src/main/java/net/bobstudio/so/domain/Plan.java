@@ -7,8 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import net.bobstudio.so.dto.PlanStatus;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -29,6 +31,12 @@ public class Plan {
 	public Double productAmount;
 	
 	public String customer;
+	
+	public String status;
+	
+	@OneToOne
+	@JoinColumn(name="sponsor")
+	public Account sponsor;
 
 	public Date orderDate;
 

@@ -107,7 +107,7 @@ jQuery
 					// var globalTip = $("#globalTip");
 					// globalTip.show();
 				}, function() {
-					errorTip.text('添加失败哦');
+					errorTip.text('添加失败哦! 可能原因：1、您不具有该操作权限； 2、数据格式不对或超长。');
 					errorTip.show();
 				});
 
@@ -128,7 +128,7 @@ jQuery
 					globalTip.text('删除记录成功!');
 					globalTip.show();
 				}, function(textStatus) {
-					globalTip.text('删除失败!');
+					globalTip.text('删除失败! 可能原因：您不具有该操作权限。');
 					globalTip.attr("class", "alert alert-danger");
 					globalTip.show();
 				});

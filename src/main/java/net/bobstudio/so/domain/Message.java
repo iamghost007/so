@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import net.bobstudio.so.dto.PlanStatus;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 // JPA实体类的标识
@@ -23,21 +25,21 @@ public class Message {
 	public Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "to")
-	public Account receiver;
+	@JoinColumn(name = "sender")
+	public Account sender;
 
-	public String message;
+	public String content;
+	
+	//public String status;
+	
+	@ManyToOne
+	@JoinColumn(name = "link")
+	public Plan link;
 
 	public Date receiveDate;
 
 	public Message() {
 
-	}
-
-	public Message(Account receiver, String message, Date receiveDate) {
-		this.receiver = receiver;
-		this.message = message;
-		this.receiveDate = receiveDate;
 	}
 
 	@Override

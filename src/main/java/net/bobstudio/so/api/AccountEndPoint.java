@@ -125,7 +125,7 @@ public class AccountEndPoint {
 		return tree;
 	}
 
-	//@RequiresPermissions("role:edit")
+	@RequiresPermissions("role:edit")
 	@RequestMapping(value = "/api/roles/create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
 	public RoleVo createRole(@RequestBody RoleVo roleVo, UriComponentsBuilder uriBuilder) {
 		Role role = BeanMapper.map(roleVo, Role.class);
@@ -134,7 +134,7 @@ public class AccountEndPoint {
 		return BeanMapper.map(role, RoleVo.class);
 	}
 
-	//@RequiresPermissions("role:edit")
+	@RequiresPermissions("role:edit")
 	@RequestMapping(value = "/api/roles/{id}/delete")
 	public void deleteRole(@PathVariable("id") Long id) {
 		roleService.deleteRole(id);

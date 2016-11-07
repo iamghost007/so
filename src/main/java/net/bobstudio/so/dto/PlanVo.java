@@ -17,6 +17,12 @@ public class PlanVo {
 
 	private String customer;
 	
+	private PlanStatus status;
+	
+	//private String status_cn;
+	
+	private AccountVo sponsor;
+	
 	private Date orderDate;
 
 	public PlanVo() {
@@ -84,6 +90,26 @@ public class PlanVo {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public PlanStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PlanStatus status) {
+		this.status = status;
+	}
+
+	public String getStatus_cn() {
+		return status != null ? status.getDescription() : "";
+	}
+
+	public AccountVo getSponsor() {
+		return sponsor;
+	}
+
+	public void setSponsor(AccountVo sponsor) {
+		this.sponsor = sponsor;
 	}
 
 	@Override
