@@ -77,6 +77,7 @@ public class ShiroConfiguration {
 		shiroFilter.setFilterChainDefinitionMap(filterChainDefinitions);
 		
 		shiroFilter.setUnauthorizedUrl("/error/403.html");
+
 		
 		return shiroFilter;
 	}
