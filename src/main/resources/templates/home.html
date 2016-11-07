@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -61,14 +61,18 @@ span.error{color:#C00; padding:0 6px;}
                     <li><a href="#" onclick="$.loadFunction('/products/outstocks');">出库管理</a></li>
                     <li><a href="#" onclick="$.loadFunction('/drawings');">图纸管理</a></li>
                     </shiro:hasPermission>
-                    <li><a href="#" onclick="$.loadFunction('/plans');">生产计划</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
+                   <shiro:hasPermission name="account:view">
 					<li><a href="#" onclick="$.loadFunction('/accounts');">员工管理</a></li>
 					<li><a href="#" onclick="$.loadFunction('/roles');">角色管理</a></li>
+					</shiro:hasPermission>
 					<li><a href="#">供应商管理</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
+                   <shiro:hasPermission name="plan:view">
+                    <li><a href="#" onclick="$.loadFunction('/plans');">生产计划</a></li>
+                    </shiro:hasPermission>
 					<li><a href="#">生产报表</a></li>
 					<li><a href="#">销售报表</a></li>
 				</ul>

@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import net.bobstudio.so.security.ShiroDbRealm;
 
 @Configuration
@@ -77,6 +78,7 @@ public class ShiroConfiguration {
 		shiroFilter.setFilterChainDefinitionMap(filterChainDefinitions);
 		
 		shiroFilter.setUnauthorizedUrl("/error/403.html");
+
 		
 		return shiroFilter;
 	}
@@ -98,6 +100,11 @@ public class ShiroConfiguration {
 		AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
 		aasa.setSecurityManager(getSecurityManager());
 		return aasa;
+	}
+	
+	@Bean(name = "shiroDialect")
+	public ShiroDialect getShiroDialect(){
+		return new ShiroDialect();
 	}
 	
 	@Bean

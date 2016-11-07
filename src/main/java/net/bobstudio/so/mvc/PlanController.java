@@ -17,7 +17,7 @@ import net.bobstudio.so.service.PlanService;
  * @author Bob Zhang[zzb205@163.com] 2016.9.26
  */
 @Controller
-@RequestMapping("/pans")
+@RequestMapping("/plans")
 public class PlanController {
 	
 	@Autowired
