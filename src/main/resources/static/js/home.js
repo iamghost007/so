@@ -218,6 +218,10 @@ jQuery
 					}
 
 				}
+				else if(module == 'plan'){
+					names = ["#id","#productName","#productAmount","#productType","#customer"];
+					values = [data.id,data.productName,data.productAmount,data.productType,data.customer];
+				}
 
 				for(var i=0;i<names.length;i++) {
 					$(names[i]).val(values[i]);

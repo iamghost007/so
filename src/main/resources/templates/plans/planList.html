@@ -35,7 +35,7 @@ span.error {
 					<div class="modal-body">
 						<form action="#" id="planForm" method="post" th:object="${planVo}">
 						    <input type="hidden" id="id" name="id" th:field="*{id}"/>
-							<input type="hidden" id="productId" name="productId" th:field="*{productId}"/>
+                            <input type="hidden" id="productId" name="productId" th:field="*{productId}"/>
 							<div class="form-body">
 								<div class="row">
 									<div class="form-group col-md-12">
@@ -74,7 +74,15 @@ span.error {
 									</div>
 								</div>
 							</div>
-						</form>
+						<div id="workflow" class="alert alert-info" th:if="${not #lists.isEmpty(planVo.messages)}" th:remove="all-but-first">
+                          <th:block th:each="message,index:${planVo.messages}">
+                            <li th:text="${message.workflow}">XXX 拟制，时间：2016-11-11，下一步：待审核</li>
+                            <li>YYY 审核， 时间：2016-11-11，下一步：待计划生产</li>
+                            <li>ZZZ 转生产， 时间：2016-11-11，下一步：待库房领料</li>
+                            <!-- 我知道原因了，是因为表单元素是ajax绑定的，而非传进来的，所以list也要手工绑定 -->
+                          </th:block>
+                        </div>
+                        </form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="dataSave"
@@ -122,8 +130,9 @@ span.error {
 								<th>类型</th>
 								<th>客户</th>
 								<th>创建时间</th>
+                                <th>创建人</th>
 								<th>流程进展</th>
-								<th>操作</th>
+                                <th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -136,9 +145,10 @@ span.error {
 								<td th:text="${plan.productType}">家用</td>
 								<td th:text="${plan.customer}">乐视网</td>
 								<td th:text="${plan.orderDate}">2016-11-11</td>
-								<td >待审核</td>
+                                <td th:text="${plan.sponsor.name}">Bob</td>
+                                <td th:text="${plan.status_cn}">待审核</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info" onclick="$.editData(this, 'plan','1',true);"
+									<button type="button" class="btn btn-sm btn-info" onclick="$.editData(this, 'plan','1',false);"
                                         th:onclick="'javascript:$.editData(this, \'plan\',\''+${plan.id}+'\',true);'">审核</button>
 									<button type="button" class="btn btn-sm btn-warning" onclick="$.editData(this, 'plan','1',false);"
                                         th:onclick="'javascript:$.editData(this, \'plan\',\''+${plan.id}+'\',false);'">材料出库</button>

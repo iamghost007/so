@@ -30,11 +30,11 @@ public class Message {
 
 	public String content;
 	
-	//public String status;
+	public String status;
 	
 	@ManyToOne
-	@JoinColumn(name = "link")
-	public Plan link;
+	@JoinColumn(name = "plan")
+	public Plan plan;
 
 	public Date receiveDate;
 

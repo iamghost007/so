@@ -50,7 +50,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				throw new DisabledAccountException();
 			}
 
-			return new SimpleAuthenticationInfo(new ShiroUser(user.code, user.name), user.password, getName());
+			return new SimpleAuthenticationInfo(new ShiroUser(user.id, user.code, user.name), user.password, getName());
 		}
 		return null;
 	}
@@ -88,10 +88,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		private static final long serialVersionUID = -1373760761780840081L;
 		public String loginName;
 		public String name;
+		public Long id;
 
-		public ShiroUser(String loginName, String name) {
+		public ShiroUser(Long id, String loginName, String name) {
 			this.loginName = loginName;
 			this.name = name;
+			this.id = id;
 		}
 
 		public String getName() {

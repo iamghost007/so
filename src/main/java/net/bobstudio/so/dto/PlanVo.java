@@ -1,6 +1,7 @@
 package net.bobstudio.so.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -19,11 +20,11 @@ public class PlanVo {
 	
 	private PlanStatus status;
 	
-	//private String status_cn;
-	
 	private AccountVo sponsor;
 	
 	private Date orderDate;
+	
+	private List<MessageVo> messages;
 
 	public PlanVo() {
 	}
@@ -110,6 +111,14 @@ public class PlanVo {
 
 	public void setSponsor(AccountVo sponsor) {
 		this.sponsor = sponsor;
+	}
+
+	public List<MessageVo> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<MessageVo> messages) {
+		this.messages = messages;
 	}
 
 	@Override

@@ -182,5 +182,10 @@ public class AccountService {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		return user==null ? "未登陆" : user.name;
 	}
+	
+	public Long getCurrentUserId() {
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		return user==null ? -1L : user.id;
+	}
 
 }
