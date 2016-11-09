@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="icon" href="../favicon.ico" th:href="@{favicon.ico}" />
+
+<title>智慧办公-首页</title>
+
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	href="../../static/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/home.css}"
+	href="../../static/css/home.css" />
+<link rel="stylesheet" th:href="@{/css/style.css}"
+	href="../../static/css/style.css" />
+<link rel="stylesheet"  th:href="@{/css/zTreeStyle/zTreeStyle.css}" href="../../static/css/zTreeStyle/zTreeStyle.css" type="text/css" />
+  <style type="text/css">
+    #canvas {
+      paddingTop：100px;
+      width:100%;
+      height: 100%;
+      padding: 0;
+      border: 0; 
+      'max-height':'100%';
+    }
+
+    .diagram-note {
+      background-color: rgba(66, 180, 21, 0.7);
+      color: White;
+      border-radius: 5px;
+      font-family: Arial;
+      font-size: 12px;
+      padding: 5px;
+      min-height: 16px;
+      width: 100px;
+      text-align: center;
+    }
+
+    .needs-discussion:not(.djs-connection) .djs-visual > :nth-child(1) {
+      stroke: rgba(66, 180, 21, 0.7) !important; /* color elements as red */
+    }
+  </style>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar">xxx</span> <span class="icon-bar">ddd</span> <span
+						class="icon-bar">ccc</span>
+				</button>
+				<a class="navbar-brand" href="#">智慧办公</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Settings</a></li>
+					<li><a href="#">Profile</a></li>
+					<li><a href="/logout">退出</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search..." />
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a id="greeting" href="#"  th:text="${currentUserName}">尚未登陆</a></li>
+                    <shiro:hasPermission name="product:view">
+					<li><a href="#" onclick="$.loadFunction('/products');">产品管理</a></li>
+					<li><a href="#" onclick="$.loadFunction('/materials');">原料管理</a></li>
+					<li><a href="#" onclick="$.loadFunction('/products/instocks');">入库管理</a></li>
+                    <li><a href="#" onclick="$.loadFunction('/products/outstocks');">出库管理</a></li>
+                    <li><a href="#" onclick="$.loadFunction('/drawings');">图纸管理</a></li>
+                    </shiro:hasPermission>
+				</ul>
+				<ul class="nav nav-sidebar">
+                   <shiro:hasPermission name="account:view">
+					<li><a href="#" onclick="$.loadFunction('/accounts');">员工管理</a></li>
+					<li><a href="#" onclick="$.loadFunction('/roles');">角色管理</a></li>
+					</shiro:hasPermission>
+					<li><a href="#">供应商管理</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+                   <shiro:hasPermission name="plan:view">
+                    <li><a href="#" onclick="$.loadFunction('/plans');">生产计划</a></li>
+                    </shiro:hasPermission>
+					<li><a href="#">生产报表</a></li>
+					<li><a href="#">销售报表</a></li>
+				</ul>
+			</div>
+
+			<div id="mainContent"><div id="canvas" style="width:1200px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../static/js/jquery-1.12.4.min.js" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script src="../../static/js/jquery-validation/js/jquery.validate.js" th:src="@{/js/jquery-validation/js/jquery.validate.js}"></script>
+    <script src="../../static/js/myvalidate.js" th:src="@{/js/myvalidate.js}"></script>
+	<script src="../../static/js/bootstrap.min.js"	th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="../../static/js/home.js"	th:src="@{/js/home.js}"></script>
+	<script src="../../static/js/dynamictable.js"	th:src="@{/js/dynamictable.js}"></script>
+	<script src="../../static/js/jquery.ztree.core.min.js" th:src="@{/js/jquery.ztree.core.min.js}"></script>
+	<script src="../../static/js/jquery.ztree.excheck.min.js" th:src="@{/js/jquery.ztree.excheck.min.js}"></script>
+    <script src="../../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
+	<script src="../../static/js/myrole.js" th:src="@{/js/myrole.js}"></script>
+    <script src="../../static/js/bpmn-js/bpmn-viewer.js" th:src="@{/js/bpmn-js/bpmn-viewer.js}"></script>
+    <script src="../../static/js/bpmn-async.js"  th:src="@{/js/bpmn-async.js}"></script>
+</body>
+</html>

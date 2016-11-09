@@ -58,6 +58,10 @@ jQuery
 						});
 			},
 			
+			viewBpmn : function(planId) {
+				window.location.href = $.getRootPath() + "/plans/" + planId + "/bpmn"; 
+			},
+			
 			auditOrder : function(btn, module, moduleId, readOnly) {
 				$.readPlan(btn,module, moduleId, readOnly);
 				
@@ -69,6 +73,10 @@ jQuery
 				next += "</div>";
 				$('#wf_node').html(next);
 				$('#wf_node').show();
+			},
+			
+			reviewOrder : function(btn, module, moduleId, readOnly){
+				alert('亲，回退订单暂时不能重新提交，功能正在开发中。。。');
 			},
 			
 			planOrder : function(btn, module, moduleId, readOnly){
@@ -110,4 +118,3 @@ jQuery
 			}
 
 		});
-

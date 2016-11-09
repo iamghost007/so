@@ -65,9 +65,9 @@ public class PlanService {
 		messageDao.save(msg);
 	}
 
-	// @Transactional
-	// public Iterable<Message> findMessagesByLink(Plan plan) {
-	// return messageDao.findAllByLink(plan);
-	// }
+//	 @Transactional
+//	 public Iterable<Message> findMessagesByPlan(Long id) {
+//		 return messageDao.findAllByLink(id);
+//	 }
 
 }

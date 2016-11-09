@@ -94,6 +94,29 @@ span.error {
 			</div>
 		</div>
 		<!--add plan end  -->
+        <!--View  BPMN start-->
+        <div class="modal fade" data-backdrop="false" id="bpmnModal"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="alert alert-danger" id="errorTip"
+                        style='display: none;' onclick="$(this).hide();">加载失败</div>
+                    <div class="modal-body" id="canvas">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="dataSave"
+                            onclick="$.dataSave('plan');">
+                            <span>确认</span>
+                        </button>
+                        <button type="button" class="btn default" data-dismiss="modal">
+                            <span>取消</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--View  BPMN  end  -->
 
 		<!-- plan View Start -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -145,12 +168,18 @@ span.error {
                                 <td th:text="${plan.sponsor.name}">Bob</td>
                                 <td th:text="${plan.status_cn}">待审核</td>
 								<td>
-									<span th:if="${#strings.equals(plan.status, 'APPROVE_ORDER')}">
-									<button type="button" class="btn btn-sm btn-info" onclick="$.auditOrder(this, 'plan','1',true);"
+                                    <button type="button" class="btn btn-sm btn-info" onclick="$.viewBpmn('1');"
+                                        th:onclick="'javascript:$.viewBpmn(\''+${plan.id}+'\');'">查看</button>
+                                    <span th:if="${#strings.equals(plan.status, 'APPROVE_ORDER')}">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="$.auditOrder(this, 'plan','1',true);"
                                         th:onclick="'javascript:$.auditOrder(this, \'plan\',\''+${plan.id}+'\',true);'">审核</button>
                                     </span>    
+                                    <span th:if="${#strings.equals(plan.status, 'REVIEW_ORDER')}">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="$.reviewOrder(this, 'plan','1',true);"
+                                        th:onclick="'javascript:$.reviewOrder(this, \'plan\',\''+${plan.id}+'\',true);'">重拟</button>
+                                    </span>    
                                     <span th:if="${#strings.equals(plan.status, 'TO_PRODUCT')}">
-									<button type="button" class="btn btn-sm btn-info" onclick="$.planOrder(this, 'plan','1',true);"
+									<button type="button" class="btn btn-sm btn-warning" onclick="$.planOrder(this, 'plan','1',true);"
                                         th:onclick="'javascript:$.planOrder(this, \'plan\',\''+${plan.id}+'\',true);'">转产</button>
                                     </span>
 								</td>
