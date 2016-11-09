@@ -43,25 +43,45 @@ public class PlanEndPoint {
 	}
 
 	// @RequiresPermissions("plan:edit")
-	@RequestMapping(value = "/api/plans/{doing}create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
-	public PlanVo createPlan(@PathVariable("doing") String doing, @RequestBody PlanVo planVo, UriComponentsBuilder uriBuilder) {
+	@RequestMapping(value = "/api/plans/create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	public PlanVo createPlan(@RequestBody PlanVo planVo, UriComponentsBuilder uriBuilder) {
 		Plan plan = BeanMapper.map(planVo, Plan.class);
+		plan.sponsor = getCurrentAccount();
 		if (plan.id == null) {
 			plan.status = PlanStatus.APPROVE_ORDER.toString();
-			Long accountId = accountService.getCurrentUserId();
-			if (accountId == -1L) {
-				throw new ServiceException("User had session out. Please login again. ",
-				        ErrorCode.NO_TOKEN);
-			}
-			plan.sponsor = new Account(accountId);
+			planService.savePlan(plan);
+		}
+		else {
+			planService.workflow(plan);
 		}
 
-		planService.savePlan(plan);
 
-		planService.recordProcess(doing,plan);
+		planService.recordProcess(planVo.getContent(),plan);
 
 		return BeanMapper.map(plan, PlanVo.class);
 	}
+	
+	private Account getCurrentAccount(){
+		Long accountId = accountService.getCurrentUserId();
+		if (accountId == -1L) {
+			throw new ServiceException("User had session out. Please login again. ",
+			        ErrorCode.NO_TOKEN);
+		}
+		return new Account(accountId);
+		
+	}
+	
+	@RequestMapping(value = "/api/plans/workflow", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	public void workflow(@RequestBody PlanVo planVo) {
+		Plan plan = BeanMapper.map(planVo, Plan.class);
+
+		planService.workflow(plan);
+
+		planService.recordProcess(planVo.getContent(),plan);
+
+	}
+	
+	
 
 	// @RequiresPermissions("plan:edit")
 	@RequestMapping(value = "/api/plans/{id}/delete")

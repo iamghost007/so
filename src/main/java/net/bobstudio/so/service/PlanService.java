@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlanService {
 	@Autowired
 	private PlanDao planDao;
-	
+
 	@Transactional(readOnly = true)
 	public Iterable<Plan> findPlans() {
 		return planDao.findAll();
@@ -32,9 +32,9 @@ public class PlanService {
 	@Transactional
 	public void savePlan(Plan plan) {
 		planDao.save(plan);
-		
+
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Plan findOne(Long id) {
 		return planDao.findOne(id);
@@ -42,27 +42,32 @@ public class PlanService {
 
 	@Transactional
 	public void deletePlan(Long id) {
-	    planDao.delete(id);
-	    
-    }
+		planDao.delete(id);
+
+	}
+
+	@Transactional
+	public void workflow(Plan plan) {
+		planDao.updateStatusById(plan.status, plan.id);
+	}
 
 	@Autowired
 	private MessageDao messageDao;
 
 	@Transactional
-	public void recordProcess(String doing, Plan plan) {
-	    Message msg = new Message();
-	    msg.sender = plan.sponsor;
-	    msg.plan = plan;
-	    msg.status = plan.status;
-	    msg.content = doing;
-	    
-	    messageDao.save(msg);
-    }
-	
-//	@Transactional
-//	public Iterable<Message> findMessagesByLink(Plan plan) {
-//		return messageDao.findAllByLink(plan);
-//	}
+	public void recordProcess(String content, Plan plan) {
+		Message msg = new Message();
+		msg.sender = plan.sponsor;
+		msg.plan = plan;
+		msg.status = plan.status;
+		msg.content = content;
+
+		messageDao.save(msg);
+	}
+
+	// @Transactional
+	// public Iterable<Message> findMessagesByLink(Plan plan) {
+	// return messageDao.findAllByLink(plan);
+	// }
 
 }

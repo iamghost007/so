@@ -24,6 +24,8 @@ public class PlanVo {
 	
 	private Date orderDate;
 	
+	private String content = "DRIFTING";
+	
 	private List<MessageVo> messages;
 
 	public PlanVo() {
@@ -119,6 +121,14 @@ public class PlanVo {
 
 	public void setMessages(List<MessageVo> messages) {
 		this.messages = messages;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@Override

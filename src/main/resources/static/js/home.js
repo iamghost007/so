@@ -165,6 +165,11 @@ jQuery
 				if(module == 'account'){
 					$('#pwdLine').show();
 				}
+				else if(module == 'plan'){
+					$('#workflow').hide();
+					$('#wf_node').html("");
+					$('#content').val("DRIFTING");
+				}
 			},
 
 			editData : function(btn, module, moduleId, readOnly) {
@@ -221,6 +226,17 @@ jQuery
 				else if(module == 'plan'){
 					names = ["#id","#productName","#productAmount","#productType","#customer"];
 					values = [data.id,data.productName,data.productAmount,data.productType,data.customer];
+					
+					var messages = data.messages;
+					if(messages.length > 0){
+						var wf = "";
+						for(var i = 0;i < data.messages.length;i++){
+							wf += "<li>"+messages[i].workflow+"</li> ";
+						}
+						$("#workflow").html(wf);
+						$('#workflow').show();
+					}
+					
 				}
 
 				for(var i=0;i<names.length;i++) {
