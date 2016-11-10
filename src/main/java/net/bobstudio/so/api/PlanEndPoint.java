@@ -22,6 +22,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springside.modules.constants.MediaTypes;
 import org.springside.modules.mapper.BeanMapper;
 
+import com.google.common.collect.Lists;
+
 @RestController
 public class PlanEndPoint {
 
@@ -80,13 +82,23 @@ public class PlanEndPoint {
 		planService.recordProcess(planVo.getContent(),plan);
 
 	}
-	
-	
 
 	// @RequiresPermissions("plan:edit")
 	@RequestMapping(value = "/api/plans/{id}/delete")
 	public void deletePlan(@PathVariable("id") Long id) {
 		planService.deletePlan(id);
+	}
+	
+	@RequestMapping("/api/plans/{planId}/bpmn")
+	public Iterable<MessageVo> view(@PathVariable("planId") Long id) {
+		Plan plan = planService.findOne(id);
+		Iterable<Message> messages = Lists.newArrayList();
+		
+		if(plan != null) {
+			messages = plan.messages;
+		}
+				
+		return BeanMapper.mapList(messages, MessageVo.class);
 	}
 
 }

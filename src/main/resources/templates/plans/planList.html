@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
 <meta charset="utf-8" />
 
@@ -11,15 +11,37 @@
 <!-- link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"
 	href="../../static/font-awesome/css/font-awesome.min.css" / -->
 <style>
+   html, body, #canvas, #canvas1, #canvas2, #bpmnModal,#mainContent{
+      width:95%;
+      height:90%;
+      padding: 0;
+      border: 0; 
+    }
+
 span.error {
 	color: #C00;
 	padding: 0 6px;
 }
+    .diagram-note {
+      background-color: rgba(66, 180, 21, 0.7);
+      color: White;
+      border-radius: 5px;
+      font-family: Arial;
+      font-size: 12px;
+      padding: 5px;
+      min-height: 16px;
+      width: 100px;
+      text-align: center;
+    }
+
+    .needs-discussion:not(.djs-connection) .djs-visual > :nth-child(1) {
+      stroke: rgba(66, 180, 21, 0.7) !important; /* color elements as red */
+    }
 </style>
 </head>
 
 <body>
-	<div class="mainContent">
+	<div class="mainContent" id="mainContent">
 		<!--add plan start-->
 		<div class="modal fade" data-backdrop="false" id="planModal"
 			aria-hidden="true">
@@ -97,18 +119,13 @@ span.error {
         <!--View  BPMN start-->
         <div class="modal fade" data-backdrop="false" id="bpmnModal"
             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal-dialog" id="canvas1">
+                <div class="modal-content" id="canvas2">
                     <div class="alert alert-danger" id="errorTip"
                         style='display: none;' onclick="$(this).hide();">加载失败</div>
                     <div class="modal-body" id="canvas">
-                        
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="dataSave"
-                            onclick="$.dataSave('plan');">
-                            <span>确认</span>
-                        </button>
                         <button type="button" class="btn default" data-dismiss="modal">
                             <span>取消</span>
                         </button>
@@ -207,8 +224,8 @@ span.error {
 	<script src="../../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
 	<script src="../../static/js/dynamictable.js"
 		th:src="@{/js/dynamictable.js}"></script>
-	<script src="../../static/js/workflow.js"
-		th:src="@{/js/workflow.js}"></script>
+    <script src="../../static/js/bpmn-js/bpmn-viewer.js" th:src="@{/js/bpmn-js/bpmn-viewer.js}"></script>
+	<script src="../../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
 
 </body>
 </html>

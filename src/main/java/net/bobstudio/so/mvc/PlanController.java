@@ -35,15 +35,15 @@ public class PlanController {
 		return new ModelAndView("plans/planList","plans", BeanMapper.mapList(plans, PlanVo.class));
 	}
 	
-	@GetMapping("{planId}/bpmn")
-	public ModelAndView view(@PathVariable("planId") Long id) {
-		Plan plan = planService.findOne(id);
-		Iterable<Message> messages = Lists.newArrayList();
-		
-		if(plan != null) {
-			messages = plan.messages;
-		}
-				
-		return new ModelAndView("plans/planBpmn","messages", BeanMapper.mapList(messages, MessageVo.class));
-	}
+//	@GetMapping("{planId}/bpmn")
+//	public ModelAndView view(@PathVariable("planId") Long id) {
+//		Plan plan = planService.findOne(id);
+//		Iterable<Message> messages = Lists.newArrayList();
+//		
+//		if(plan != null) {
+//			messages = plan.messages;
+//		}
+//				
+//		return new ModelAndView("plans/planBpmn","messages", BeanMapper.mapList(messages, MessageVo.class));
+//	}
 }

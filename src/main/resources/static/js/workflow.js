@@ -1,3 +1,5 @@
+var loadBpmn = true;
+
 jQuery
 		.extend({
 			camundaSave : function(module) {
@@ -58,8 +60,21 @@ jQuery
 						});
 			},
 			
-			viewBpmn : function(planId) {
-				window.location.href = $.getRootPath() + "/plans/" + planId + "/bpmn"; 
+            viewBpmn : function(planId) {
+				//var mainUrl = $.getRootPath() + "/plans/" + planId + "/bpmn  .mainContent";
+				//$("#mainView").load(mainUrl);
+				//window.location.href = $.getRootPath() + "/plans/" + planId + "/bpmn"; 
+                if(loadBpmn) {
+                    showBpmn(window.BpmnJS);
+                    loadBpmn = false;
+                }
+                $("#bpmnModal").modal("show");
+                //$('#bpmnModal').modal({backdrop: 'static', keyboard: false});
+			},
+			
+			removeBpmn : function() {
+                $("#canvas").val("");
+                $("#bpmnModal").modal("hide");
 			},
 			
 			auditOrder : function(btn, module, moduleId, readOnly) {
@@ -118,3 +133,57 @@ jQuery
 			}
 
 		});
+
+function showBpmn(BpmnViewer){
+  // create viewer
+  var bpmnViewer = new BpmnViewer({
+    container: '#canvas'
+  });
+
+
+  // import function
+  function importXML(xml) {
+
+    // import diagram
+    bpmnViewer.importXML(xml, function(err) {
+
+      if (err) {
+        return console.error('could not import BPMN 2.0 diagram', err);
+      }
+
+      var canvas = bpmnViewer.get('canvas'),
+          overlays = bpmnViewer.get('overlays');
+
+
+      // zoom to fit full viewport
+      canvas.zoom('fit-viewport');
+
+      // attach an overlay to a node
+      overlays.add('approveOrder', 'note', {
+        position: {
+          bottom: 0,
+          right: 0
+        },
+        html: '<div class="diagram-note">审核人：马飞 <br/>时间：9-10</div>'
+      });
+      overlays.add('StartDraftOrderEvent', 'note', {
+        position: {
+          bottom: 0,
+          right: 0
+        },
+        html: '<div class="diagram-note">拟稿人：小丁</div>'
+      });
+
+      // add marker
+      canvas.addMarker('approveOrder', 'needs-discussion');
+      canvas.addMarker('StartDraftOrderEvent', 'needs-discussion');
+    });
+  }
+
+
+  // load external diagram file via AJAX and import it
+  //$.get('diagram.bpmn', importXML, 'text');
+  $.get('/simple/product-orders.v1.bpmn', importXML, 'text');
+
+
+};

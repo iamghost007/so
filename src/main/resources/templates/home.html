@@ -19,6 +19,33 @@
 <link rel="stylesheet"  th:href="@{/css/zTreeStyle/zTreeStyle.css}" href="../static/css/zTreeStyle/zTreeStyle.css" type="text/css" />
 <style>
 span.error{color:#C00; padding:0 6px;}
+
+   html, body, #canvas, #canvas1, #canvas2, #bpmnModal,#mainContent{
+      width:95%;
+      height:90%;
+      padding: 0;
+      border: 0; 
+    }
+
+span.error {
+	color: #C00;
+	padding: 0 6px;
+}
+    .diagram-note {
+      background-color: rgba(66, 180, 21, 0.7);
+      color: White;
+      border-radius: 5px;
+      font-family: Arial;
+      font-size: 12px;
+      padding: 5px;
+      min-height: 16px;
+      width: 100px;
+      text-align: center;
+    }
+
+    .needs-discussion:not(.djs-connection) .djs-visual > :nth-child(1) {
+      stroke: rgba(66, 180, 21, 0.7) !important; /* color elements as red */
+    }
 </style>
 </head>
 
@@ -91,7 +118,8 @@ span.error{color:#C00; padding:0 6px;}
 	<script src="../static/js/dynamictable.js"	th:src="@{/js/dynamictable.js}"></script>
 	<script src="../static/js/jquery.ztree.core.min.js" th:src="@{/js/jquery.ztree.core.min.js}"></script>
 	<script src="../static/js/jquery.ztree.excheck.min.js" th:src="@{/js/jquery.ztree.excheck.min.js}"></script>
-    <script src="../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
 	<script src="../static/js/myrole.js" th:src="@{/js/myrole.js}"></script>
+    <script src="../../static/js/bpmn-js/bpmn-viewer.js" th:src="@{/js/bpmn-js/bpmn-viewer.js}"></script>
+	<script src="../../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
 </body>
 </html>
