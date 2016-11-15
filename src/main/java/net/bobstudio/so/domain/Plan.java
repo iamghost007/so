@@ -12,8 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import net.bobstudio.so.dto.PlanStatus;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.collect.Lists;
@@ -26,17 +24,33 @@ public class Plan {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
-	public Long productId;
+	@OneToOne
+	@JoinColumn(name="productId")
+	public Product product;
 
-	public String productName;
+	//public String productName;
 
-	public String productType;
+	//public String productType;
+	
+	//public String productCode;
 	
 	public Double productAmount;
 	
+	public Double realAmount;
+	
+	public Double productLength;
+	
 	public String customer;
 	
+	public String orderType;
+	
+	public String remark;
+	
 	public String status;
+
+	@OneToOne
+	@JoinColumn(name="salesman")
+	public Account salesman;
 	
 	@OneToOne
 	@JoinColumn(name="sponsor")

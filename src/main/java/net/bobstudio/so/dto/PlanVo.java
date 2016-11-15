@@ -8,19 +8,25 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class PlanVo {
 	private Long id;
 	
-	private Long productId;
-
-	private String productName;
-
-	private String productType;
+	private ProductVo product;
 
 	private Double productAmount;
 
+	private Double realAmount;
+	
+	private Double productLenth;
+
 	private String customer;
+	
+	private OrderType orderType;
+	
+	private String remark;
 	
 	private PlanStatus status;
 	
 	private AccountVo sponsor;
+	
+	private AccountVo salesman;
 	
 	private Date orderDate;
 	
@@ -31,68 +37,68 @@ public class PlanVo {
 	public PlanVo() {
 	}
 
-	public Long getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Long productId) {
-		this.productId = productId;
-	}
-
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getProductName() {
-		return productName;
+	public ProductVo getProduct() {
+		return product;
 	}
 
-
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProduct(ProductVo product) {
+		this.product = product;
 	}
-
-
-	public String getProductType() {
-		return productType;
-	}
-
-
-	public void setProductType(String productType) {
-		this.productType = productType;
-	}
-
 
 	public Double getProductAmount() {
 		return productAmount;
 	}
 
-
 	public void setProductAmount(Double productAmount) {
 		this.productAmount = productAmount;
 	}
 
+	public Double getRealAmount() {
+		return realAmount;
+	}
+
+	public void setRealAmount(Double realAmount) {
+		this.realAmount = realAmount;
+	}
+
+	public Double getProductLenth() {
+		return productLenth;
+	}
+
+	public void setProductLenth(Double productLenth) {
+		this.productLenth = productLenth;
+	}
 
 	public String getCustomer() {
 		return customer;
 	}
 
-
 	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
 
-	public Date getOrderDate() {
-		return orderDate;
+	public OrderType getOrderType() {
+		return orderType;
 	}
 
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
+	public void setOrderType(OrderType orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public PlanStatus getStatus() {
@@ -103,10 +109,6 @@ public class PlanVo {
 		this.status = status;
 	}
 
-	public String getStatus_cn() {
-		return status != null ? status.getDescription() : "";
-	}
-
 	public AccountVo getSponsor() {
 		return sponsor;
 	}
@@ -115,12 +117,20 @@ public class PlanVo {
 		this.sponsor = sponsor;
 	}
 
-	public List<MessageVo> getMessages() {
-		return messages;
+	public AccountVo getSalesman() {
+		return salesman;
 	}
 
-	public void setMessages(List<MessageVo> messages) {
-		this.messages = messages;
+	public void setSalesman(AccountVo salesman) {
+		this.salesman = salesman;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
 	}
 
 	public String getContent() {
@@ -129,6 +139,14 @@ public class PlanVo {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public List<MessageVo> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<MessageVo> messages) {
+		this.messages = messages;
 	}
 
 	@Override

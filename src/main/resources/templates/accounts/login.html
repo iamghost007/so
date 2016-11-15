@@ -15,8 +15,8 @@
 </head>
 
 <body>
-	<div class="container">
-
+	<div class="mainContent">
+        <div class="container" >
 		<p th:if="${logerror}" class="alert alert-danger">您登陆的用户名或密码错误，请注意区分大小写</p>
 		<form class="form-signin" role="form"  id="loginForm"
 			th:action="@{/login}" action="/login" method="POST">
@@ -34,7 +34,7 @@
 			<button class="btn btn-lg btn-primary btn-block" type="submit">登
 				陆</button>
 		</form>
-
+        </div>
 	</div>
 	<!-- /container -->
 </body>

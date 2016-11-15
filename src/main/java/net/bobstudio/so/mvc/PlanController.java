@@ -1,22 +1,23 @@
 package net.bobstudio.so.mvc;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
 
-import com.google.common.collect.Lists;
-
-import net.bobstudio.so.domain.Message;
 import net.bobstudio.so.domain.Plan;
-import net.bobstudio.so.dto.MessageVo;
+import net.bobstudio.so.domain.Product;
+import net.bobstudio.so.dto.OrderType;
 import net.bobstudio.so.dto.PlanVo;
+import net.bobstudio.so.dto.ProductVo;
 import net.bobstudio.so.service.PlanService;
+import net.bobstudio.so.service.ProductService;
 
 /**
  * 
@@ -29,9 +30,15 @@ public class PlanController {
 	@Autowired
 	private PlanService planService;
 	
+	private ProductService productService;
+	
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute PlanVo planVo) {
+	public ModelAndView list(@ModelAttribute PlanVo planVo, Model model) {
 		Iterable<Plan> plans = planService.findPlans();
+		model.addAttribute("allOrderType", Arrays.asList(OrderType.SALE,OrderType.PRODUCTION));
+		Iterable<Product> products = productService.findAll();
+		model.addAttribute("products", BeanMapper.mapList(products, ProductVo.class));
+		
 		return new ModelAndView("plans/planList","plans", BeanMapper.mapList(plans, PlanVo.class));
 	}
 	

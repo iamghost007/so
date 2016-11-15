@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import net.bobstudio.so.dto.PlanStatus;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 // JPA实体类的标识
