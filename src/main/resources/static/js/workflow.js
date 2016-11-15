@@ -173,7 +173,7 @@ function showBpmn(BpmnViewer,planId){
 					}
 		
 					for(var i=0;i<data.length;i++){
-						  var rd = new Date(data[i].receiveDate).Format("yyyy-MM-dd hh:mm:ss"); 
+						  var rd = new Date(data[i].receiveDate).Format("yy年MM月dd日hh:mm"); 
 						  overlays.add(data[i].content, 'note', {
 							position: {
 							  bottom: 0,
