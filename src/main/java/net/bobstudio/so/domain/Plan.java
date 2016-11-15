@@ -36,7 +36,7 @@ public class Plan {
 	
 	public Double productAmount;
 	
-	public Double realAmount;
+	public Double realAmount = 0d;
 	
 	public Double productLength;
 	

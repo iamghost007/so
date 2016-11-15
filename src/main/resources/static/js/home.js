@@ -56,9 +56,9 @@ jQuery
 				var pathName = window.document.location.pathname;
 				var pos = curWwwPath.indexOf(pathName);
 				var localhostPath = curWwwPath.substring(0, pos);
-				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				return (localhostPath + projectName);
-				//return localhostPath;
+				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				//return (localhostPath + projectName);
+				return localhostPath;
 			},
 
 			gotoTAB : function(name) {

@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
 
+import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Plan;
 import net.bobstudio.so.domain.Product;
+import net.bobstudio.so.dto.AccountVo;
 import net.bobstudio.so.dto.OrderType;
 import net.bobstudio.so.dto.PlanVo;
 import net.bobstudio.so.dto.ProductVo;
+import net.bobstudio.so.service.AccountService;
 import net.bobstudio.so.service.PlanService;
 import net.bobstudio.so.service.ProductService;
 
@@ -30,14 +33,22 @@ public class PlanController {
 	@Autowired
 	private PlanService planService;
 	
+	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private AccountService accountService;
 	
 	@GetMapping("main")
 	public ModelAndView list(@ModelAttribute PlanVo planVo, Model model) {
 		Iterable<Plan> plans = planService.findPlans();
-		model.addAttribute("allOrderType", Arrays.asList(OrderType.SALE,OrderType.PRODUCTION));
+		model.addAttribute("allOrderType", Arrays.asList(OrderType.values()));
+		
 		Iterable<Product> products = productService.findAll();
 		model.addAttribute("products", BeanMapper.mapList(products, ProductVo.class));
+		
+		Iterable<Account> salesmen = accountService.findAll();
+		model.addAttribute("salesmen", BeanMapper.mapList(salesmen, AccountVo.class));
 		
 		return new ModelAndView("plans/planList","plans", BeanMapper.mapList(plans, PlanVo.class));
 	}

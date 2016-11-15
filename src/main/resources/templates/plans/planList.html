@@ -57,7 +57,7 @@ span.error {
 					<div class="modal-body">
 						<form action="#" id="planForm" method="post" th:object="${planVo}">
 						    <input type="hidden" id="id" name="id" th:field="*{id}"/>
-                            <input type="hidden" id="productId" name="productId" th:field="*{productId}"/>
+                            <input type="hidden" id="productId" name="productId" th:field="*{product.id}"/>
                             <input type="hidden" id="content" name="content" th:field="*{content}"/>
 							<div class="form-body">
 								<div class="row">
@@ -65,9 +65,9 @@ span.error {
 										<label class="col-md-2 control-label"> <span>订单类型</span>
 										</label>
 										<div class="col-md-4">
-											<label th:each="status : ${allStatus}" class="radio inline">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" th:value="${type}" th:field="*{type}" name="type" required="required"/> 
-												<span th:for="${#ids.prev('type')}" th:text="${type.description}">销售</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<label th:each="orderType : ${allOrderType}" class="radio inline">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" th:value="${orderType}" th:field="*{orderType}" name="orderType" required="required"/> 
+												<span th:for="${#ids.prev('orderType')}" th:text="${orderType.description}">销售</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 											</label>
 											<label th:remove="all" class="radio inline">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="type"/> <span>生产</span>
@@ -75,33 +75,27 @@ span.error {
 										</div>
 									</div>
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>产品名称</span>
+										<label class="col-md-2 control-label"> <span>产品</span>
 										</label>
 										<div class="col-md-10">
-											<input type="text" class="form-control" th:field="*{product.name}"
-												placeholder="代码：XX；名称：XX；类型：XX 下拉" id="productName" name="productName" required="required" />
-										</div>
-									</div>
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>产品代号</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" 
-												placeholder="根据产品名称显示" id="productCode" name="productCode" readonly="readonly" />
-										</div>
-										<label class="col-md-2 control-label"> <span>产品类型</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" 
-												placeholder="根据产品名称显示" id="productType" name="productType" readonly="readonly" />
+								            <select th:field="*{product}" th:remove="all-but-first">
+								                <option th:each="product : ${products}"
+								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;名称：'+${product.name}+', &nbsp;&nbsp;&nbsp;类型：'+${product.type}">产品一</option>
+								                <option>产品二</option>
+								                <option>产品三</option>
+								            </select>
 										</div>
 									</div>
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>业务员</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{salesman}"
-												placeholder="业务员" id="salesman" name="salesman" required="required" />
+                                            <select th:field="*{salesman}" th:remove="all-but-first">
+                                                <option th:each="salesman : ${salesmen}"
+                                                        th:value="${salesman.id}" th:text="${salesman.name}">业务员A</option>
+                                                <option>业务员B</option>
+                                                <option>业务员C</option>
+                                            </select>
 										</div>
 										<label class="col-md-2 control-label"> <span>客户</span>
 										</label>
@@ -225,7 +219,7 @@ span.error {
 								<td th:text="${plan.productLength}">100</td>
 								<td th:text="${plan.productAmount}">200</td>
 								<td th:text="${plan.customer}">乐视网</td>
-								<td th:text="${plan.salesman}">马小驹</td>
+								<td th:text="${plan.salesman.name}">马小驹</td>
 								<td th:text="${plan.orderDate}">2016-11-11</td>
                                 <td th:text="${plan.sponsor.name}">Bob</td>
                                 <td th:text="${plan.status_cn}">待审核</td>

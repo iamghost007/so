@@ -20,6 +20,14 @@ public class AccountVo {
 
 	private List<RoleVo> roleList;
 
+	public AccountVo(){
+		//do nothing
+	}
+	
+	public AccountVo(String id){
+		this.id = Long.valueOf(id);
+	}
+	
 	public Long getId() {
 		return id;
 	}

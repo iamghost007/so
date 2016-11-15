@@ -6,30 +6,33 @@ package net.bobstudio.so.dto;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * @author Bob Zhang
- * 2016.9.28
+ * @author Bob Zhang 2016.9.28
  */
 public class ProductVo {
 	private Long id;
 
 	private String code;
-	
+
 	private String name;
-	
+
 	private String standard;
-	
+
 	private String type;
-	
+
 	private Integer numStock;
-	
+
 	private Integer numAlarm;
-	
+
 	private String remark;
-	
+
 	private String status;
 
-	public ProductVo(){
-		//
+	public ProductVo() {
+		// do nothing
+	}
+
+	public ProductVo(String id) {
+		this.id = Long.valueOf(id);
 	}
 
 	public Long getId() {

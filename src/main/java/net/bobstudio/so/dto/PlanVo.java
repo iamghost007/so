@@ -12,9 +12,9 @@ public class PlanVo {
 
 	private Double productAmount;
 
-	private Double realAmount;
+	private Double realAmount = 0d;;
 	
-	private Double productLenth;
+	private Double productLength;
 
 	private String customer;
 	
@@ -69,12 +69,12 @@ public class PlanVo {
 		this.realAmount = realAmount;
 	}
 
-	public Double getProductLenth() {
-		return productLenth;
+	public Double getProductLength() {
+		return productLength;
 	}
 
-	public void setProductLenth(Double productLenth) {
-		this.productLenth = productLenth;
+	public void setProductLength(Double productLength) {
+		this.productLength = productLength;
 	}
 
 	public String getCustomer() {
@@ -147,6 +147,10 @@ public class PlanVo {
 
 	public void setMessages(List<MessageVo> messages) {
 		this.messages = messages;
+	}
+	
+	public String getStatus_cn() {
+		return status != null ? status.getDescription() : "";
 	}
 
 	@Override

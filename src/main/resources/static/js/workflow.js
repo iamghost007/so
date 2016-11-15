@@ -110,8 +110,8 @@ jQuery
 			
 			bindPlanValue : function(module,data,readOnly){
 				var names,values;
-				names = ["#id","#productName","#productAmount","#productType","#customer","#content"];
-				values = [data.id,data.productName,data.productAmount,data.productType,data.customer,data.status];
+				names = ["#id","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
+				values = [data.id,data.salesman.id,data.product.id,data.productAmount,data.productLength,data.customer,data.remark, data.status];
 				
 				var messages = data.messages;
 				if(messages.length > 0){
@@ -124,11 +124,19 @@ jQuery
 				}
 					
 
+				var orderType = (data.orderType == 'SALE') ? "#orderType1" :"#orderType2";
+				$(orderType).attr("checked","checked");
 				for(var i=0;i<names.length;i++) {
 					$(names[i]).val(values[i]);
 					if(i>0){
 						$(names[i]).attr("readonly", readOnly);
 					}
+				}
+				if(readOnly){
+					$("#orderType1").attr("disabled","disabled");
+					$("#orderType2").attr("disabled","disabled");
+					$("#salesman").attr("disabled","disabled");
+					$("#product").attr("disabled","disabled");
 				}
 				
 			}
@@ -203,13 +211,7 @@ function showBpmn(BpmnViewer,planId){
 
 };
 
-// 对Date的扩展，将 Date 转化为指定格式的String
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
-// 例子： 
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-Date.prototype.Format = function (fmt) { //author: meizz 
+Date.prototype.Format = function (fmt) { 
     var o = {
         "M+": this.getMonth() + 1, //月份 
         "d+": this.getDate(), //日 
