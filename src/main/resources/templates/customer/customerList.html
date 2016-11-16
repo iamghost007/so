@@ -22,7 +22,7 @@ span.error {
 
 <body>
 	<div class="mainContent">
-		<!--add user start-->
+		<!--add customer start-->
 		<div class="modal fade" data-backdrop="false" id="accountModal"
 			aria-hidden="true">
 			<div class="modal-dialog">
@@ -39,55 +39,38 @@ span.error {
 							th:object="${accountVo}">
                             <input type="hidden" id="id" name="id" th:field="*{id}" />
                             <input type="hidden" id="update" name="update" th:field="*{update}" />
-                            <div id="roles"><!-- role temporary save area --></div>
-							<div class="form-body">
+  							<div class="form-body">
 								<div class="row">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>工号</span><span
-											class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{code}"
-												placeholder="工号" id="code" name="code" autofocus="autofocus"
-												required="required" />
-										</div>
-										<label class="col-md-2 control-label"> <span>姓名</span><span
+										<label class="col-md-2 control-label"> <span>客户名称</span><span
 											class="required">*</span>
 										</label>
 										<div class="col-md-4">
 											<input type="text" class="form-control" th:field="*{name}"
-												placeholder="姓名" id="name" name="name" required="required" />
+												placeholder="客户名称" id="name" name="name" autofocus="autofocus"
+												required="required" />
+										</div>
+										<label class="col-md-2 control-label"> <span>地址</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{address}"
+												placeholder="地址" id="address" name="address" required="required" />
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>职务</span>
+										<label class="col-md-2 control-label"> <span>联系人</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" id="duty" name="duty"
-												th:field="*{duty}" />
+											<input type="text" class="form-control" id="contacter" name="contacter"
+												th:field="*{contacter}" />
 										</div>
-										<label class="col-md-2 control-label"> <span>手机</span>
+										<label class="col-md-2 control-label"> <span>联系电话</span>
 										</label>
 										<div class="col-md-4">
 											<input type="text" class="form-control" id="phone"
 												name="phone" th:field="*{phone}" data-rule-mobile="true" />
-										</div>
-									</div>
-									<div class="form-group col-md-12" id="pwdLine">
-										<label class="col-md-2 control-label"> <span>密码</span>
-											<span class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="password" class="form-control" id="password"
-												name="password" th:field="*{password}" required="required"
-												autocomplete="off" />
-										</div>
-										<label class="col-md-2 control-label"> <span>密码确认</span>
-										</label>
-										<div class="col-md-4">
-											<input type="password" class="form-control" id="password2"
-												autocomplete="off" required="required" equalTo="#password" />
 										</div>
 									</div>
 									<div class="form-group col-md-12">
@@ -102,19 +85,11 @@ span.error {
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" /> <span>无效</span>
 											</label>
 										</div>
-										<label class="col-md-2 control-label"> <span>E-Mail</span>
+										<label class="col-md-2 control-label"> <span>业务员</span>
 										</label>
 										<div class="col-md-4">
-											<input type="email" class="form-control" id="email"
-												th:field="*{email}" name="email" />
-										</div>
-									</div>
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>家庭住址</span>
-										</label>
-										<div class="col-md-10">
-											<input type="text" class="form-control" id="family_addr"
-												th:field="*{family_addr}" />
+											<input type="text" class="form-control" id="salesman"
+												th:field="*{salesman.name}" name="salesman" />
 										</div>
 									</div>
 									<div class="form-group col-md-12">
@@ -141,51 +116,20 @@ span.error {
 				</div>
 			</div>
 		</div>
-		<!--add user end  -->
+		<!--add customer end  -->
 
-		<!--set role start-->
-		<div class="modal fade" data-backdrop="false" id="setRoleModal"
-			aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title btn grey radius_l">角色</h4>
-					</div>
-					<div class="alert alert-danger" id="errorRoleTip"
-						style='display: none;' onclick="$(this).hide();">错误提示区</div>
-					<div class="modal-body">
-						<ul id="roleTree" class="ztree"></ul>
-						<input type="hidden" class="form-control" id="user_id"
-							name="user_id" />
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary"
-							id="getSelectedRoles" onclick="$.getSelectedRoles();">
-							<span>确认</span>
-						</button>
-						<button type="button" class="btn default" data-dismiss="modal">
-							<span>取消</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--set role end  -->
-
-		<!-- User View Start -->
+		<!-- Customer View Start -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-				<a href="#" onclick="$.newData('account','新增用户');"
-					class="btn blue1 radius_l" id="_add">新增用户</a> <a href="#"
+				<a href="#" onclick="$.newData('account','新增客户');"
+					class="btn blue1 radius_l" id="_add">新增客户</a> <a href="#"
 					class="btn blue1 radius_l" onclick="$.loadFunction('/accounts');">刷新</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#accountPage"
-					onclick="$.gotoTAB('用户');">用户管理</a></li>
-				<li><a href="#rolePage" onclick="$.gotoTAB('角色');">角色管理</a></li>
+					onclick="$.gotoTAB('客户');">客户管理</a></li>
+				<li><a href="#rolePage" onclick="$.gotoTAB('供应商');">供应商管理</a></li>
 			</ul>
 
 			<div class="table-responsive tab-content">
@@ -199,12 +143,12 @@ span.error {
 						class="table table-striped table-bordered table-condensed">
 						<thead>
 							<tr>
-                                <th>工号</th>
-                                <th>姓名</th>
-								<th>E-mail</th>
-								<th>职务</th>
+                                <th>客户名称</th>
+                                <th>联系人</th>
 								<th>电话</th>
-								<th>角色</th>
+								<th>地址</th>
+								<th>登记日期</th>
+								<th>业务员</th>
 								<th>状态</th>
 								<th>操作</th>
 							</tr>
@@ -247,7 +191,7 @@ span.error {
 
 			</div>
 		</div>
-		<!-- User View End -->
+		<!-- Customer View End -->
 	</div>
 
 	<script src="../../static/js/jquery-1.12.4.min.js"

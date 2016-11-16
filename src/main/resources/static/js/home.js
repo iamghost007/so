@@ -154,6 +154,17 @@ jQuery
 				});
 			},
 
+			newData : function(module,title){
+				$.showModule(module,title);
+				
+				var values = $('#' + module + 'Form').serializeArray();  	
+				for (index = 0; index < values.length; ++index) {  
+					var id = values[index].name;
+					$("#"+id).attr("readonly", false);
+				}  
+
+			},
+			
 			showModule : function(module, title) {
 				$('#errorTip').hide();
 				$('#dataSave').show();
@@ -170,6 +181,7 @@ jQuery
 					$('#wf_node').html("");
 					$('#content').val("DRIFTING");
 				}
+				
 			},
 
 			editData : function(btn, module, moduleId, readOnly) {
