@@ -61,13 +61,15 @@ jQuery
 			},
 			
             viewBpmn : function(planId) {
-				//var mainUrl = $.getRootPath() + "/plans/" + planId + "/bpmn  .mainContent";
-				//$("#mainView").load(mainUrl);
-				//window.location.href = $.getRootPath() + "/plans/" + planId + "/bpmn"; 
+				// var mainUrl = $.getRootPath() + "/plans/" + planId + "/bpmn
+				// .mainContent";
+				// $("#mainView").load(mainUrl);
+				// window.location.href = $.getRootPath() + "/plans/" + planId +
+				// "/bpmn";
 				
                  showBpmn(window.BpmnJS,planId);
                  $("#bpmnModal").modal("show");
-                //$('#bpmnModal').modal({backdrop: 'static', keyboard: false});
+                // $('#bpmnModal').modal({backdrop: 'static', keyboard: false});
 			},
 			
 			removeBpmn : function() {
@@ -92,7 +94,16 @@ jQuery
 			},
 			
 			reviewOrder : function(btn, module, moduleId, readOnly){
-				alert('亲，回退订单暂时不能重新提交，功能正在开发中。。。');
+				$.readPlan(btn,module, moduleId, false);
+
+				var next = "<label class='col-md-2 control-label' id='wf_node_lable'>重校订单</label>";
+				next += "<div class='col-md-10'>";
+				next += "<input type='radio' id=status1 name=status value='APPROVE_ORDER' required='required'/>修改后，重新提交 ";
+				next += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				next += "<input type='radio' id=status2 name=status value='PLAN_OVER'/>不提交，订单作废";
+				next += "</div>";
+				$('#wf_node').html(next);
+				$('#wf_node').show();
 			},
 			
 			planOrder : function(btn, module, moduleId, readOnly){
@@ -139,6 +150,13 @@ jQuery
 					$("#product").attr("disabled","disabled");
 				}
 				
+			},
+			
+			removePlanDisabled : function(){
+				$("#orderType1").attr("disabled",false);
+				$("#orderType2").attr("disabled",false);
+				$("#salesman").attr("disabled",false);
+				$("#product").attr("disabled",false);
 			}
 
 		});
@@ -157,7 +175,7 @@ function showBpmn(BpmnViewer,planId){
     bpmnViewer.importXML(xml, function(err) {
 
       if (err) {
-        //return console.error('could not import BPMN 2.0 diagram', err);
+        // return console.error('could not import BPMN 2.0 diagram', err);
     	  return;
       }
 
@@ -168,7 +186,7 @@ function showBpmn(BpmnViewer,planId){
       // zoom to fit full viewport
       canvas.zoom('fit-viewport');
 
-	  /////////////////////////////////
+	  // ///////////////////////////////
 		var tip = $("#errorTip");
 		var reqUrl = $.getRootPath() + "/api/plans/"+planId+"/bpmn";
 		
@@ -199,27 +217,27 @@ function showBpmn(BpmnViewer,planId){
 					tip.show();
 				});
 			
-	  ////////////////////////////////
+	  // //////////////////////////////
 
     });
   }
 
 
   // load external diagram file via AJAX and import it
-  //$.get('diagram.bpmn', importXML, 'text');
+  // $.get('diagram.bpmn', importXML, 'text');
   $.get($.getRootPath()+'/simple/product-orders.v1.bpmn', importXML, 'text');
 
 };
 
 Date.prototype.Format = function (fmt) { 
     var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
+        "M+": this.getMonth() + 1, // 月份
+        "d+": this.getDate(), // 日
+        "h+": this.getHours(), // 小时
+        "m+": this.getMinutes(), // 分
+        "s+": this.getSeconds(), // 秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+        "S": this.getMilliseconds() // 毫秒
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o)

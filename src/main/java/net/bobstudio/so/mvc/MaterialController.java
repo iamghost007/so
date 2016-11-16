@@ -2,6 +2,7 @@ package net.bobstudio.so.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springside.modules.mapper.BeanMapper;
 
 import net.bobstudio.so.domain.Material;
 import net.bobstudio.so.dto.MaterialVo;
+import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.MaterialService;
 
 /**
@@ -22,8 +24,10 @@ public class MaterialController {
 	private MaterialService materialService;
 
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute MaterialVo materialVo) {
+	public ModelAndView list(@ModelAttribute MaterialVo materialVo, Model model) {
 		Iterable<Material> materials = materialService.findAll();
+		model.addAttribute("allStatus", Status.values());
+
 		return new ModelAndView("products/materialsList", "materials",
 				BeanMapper.mapList(materials, MaterialVo.class));
 	}

@@ -9,10 +9,12 @@ import net.bobstudio.so.domain.ProductOutstock;
 import net.bobstudio.so.dto.ProductInstockVo;
 import net.bobstudio.so.dto.ProductOutstockVo;
 import net.bobstudio.so.dto.ProductVo;
+import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +33,9 @@ public class ProductController {
 	private ProductService productService;
 	
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute ProductVo productVo) {
+	public ModelAndView list(@ModelAttribute ProductVo productVo, Model model) {
 		Iterable<Product> products = productService.findAll();
+		model.addAttribute("allStatus", Status.values());
 		
 		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products, ProductVo.class));
 	}

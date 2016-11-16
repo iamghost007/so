@@ -49,8 +49,11 @@ public class PlanEndPoint {
 	public PlanVo createPlan(@RequestBody PlanVo planVo, UriComponentsBuilder uriBuilder) {
 		Plan plan = BeanMapper.map(planVo, Plan.class);
 		plan.sponsor = getCurrentAccount();
-		if (plan.id == null) {
-			plan.status = PlanStatus.APPROVE_ORDER.toString();
+		//if (plan.id == null) {
+		if(PlanStatus.DRIFTING.toString().equals(planVo.getContent()) || PlanStatus.REVIEW_ORDER.toString().equals(planVo.getContent())){
+			if(plan.id == null) {
+				plan.status = PlanStatus.APPROVE_ORDER.toString();
+			}
 			planService.savePlan(plan);
 		}
 		else {

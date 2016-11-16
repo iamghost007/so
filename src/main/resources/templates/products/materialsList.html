@@ -26,7 +26,7 @@ span.error {
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title  btn grey radius_l">新增原材料</h4>
+						<h4 class="modal-title btn grey radius_l" id="currentTitle">当前操作--新增</h4>
 					</div>
 					<div th:if="${editMaterialError}" class="alert alert-danger">错误提示区</div>
 					<form  id="materialForm" th:action="@{/materials/create}" method="post"	th:object="${materialVo}">
@@ -34,6 +34,13 @@ span.error {
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>编码</span>
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" th:field="*{code}" name="code" id="code" 
+												required="required" placeholder="原料编码" />
+										</div>
 										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
 										</label>
@@ -50,6 +57,12 @@ span.error {
 											<input type="text" id="standard" name="standard"  class="form-control"
 												th:field="*{standard}" />
 										</div>
+										<label class="col-md-2 control-label"> <span>规格编码</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" id="gbCode" name="gbCode"  class="form-control"
+												th:field="*{gbCode}" />
+										</div>
 									</div>
 
 									<div class="form-group col-md-12">
@@ -60,10 +73,29 @@ span.error {
 												th:field="*{numAlarm}" required="required"
 												placeholder="库存告警阈值" />
 										</div>
+										<label class="col-md-2 control-label"> <span>库存值</span> <span class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="number" id="numStock" name="numStock" class="form-control"
+												th:field="*{numStock}" required="required"
+												placeholder="库存告警阈值" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>状态</span>
+										</label>
+										<div class="col-md-4">
+											<label th:each="status : ${allStatus}" class="radio inline">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" th:value="${status}" th:field="*{status}" required="required"/> 
+												<span th:for="${#ids.prev('status')}" th:text="${status.description}">有效</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											</label>
+											<label th:remove="all" class="radio inline">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" /> <span>无效</span>
+											</label>
+										</div>
 									</div>
 									<div class="form-group col-md-12" >
-										<label class="col-md-2 control-label"> <span
-											id="remark">原料描述</span>
+										<label class="col-md-2 control-label"> <span>原料描述</span>
 										</label>
 										<div class="col-md-10">
 											<textarea class="form-control" id="remark" name="remark" th:field="*{remark}"
@@ -93,13 +125,13 @@ span.error {
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-				<a href="#materialModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增原料</a> <a href="#"
+				<!-- a href="#materialModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增原料</a --> <a href="#"
 					class="btn blue1 radius_l" onclick="$.loadFunction('/materials');">刷新</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#materialPage" onclick="$.gotoTAB('产品');">原料信息</a></li>
-				<li><a href="#mateInstockPage"  onclick="$.gotoTAB();">入库原料</a></li>
-				<li><a href="#mateOutstockPage" onclick="$.gotoTAB('图纸';">出库原料</a></li>
+				<!-- li><a href="#mateInstockPage"  onclick="$.gotoTAB();">入库原料</a></li>
+				<li><a href="#mateOutstockPage" onclick="$.gotoTAB('图纸';">出库原料</a></li -->
 			</ul>
 			<div class="table-responsive tab-content">
 			  <div class="tab-pane" id="mateInstockPage">
@@ -115,10 +147,13 @@ span.error {
 				<table id="materialTable" class="table table-striped " >
 					<thead>
 						<tr>
+							<th>编码</th>
 							<th>名称</th>
 							<th>规格</th>
+							<th>规格编码</th>
 							<th>库存量</th>
 							<th>告警阈值</th>
+							<th>状态</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -127,16 +162,21 @@ span.error {
 							<td colspan="6">没有记录</td>
 						</tr>
 						<tr th:each="material : ${materials}">
+							<td th:text="${material.code}">CT</td>
 							<td th:text="${material.name}">抽屉</td>
-							<td th:text="${material.standard}">30*40cm</td>
+							<td th:text="${material.standard}">钢带25*65</td>
+							<td th:text="${material.gbCode}">14h</td>
 							<td th:text="${material.numStock}">1000</td>
 							<td th:text="${material.numAlarm}">800</td>
+							<td th:text="${material.status}">有效</td>
 							<td>
-								<button type="button" class="btn btn-sm btn-info">查看</button>
-								<button type="button" class="btn btn-sm btn-warning">修改</button>
+								<button type="button" class="btn btn-sm btn-info"
+										onclick="$.editData(this, 'material','1',true);"
+										th:onclick="'javascript:$.editData(this, \'material\',\''+${material.id}+'\',true);'">查看</button>
+								<button type="button" class="btn btn-sm btn-warning" style='display: none;'>修改</button>
 								<button type="button" class="btn btn-sm btn-danger"
 										onclick="$.dataDelete(this,'material','1');"
-										th:onclick="'javascript:$.dataDelete(this, \'material\',\''+${material.id}+'\');'">删除</button>
+										th:onclick="'javascript:$.dataDelete(this, \'material\',\''+${material.id}+'\');'" style='display: none;'>删除</button>
 							</td>
 						</tr>
 					</tbody>

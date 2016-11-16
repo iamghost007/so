@@ -4,12 +4,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class MaterialVo {
 	private Long id;
-
-	private String status;
 	
+	private String code;
+
 	private String name;
 	
 	private String standard;
+
+	private String gbCode;
 	
 	private Integer numStock; // 库存量
 
@@ -17,6 +19,8 @@ public class MaterialVo {
 	
 	private String remark;
 
+	private String status;
+	
 	public MaterialVo() {
 		// do nothing;
 	}
@@ -75,6 +79,22 @@ public class MaterialVo {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getGbCode() {
+		return gbCode;
+	}
+
+	public void setGbCode(String gbCode) {
+		this.gbCode = gbCode;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override

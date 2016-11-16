@@ -15,15 +15,16 @@ public class Material {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-//
-//	@Column(name = "mate_code")
-//	public String code;
+
+	public String code;
 	
 	@Column(name = "mate_name")
 	public String name;
 	
 	@Column(name = "mate_gb_standard")
 	public String standard;
+	
+	public String gbCode;
 	
 	@Column(name = "mate_num_stock")
 	public Integer numStock; // 库存量

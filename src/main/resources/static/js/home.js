@@ -154,12 +154,27 @@ jQuery
 				});
 			},
 
+			newData : function(module,title){
+				$.showModule(module,title);
+				
+				var values = $('#' + module + 'Form').serializeArray();  	
+				for (index = 0; index < values.length; ++index) {  
+					var id = values[index].name;
+					$("#"+id).attr("readonly", false);
+				}  
+
+			},
+			
 			showModule : function(module, title) {
+				$("#status1").attr("checked", false);
+				$("#status2").attr("checked", false);
+
 				$('#errorTip').hide();
 				$('#dataSave').show();
 				$('#currentTitle').html(title);
 				$('#' + module + "Form")[0].reset();
 				$('#id').val("");
+
 				$('#' + module + 'Modal').modal('show');
 				
 				if(module == 'account'){
@@ -170,6 +185,7 @@ jQuery
 					$('#wf_node').html("");
 					$('#content').val("DRIFTING");
 				}
+				
 			},
 
 			editData : function(btn, module, moduleId, readOnly) {
@@ -209,8 +225,6 @@ jQuery
 					values =[data.id, data.code, data.name, data.duty, data.phone, data.email, data.family_addr, data.remark,data.password];
 
 					$('#pwdLine').hide();
-					var status = (data.status == '有效') ? "#status1" :"#status2";
-					$(status).attr("checked","checked");
 					$("#update").val(true);
 					
 					var rList = data.roleList;
@@ -238,6 +252,25 @@ jQuery
 					}
 					
 				}
+				else if(module == 'customer') {
+					names=["#id","#name","#address","#contacter","#phone","#remark","#salesman"];
+					values=[data.id, data.name, data.address,data.contacter,data.phone,data.remark,data.salesman.name];
+				}
+				else if(module == 'supplier') {
+					names=["#id","#code","#name","#address","#contacter","#phone","#remark","#salesman"];
+					values=[data.id, data.code, data.name, data.address,data.contacter,data.phone,data.remark,data.salesman.name];
+				}
+				else if(module == 'product') {
+					names=["#id","#code","#name","#standard","#type","#numStock","#numAlarm","#remark"];
+					values=[data.id, data.code, data.name, data.standard,data.type,data.numStock,data.numAlarm, data.remark];
+				}
+				else if(module == 'material') {
+					names=["#id","#code","#name","#standard","#gbCode","#type","#numStock","#numAlarm","#remark"];
+					values=[data.id, data.code, data.name, data.standard,data.gbCode,data.type,data.numStock,data.numAlarm,data.remark];
+				}
+				
+				var status = (data.status == '有效') ? "#status1" :"#status2";
+				$(status).attr("checked","checked");
 
 				for(var i=0;i<names.length;i++) {
 					$(names[i]).val(values[i]);

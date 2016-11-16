@@ -173,7 +173,7 @@ span.error {
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
 			    <shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.showModule('plan','新增计划');" class="btn blue1 radius_l"
+				<a href="#" onclick="$.newData('plan','新增计划');$.removePlanDisabled();" class="btn blue1 radius_l"
 					id="_add">新增计划</a> 
 				</shiro:hasPermission>
 				<a href="#" class="btn blue1 radius_l"
@@ -231,7 +231,7 @@ span.error {
                                         th:onclick="'javascript:$.auditOrder(this, \'plan\',\''+${plan.id}+'\',true);'">审核</button>
                                     </span>    
                                     <span th:if="${#strings.equals(plan.status, 'REVIEW_ORDER')}">
-                                    <button type="button" class="btn btn-sm btn-warning" onclick="$.reviewOrder(this, 'plan','1',true);"
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="$.reviewOrder(this, 'plan','1',false);"
                                         th:onclick="'javascript:$.reviewOrder(this, \'plan\',\''+${plan.id}+'\',true);'">重拟</button>
                                     </span>    
                                     <span th:if="${#strings.equals(plan.status, 'TO_PRODUCT')}">
