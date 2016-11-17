@@ -11,10 +11,7 @@ import org.springside.modules.mapper.BeanMapper;
 
 import net.bobstudio.so.domain.Customer;
 import net.bobstudio.so.dto.CustomerVo;
-<<<<<<< HEAD
 import net.bobstudio.so.dto.Status;
-=======
->>>>>>> 8b855269d39a12fec31b6d5442d7fca84c6c9b13
 import net.bobstudio.so.service.CustomerService;
 
 /**
