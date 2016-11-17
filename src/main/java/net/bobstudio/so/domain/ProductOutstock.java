@@ -1,13 +1,9 @@
-/**
- * 
- */
 package net.bobstudio.so.domain;
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,9 +24,6 @@ public class ProductOutstock {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-//	@Column(name="pos_code")
-//	public String code;
-	
 	@ManyToOne
 	@JoinColumn(name = "prod_ID")
 	public Product product;
@@ -44,7 +37,6 @@ public class ProductOutstock {
 	@Column(name="pos_count")
 	public Integer numStock;
 	
-	@Column(name="pos_date")
 	public Date posDate;	//出库时间
 	
 	public String remark;
@@ -52,17 +44,18 @@ public class ProductOutstock {
 	@Column(name="pos_receipt")
 	public String receipt;	//出库单据号
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="pos_em_id")
 	public Account outstocker;	//出库人
 	
-	@OneToOne 
+	@ManyToOne 
 	@JoinColumn(name="pos_salesperson_id")
 	public Account salesman;	//业务员
 	
-	//`pos_customer_id`
+	@ManyToOne 
+	@JoinColumn(name="pos_customer_id")
+	public Customer customer;
 	
-
 	public ProductOutstock(){
 		//
 	}

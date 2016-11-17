@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.bobstudio.so.service;
 
 import net.bobstudio.so.domain.Product;
@@ -94,7 +91,7 @@ public class ProductService {
 	
 	@Transactional
 	public void deleteProdOutstock(Long id){
-		prodInstockDao.delete(id);
+		prodOutstockDao.delete(id);
 	}
 
 }

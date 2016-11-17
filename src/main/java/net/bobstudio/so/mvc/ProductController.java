@@ -54,17 +54,4 @@ public class ProductController {
 		return new ModelAndView("products/prodOutstocksList", "prodOutstocks", BeanMapper.mapList(prodOutstocks, ProductOutstockVo.class));
 	}
 	
-//	@PostMapping("create")
-//	public ModelAndView create(@Valid ProductVo productVo, BindingResult result,
-//	        RedirectAttributes redirect) {
-//		if (result.hasErrors()) {
-//			return new ModelAndView("products/main#addProduct", "formErrors", result.getAllErrors());
-//		}
-//		redirect.addFlashAttribute("globalProduct", "Successfully created a new product");
-//		
-//		Product product = BeanMapper.map(productVo, Product.class);
-//		productService.saveProduct(product);
-//		return list(new ProductVo());
-//	}
-
 }

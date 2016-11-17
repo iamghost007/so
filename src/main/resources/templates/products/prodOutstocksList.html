@@ -17,36 +17,42 @@
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
 			<ul class="nav-tabs nav" id="tabs">
-				<li class="active"><a href="#outstockPage" onclick="$.gotoTAB();">出库产品</a></li>
-				<li><a href="#mateOutstockPage"  onclick="$.gotoTAB();">出库原料</a></li>
+				<li class="active"><a href="#outstockPage" onclick="$.loadFunction('/products/outstocks');">出库产品</a></li>
+				<li><a href="#mateOutstockPage"  onclick="$.loadFunction('/materials/outstocks');">出库原料</a></li>
 			</ul>
 			<div class="table-responsive tab-content">
 			  <div class="tab-pane active" id="outstockPage">
 			  	<input type="hidden" value="1" id="outstockFlag"/>
-				<table class="table table-striped " >
+				<table class="table table-striped table-bordered " >
 					<thead>
 						<tr>
-							<th>名称</th>
+							<th>产品名称</th>
 							<th>规格</th>
+							<th>产品条码</th>
+							<th>出库单据</th>
 							<th>出库数量</th>
 							<th>出库人</th>
 							<th>出库时间</th>
-							<th>操作</th>
+							<th>业务员</th>
+							<th>客户</th>
+							<th>说明</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:if="${prodOutstocks.empty}">
-							<td colspan="6">没有记录</td>
+							<td colspan="10">没有记录</td>
 						</tr>
 						<tr th:each="outstock : ${prodOutstocks}">
 							<td th:text="${outstock.product.name}">冰箱</td>
 							<td th:text="${outstock.standard}">350L</td>
+							<td th:text="${outstock.barcode}">LZ22334444201611</td>
+							<td th:text="${outstock.receipt}">单据</td>
 							<td th:text="${outstock.numStock}">1000</td>
-							<td >Bob</td>
-							<td th:text="${outstock.pisDate}">2016-10-10 10:10</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-info">查看</button>
-							</td>
+							<td th:text="${outstock.outstocker.name}">路人甲</td>
+							<td th:text="${outstock.posDate}">2011-11-11</td>
+							<td th:text="${outstock.salesman.name}">业务员甲</td>
+							<td th:text="${outstock.customer.name}">金主</td>
+							<td th:text="${outstock.remark}">这里是说明</td>
 						</tr>
 					</tbody>
 				</table>

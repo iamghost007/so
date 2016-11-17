@@ -13,24 +13,24 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class ProductInstockVo {
 	private Long id;
-
-	//public String code;
 	
 	private ProductVo product;
 	
 	private String standard;
 	
-	private String barcode;
+	private String barcode;		//'产品条码'
 	
-	private Integer numStock;
+	private Integer numStock;	//'入库数量'
 	
-	private Date pisDate;
+	private Date pisDate;		//'入库时间'
 	
 	private String remark;
 	
-	private String receipt;
+	private String receipt;		//'入库单据号'
 	
 	private Double cost;
+	
+	private AccountVo instocker;	//入库人
 
 	public ProductInstockVo(){
 		//
@@ -106,6 +106,14 @@ public class ProductInstockVo {
 
 	public void setCost(Double cost) {
 		this.cost = cost;
+	}
+
+	public AccountVo getInstocker() {
+		return instocker;
+	}
+
+	public void setInstocker(AccountVo instocker) {
+		this.instocker = instocker;
 	}
 
 	@Override

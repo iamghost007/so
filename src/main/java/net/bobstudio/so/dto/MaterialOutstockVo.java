@@ -4,30 +4,32 @@ import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class ProductOutstockVo {
+/**
+ * @author Bob Zhang
+ * 2016.9.28
+ */
+public class MaterialOutstockVo {
 	private Long id;
 
-	private ProductVo product;
+	private MaterialVo material;
 	
 	private String standard;
 	
 	private String barcode;
 	
-	private Integer numStock;
+	private Integer numStock;		//出库数量
 	
-	private Date posDate;	//出库时间
+	private Date mosDate;		//'出库时间'
 	
-	private String remark;
-	
-	private String receipt;	//出库单据号
+	private AccountVo consumer;	//'领用人'
 	
 	private AccountVo outstocker;	//出库人
 	
-	private AccountVo salesman;	//业务员
+	private String receipt;
 	
-	private CustomerVo customer;
-	
-	public ProductOutstockVo(){
+	private String remark;
+
+	public MaterialOutstockVo(){
 		//
 	}
 
@@ -37,14 +39,6 @@ public class ProductOutstockVo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public ProductVo getProduct() {
-		return product;
-	}
-
-	public void setProduct(ProductVo product) {
-		this.product = product;
 	}
 
 	public String getStandard() {
@@ -71,20 +65,12 @@ public class ProductOutstockVo {
 		this.numStock = numStock;
 	}
 
-	public Date getPosDate() {
-		return posDate;
+	public Date getMosDate() {
+		return mosDate;
 	}
 
-	public void setPosDate(Date posDate) {
-		this.posDate = posDate;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setMosDate(Date mosDate) {
+		this.mosDate = mosDate;
 	}
 
 	public String getReceipt() {
@@ -95,6 +81,22 @@ public class ProductOutstockVo {
 		this.receipt = receipt;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public MaterialVo getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(MaterialVo material) {
+		this.material = material;
+	}
+
 	public AccountVo getOutstocker() {
 		return outstocker;
 	}
@@ -103,20 +105,12 @@ public class ProductOutstockVo {
 		this.outstocker = outstocker;
 	}
 
-	public AccountVo getSalesman() {
-		return salesman;
+	public AccountVo getConsumer() {
+		return consumer;
 	}
 
-	public void setSalesman(AccountVo salesman) {
-		this.salesman = salesman;
-	}
-
-	public CustomerVo getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(CustomerVo customer) {
-		this.customer = customer;
+	public void setConsumer(AccountVo consumer) {
+		this.consumer = consumer;
 	}
 
 	@Override

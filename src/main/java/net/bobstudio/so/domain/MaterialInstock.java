@@ -18,41 +18,50 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 2016.9.28
  */
 @Entity
-@Table(name = "t_prod_instock_info")
-public class ProductInstock {
+@Table(name = "t_mate_instock_info")
+public class MaterialInstock {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "prod_id")
-	public Product product;
+	@JoinColumn(name = "mate_id")
+	public Material material;
 	
 	@Column(name="gb_standard")
 	public String standard;
 	
-	@Column(name="prod_barcode")
+	@Column(name="mate_barcode")
 	public String barcode;
 	
-	@Column(name="pis_count")
+	@Column(name="mis_count")
 	public Integer numStock;
 	
-	@Column(name="pis_date")
-	public Date pisDate;
+	public Date misDate;		//'入库时间'
+	
+	public Date purchaseDatetime;	//'进货日期'
 	
 	@ManyToOne
-	@JoinColumn(name="pis_em_id")
+	@JoinColumn(name="purchase_em_id")
+	public Account purchase;	//进货人
+	
+	@ManyToOne
+	@JoinColumn(name="mis_em_id")
 	public Account instocker;	//入库人
 	
-	@Column(name="pis_receipt")
+	@Column(name="mis_receipt")
 	public String receipt;
 	
-	@Column(name="prod_cost")
+	@Column(name="mate_price")
 	public Double cost;
+	
+	@ManyToOne
+	@JoinColumn(name="mate_supplier_id") 
+	public Supplier supplier;
 	
 	public String remark;
 
-	public ProductInstock(){
+	public MaterialInstock(){
 		//
 	}
 

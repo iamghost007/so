@@ -10,7 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
 
 import net.bobstudio.so.domain.Material;
+import net.bobstudio.so.domain.MaterialInstock;
+import net.bobstudio.so.domain.MaterialOutstock;
 import net.bobstudio.so.dto.MaterialVo;
+import net.bobstudio.so.dto.MaterialInstockVo;
+import net.bobstudio.so.dto.MaterialOutstockVo;
 import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.MaterialService;
 
@@ -32,16 +36,18 @@ public class MaterialController {
 				BeanMapper.mapList(materials, MaterialVo.class));
 	}
 
-//	@PostMapping("create")
-//	public ModelAndView create(@Valid MaterialVo materialVo, BindingResult result, RedirectAttributes redirect) {
-//		if (result.hasErrors()) {
-//			return new ModelAndView("materials/main#addProduct", "formErrors", result.getAllErrors());
-//		}
-//		redirect.addFlashAttribute("globalMaterial", "Successfully created a new material");
-//
-//		Material material = BeanMapper.map(materialVo, Material.class);
-//		materialService.saveMaterial(material);
-//		return list(new MaterialVo());
-//	}
+	@GetMapping("/instocks/main")
+	public ModelAndView listInstock() {
+		Iterable<MaterialInstock> mateInstocks = materialService.findAllInstock();
+		
+		return new ModelAndView("products/mateInstocksList", "mateInstocks", BeanMapper.mapList(mateInstocks, MaterialInstockVo.class));
+	}
+	
+	@GetMapping("/outstocks/main")
+	public ModelAndView listOutstock() {
+		Iterable<MaterialOutstock> mateOutstocks = materialService.findAllOutstock();
+		
+		return new ModelAndView("products/mateOutstocksList", "mateOutstocks", BeanMapper.mapList(mateOutstocks, MaterialOutstockVo.class));
+	}
 
 }
