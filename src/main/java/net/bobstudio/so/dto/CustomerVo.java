@@ -51,12 +51,21 @@ public class CustomerVo {
 		this.address = address;
 	}
 
+<<<<<<< HEAD
 	public Date getEnabledDate() {
 		return enabledDate;
 	}
 
 	public void setEnabledDate(Date enabledDate) {
 		this.enabledDate = enabledDate;
+=======
+	public Date getEnableDate() {
+		return enableDate;
+	}
+
+	public void setEnableDate(Date enableDate) {
+		this.enableDate = enableDate;
+>>>>>>> 8b855269d39a12fec31b6d5442d7fca84c6c9b13
 	}
 
 	public String getContacter() {
