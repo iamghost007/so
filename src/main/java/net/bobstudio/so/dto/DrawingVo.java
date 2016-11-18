@@ -17,8 +17,12 @@ public class DrawingVo {
 	private Date date;
 
 	private String remark;
-	
+
+	private ProductVo product;
+
 	private String status;
+
+	private byte [] drwImg;
 
 	public Long getId() {
 		return id;
@@ -66,6 +70,22 @@ public class DrawingVo {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public ProductVo getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductVo product) {
+		this.product = product;
+	}
+
+	public byte[] getDrwImg() {
+		return drwImg;
+	}
+
+	public void setDrwImg(byte [] drwImg) {
+		this.drwImg = drwImg;
 	}
 
 	@Override

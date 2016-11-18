@@ -2,12 +2,15 @@ package net.bobstudio.so.domain;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,9 +24,6 @@ public class Drawing {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-//	@Column(name = "drw_code")
-//	public String code;
-
 	@Column(name = "drw_name")
 	public String name;
 
@@ -34,11 +34,16 @@ public class Drawing {
 	@Column(name = "drw_date")
 	public Date date;
 
-//	@ManyToOne
-//	@JoinColumn(name = "drw_prod_id")
-//	public Product product;
+	@OneToOne
+	@JoinColumn(name = "prod_id")
+	public Product product;
 
 	public String remark;
 	
 	public String status;
+	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "drw_img", columnDefinition = "BLOB",nullable=true)
+	public byte [] drwImg;
 }

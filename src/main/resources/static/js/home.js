@@ -282,6 +282,35 @@ jQuery
 				if(readOnly){
 					$('#dataSave').hide();
 				}
+			},
+			
+			showDrawingImage : function(drawingId) {
+				var module = "drawing";
+				$('#' + module + 'Modal').modal('show');
+				var reqUrl = $.getRootPath() + "/api/" + module + "s/" + drawingId;
+
+				$.sendAjaxReq("GET", reqUrl, "", function(data, textStatus) {
+					if(data.length<1){
+						tip.text('对不起，不能发现对应的记录!');
+						tip.show();
+						$('#dataSave').hide();
+					}
+					
+					$("#name").html(data.name);
+					$("#designer").html(data.designer.name);
+					$("#date").html(new Date(data.date).Format("yy年MM月dd日hh:mm"));
+					$("#remark").html(data.remark);
+					
+			        var result = document.getElementById("drwImg");
+			        var type="image/jpeg";
+			        var src = "data:" + type + ";base64," + data.drwImg;
+			        result.innerHTML = '<img src ="'+src+'"/>';
+				
+				}, function(textStatus) {
+					tip.text('对不起，不能发现对应的记录!');
+					tip.show();
+					$('#dataSave').hide();
+				});
 			}
 
 		});
@@ -304,3 +333,19 @@ function insertTable(module, content) {
 
 	addTr(tab, 0, trHtml);
 }
+
+Date.prototype.Format = function (fmt) { 
+    var o = {
+        "M+": this.getMonth() + 1, // 月份
+        "d+": this.getDate(), // 日
+        "h+": this.getHours(), // 小时
+        "m+": this.getMinutes(), // 分
+        "s+": this.getSeconds(), // 秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+        "S": this.getMilliseconds() // 毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};

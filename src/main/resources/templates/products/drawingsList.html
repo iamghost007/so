@@ -26,56 +26,30 @@ span.error {
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title  btn grey radius_l">新增图纸</h4>
+						<h4 class="modal-title  btn grey radius_l">查看图纸</h4>
 					</div>
 					<div class="alert alert-danger" id="errorTip"
 						style='display: none;' onclick="$(this).hide();">错误提示区</div>
-					<form id="drawingForm" action="" method="post"
-						th:object="${drawingVo}">
 						<div class="modal-body">
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>名称</span>
-											<span class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" id="name" class="form-control" name="name"
-												th:field="*{name}" required="required" placeholder="图纸名称" />
+										<div class="col-md-12" >
+										  名称：<span id="name">冰棒箱设计图</span>，
+										  设计师：<span id="designer">小丁</span>，
+										  出图日期：<span id="date">2019-11-12</span><br />
+										 图纸说明：<span id="remark">这里是描述，很长很长的描述。。。。。。。。。。。。。</span>
 										</div>
-									</div>
-
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>设计师</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" id="designer"
-												name="designer"  />
-										</div>
-									</div>
-
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>图纸描述</span>
-										</label>
-										<div class="col-md-10">
-											<textarea class="form-control" id="remark"
-												th:field="*{remark}" name="remark" placeholder="图纸描述"
-												rows="5"></textarea>
-										</div>
+										<div class="col-md-12" id="drwImg"></div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-primary" id="dataSave"
-								onclick="$.dataSave('drawing');">
-								<span>确认</span>
-							</button>
 							<button type="button" class="btn default" data-dismiss="modal">
 								<span>取消</span>
 							</button>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -113,26 +87,25 @@ span.error {
 								<th>设计师</th>
 								<th>出图日期</th>
 								<th>相关产品</th>
-								<th>备注</th>
+                                <th>状态</th>
+                                <th>备注</th>
 								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:if="${drawings.empty}">
-								<td colspan="6">没有记录</td>
+								<td colspan="7">没有记录</td>
 							</tr>
 							<tr th:each="drawing : ${drawings}">
 								<td th:text="${drawing.name}">冰箱设计图</td>
 								<td th:text="${drawing.designer.name}">Bob</td>
 								<td th:text="${drawing.date}">2016-10-10</td>
-								<td>双门冰箱</td>
+                                <td th:text="${drawing.product.name}">双门冰箱</td>
+                                <td th:text="${drawing.status}">有效</td>
 								<td th:text="${drawing.remark}">用于双门冰箱设计</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info">查看</button>
-									<button type="button" class="btn btn-sm btn-warning" style='display: none;'>修改</button>
-									<button type="button" class="btn btn-sm btn-danger"
-										onclick="$.dataDelete(this,'drawing','1');"
-										th:onclick="'javascript:$.dataDelete(this, \'drawing\',\''+${drawing.id}+'\');'" style='display: none;'>删除</button>
+									<button type="button" class="btn btn-sm btn-info" onclick="$.showDrawingImage('1');"
+                                        th:onclick="'javascript:$.showDrawingImage(\''+${drawing.id}+'\');'">查看图纸</button>
 								</td>
 							</tr>
 						</tbody>
@@ -148,7 +121,7 @@ span.error {
 		th:src="@{/js/jquery-1.12.4.min.js}"></script>
 	<script src="../../static/js/jquery-validation/js/jquery.validate.js"
 		th:src="@{/js/jquery-validation/js/jquery.validate.js}"></script>
-	<script src="../../static/js/myvalidate.js" th:src="@{/myvalidate.js}"></script>
+	<script src="../../static/js/myvalidate.js" th:src="@{/js/myvalidate.js}"></script>
 	<script src="../../static/js/bootstrap.min.js"
 		th:src="@{/js/bootstrap.min.js}"></script>
 	<script src="../../static/js/home.js" th:src="@{/js/home.js}"></script>
