@@ -214,19 +214,17 @@ jQuery
 					}
 				}
 				if(readOnly){
-					$("#orderType1").attr("disabled","disabled");
-					$("#orderType2").attr("disabled","disabled");
-					$("#salesman").attr("disabled","disabled");
-					$("#product").attr("disabled","disabled");
+					$.setPlanDisabled("disabled");
 				}
 				
 			},
 			
-			removePlanDisabled : function(){
-				$("#orderType1").attr("disabled",false);
-				$("#orderType2").attr("disabled",false);
-				$("#salesman").attr("disabled",false);
-				$("#product").attr("disabled",false);
+			setPlanDisabled : function(isDisabled){
+				$("#orderType1").attr("disabled",isDisabled);
+				$("#orderType2").attr("disabled",isDisabled);
+				$("#salesman").attr("disabled",isDisabled);
+				$("#product").attr("disabled",isDisabled);
+				$("#customer").attr("disabled",isDisabled);
 			}
 
 		});

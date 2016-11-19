@@ -188,7 +188,7 @@ span.error {
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
 			    <shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.newData('plan','新增订单');$.removePlanDisabled();" class="btn blue1 radius_l"
+				<a href="#" onclick="$.newData('plan','新增订单');$.setPlanDisabled(false);" class="btn blue1 radius_l"
 					id="_add">新增订单</a> 
 				</shiro:hasPermission>
 				<a href="#" class="btn blue1 radius_l"
