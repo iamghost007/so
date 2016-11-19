@@ -192,7 +192,11 @@ jQuery
 			bindPlanValue : function(module,data,readOnly){
 				var names,values;
 				names = ["#id","#name","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
+<<<<<<< HEAD
 				values = [data.id,data.name,data.salesman.id,data.product.id,data.productAmount,data.productLength,data.customer.id,data.remark, data.status];
+=======
+				values = [data.id,data.name,data.salesman.id,data.product.id,data.productAmount,data.productLength,data.customer,data.remark, data.status];
+>>>>>>> c9966f6ff0473f96af77e88c599b6c73efba96c5
 				
 				var messages = data.messages;
 				if(messages.length > 0){
