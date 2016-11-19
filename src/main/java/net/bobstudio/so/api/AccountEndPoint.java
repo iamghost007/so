@@ -14,7 +14,6 @@ import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +51,10 @@ public class AccountEndPoint {
 	//@RequiresPermissions("account:edit")
 	@RequestMapping(value = "/api/accounts/create", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
 	public AccountVo createAccount(@RequestBody AccountVo accountVo) {
+		if(accountVo.getId() == null && accountService.existsByCode(accountVo.getCode())){
+			throw new ServiceException("Had existed account code::"+accountVo.getCode(), ErrorCode.ACCOUNT_CODE_DUPLICATION);
+		}
+		
 		Account account = BeanMapper.map(accountVo, Account.class);
 		accountService.saveAccount(account, accountVo.getUpdate());
 
@@ -81,16 +84,14 @@ public class AccountEndPoint {
 	}
 
 	@RequestMapping(value = "/api/accounts/login", produces = MediaTypes.JSON_UTF_8)
-	public Map<String, String> login(@RequestParam("code") String code,
-	        @RequestParam("password") String password) {
+	public Map<String, String> loginWithStock(@RequestParam("code") String code,
+	        @RequestParam("password") String password, @RequestParam("right") String right) {
 
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(password)) {
 			throw new ServiceException("User code or password empty", ErrorCode.BAD_REQUEST);
 		}
 		
-		//TODO rest远程校验登陆与身份合法性，仅支持仓储身份
-
-		String token = accountService.login(code, password);
+		String token = accountService.loginWithStock(code, password, right);
 
 		return Collections.singletonMap("token", token);
 	}

@@ -26,7 +26,7 @@
       <conditionExpression xsi:type="tFormalExpression">${clarified}</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sequenceFlow_180" isImmediate="true" sourceRef="APPROVE_ORDER" targetRef="order_is_approved" />
-    <sequenceFlow id="SequenceFlow_0hm5uwp" sourceRef="PULL_PRODUCT" targetRef="orderFinished" />
+    <sequenceFlow id="SequenceFlow_0hm5uwp" sourceRef="PULL_PRODUCT" targetRef="PLAN_OVER" />
     <sequenceFlow id="SequenceFlow_3" name="" sourceRef="PUSH_PRODUCT" targetRef="PULL_PRODUCT" />
     <sequenceFlow id="SequenceFlow_1imjp93" name="否" sourceRef="order_is_maken" targetRef="PULL_PRODUCT">
       <conditionExpression xsi:type="tFormalExpression">${!maken}</conditionExpression>
@@ -91,7 +91,7 @@
       <incoming>SequenceFlow_1imjp93</incoming>
       <outgoing>SequenceFlow_0hm5uwp</outgoing>
     </task>
-    <endEvent id="orderFinished" name="完成订单">
+    <endEvent id="PLAN_OVER" name="完成订单">
       <incoming>SequenceFlow_0hm5uwp</incoming>
     </endEvent>
     <userTask id="REVIEW_ORDER" name="重新校验订单" camunda:formKey="embedded:app:so/review-order.html" camunda:assignee="demo" camunda:dueDate="${dateTime().plusDays(2).toDate()}">
@@ -160,7 +160,7 @@
       <bpmndi:BPMNShape id="zberweisung_vorbereiten_169_gui" bpmnElement="PULL_MATERIAL" isHorizontal="true">
         <omgdc:Bounds x="511" y="384" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Rechnungseingang_abgearbeitet_174_gui" bpmnElement="orderFinished" isHorizontal="true">
+      <bpmndi:BPMNShape id="Rechnungseingang_abgearbeitet_174_gui" bpmnElement="PLAN_OVER" isHorizontal="true">
         <omgdc:Bounds x="999" y="410" width="28" height="28" />
         <bpmndi:BPMNLabel>
           <omgdc:Bounds x="992" y="443" width="44" height="12" />

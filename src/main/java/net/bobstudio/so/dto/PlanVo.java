@@ -8,6 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class PlanVo {
 	private Long id;
 	
+	private String name;
+	
 	private ProductVo product;
 
 	private Double productAmount;
@@ -16,7 +18,7 @@ public class PlanVo {
 	
 	private Double productLength;
 
-	private String customer;
+	private CustomerVo customer;
 	
 	private OrderType orderType;
 	
@@ -77,18 +79,18 @@ public class PlanVo {
 		this.productLength = productLength;
 	}
 
-	public String getCustomer() {
+	public CustomerVo getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(String customer) {
+	public void setCustomer(CustomerVo customer) {
 		this.customer = customer;
 	}
 
 	public OrderType getOrderType() {
 		return orderType;
 	}
-
+	
 	public void setOrderType(OrderType orderType) {
 		this.orderType = orderType;
 	}
@@ -151,6 +153,18 @@ public class PlanVo {
 	
 	public String getStatus_cn() {
 		return status != null ? status.getDescription() : "";
+	}
+	
+	public String getOrderType_cn(){
+		return orderType != null ? orderType.getDescription() : "";
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

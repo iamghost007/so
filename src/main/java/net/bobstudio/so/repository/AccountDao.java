@@ -19,8 +19,13 @@ public interface AccountDao extends CrudRepository<Account, Long> {
 	
 	Account findByCode(String code);
 	
+	Iterable<Account> findAllByStatus(String status);
 	@Modifying
 	@Query("delete from Account  where id=?1")
 	void deleteAccount(Long id);
+
+	@Query("select count(1) from Account where code=?1")
+	int existsByCode(String code);
+	
 
 }

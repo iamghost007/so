@@ -65,10 +65,11 @@ public class ShiroConfiguration {
 		
 		Map<String, String> filterChainDefinitions = new LinkedHashMap<String, String>();
 		filterChainDefinitions.put("/", "anon");
-		filterChainDefinitions.put("/logout", "logout");
-		filterChainDefinitions.put("/login", "authc");
 		filterChainDefinitions.put("/js/**", "anon");
 		filterChainDefinitions.put("/css/**", "anon");
+		filterChainDefinitions.put("/api/accounts/login", "anon");
+		filterChainDefinitions.put("/logout", "logout");
+		filterChainDefinitions.put("/login", "authc");
 		filterChainDefinitions.put("/error/**", "anon");
 		filterChainDefinitions.put("/accounts/**", "perms[account:view]");
 		filterChainDefinitions.put("/roles/**", "perms[account:view]");

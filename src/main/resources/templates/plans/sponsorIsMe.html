@@ -182,74 +182,27 @@ span.error {
             </div>
         </div>
         <!--View  BPMN  end  -->
-		<!--batch to product start-->
-		<div class="modal fade" data-backdrop="false" id="batchModal"
-			aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title btn grey radius_l" >当前操作--批量转产</h4>
-					</div>
-					<div class="alert alert-danger" id="errorBatchTip"
-						style='display: none;' onclick="$(this).hide();">错误提示区</div>
-					<div class="modal-body">
-						<form action="#" id="batchForm" method="post" >
-                            <input type="hidden" id="currentContent" name="content" value="TO_PRODUCT"/>
-								<div class="row">
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>订单名称</span>
-										</label>
-										<div class="col-md-10"  id="orderList">
-						                    <label><input name='planIds' type='checkbox' value="1" required="required" />订单一</label><br />
-						                    <label><input name='planIds' type='checkbox' value="2" />订单二</label>
-						                </div>
-									</div>
-									<div class="form-group col-md-12" >
-										<label class='col-md-2 control-label' id='wf_node_lable'>计划生产</label>
-										<div class='col-md-10'>
-										<input type='radio' id='status3' name='status' value='PULL_MATERIAL' required='required'/>组织生产，生成原料出库单 
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<input type='radio' id='status4' name='status' value='PULL_PRODUCT'/>现货供应，生成产品出库单	
-										</div>
-									</div>
-								</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="batchSave"
-							onclick="$.batchSave();">
-							<span>确认</span>
-						</button>
-						<button type="button" class="btn default" data-dismiss="modal">
-							<span>取消</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--batch to product end  -->
 
 		<!-- plan View Start -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
 			    <shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.batchToProduct();" class="btn blue1 radius_l"
-					id="_add">批量转产</a> 
+				<a href="#" onclick="$.newData('plan','新增订单');$.removePlanDisabled();" class="btn blue1 radius_l"
+					id="_add">新增订单</a> 
 				</shiro:hasPermission>
-				<a href="#" class="btn blue1 radius_l"	onclick="$.loadFunction('/plans');">刷新</a>
+				<a href="#" class="btn blue1 radius_l"
+					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
-				<li><a href="#sponsorIsMePage" onclick="$.loadFunction('/plans', '/sponsor_is_me');">由我发起</a></li>
-				<li class="active"><a href="#processorIsMePage"
+				<li class="active"><a href="#sponsorIsMePage" onclick="$.loadFunction('/plans','/sponsor_is_me');">由我发起</a></li>
+				<li><a href="#processorIsMePage"
 					onclick="$.loadFunction('/plans');">待我处理</a></li>
 			</ul>
 
 			<div class="table-responsive tab-content">
-				<div class="tab-pane active" id="processorIsMePage">
-					<input type="hidden" value="1" id="processorIsMeFlag" />
+				<div class="tab-pane active" id="sponsorIsMePage">
+					<input type="hidden" value="1" id="sponsorIsMeFlag" />
 					<div style="height: 1px;"></div>
 					<div id="globalTip" class="alert alert-success"
 						style='display: none;' th:text="${globalTip}"
@@ -274,7 +227,7 @@ span.error {
 								<td colspan="10">没有记录</td>
 							</tr>
 							<tr th:each="plan : ${plans}">
-								<td th:text="${plan.name}">订单A</td>
+								<td th:text="${plan.name}">BX</td>
 								<td th:text="${plan.product.name}">冰箱</td>
 								<td th:text="${plan.productLength}">100</td>
 								<td th:text="${plan.productAmount}">200</td>
@@ -286,31 +239,17 @@ span.error {
 								<td>
                                     <button type="button" class="btn btn-sm btn-info" onclick="$.viewBpmn('1');"
                                         th:onclick="'javascript:$.viewBpmn(\''+${plan.id}+'\');'">查看</button>
-                                    <shiro:hasPermission name="plan:audit">
-                                    <span th:if="${#strings.equals(plan.status, 'APPROVE_ORDER')}">
-                                    <button type="button" class="btn btn-sm btn-warning" onclick="$.auditOrder(this, 'plan','1',true);"
-                                        th:onclick="'javascript:$.auditOrder(this, \'plan\',\''+${plan.id}+'\',true);'">审核</button>
-                                    </span>    
-                                    </shiro:hasPermission>
                                     <span th:if="${#strings.equals(plan.status, 'REVIEW_ORDER')}">
                                     <button type="button" class="btn btn-sm btn-warning" onclick="$.reviewOrder(this, 'plan','1',false);"
                                         th:onclick="'javascript:$.reviewOrder(this, \'plan\',\''+${plan.id}+'\',true);'">重拟</button>
-                                    </span>   
-                                    <shiro:hasPermission name="plan:plan"> 
-                                    <span th:if="${#strings.equals(plan.status, 'TO_PRODUCT')}">
-									<button type="button" class="btn btn-sm btn-warning" onclick="$.planOrder(this, 'plan','1',true);"
-                                        th:onclick="'javascript:$.planOrder(this, \'plan\',\''+${plan.id}+'\',true);'">转产</button>
-                                    </span>
-									<button type="button" class="btn btn-sm btn-warning" onclick="$.overOrder(this, 'plan','1',true);"
-                                        th:onclick="'javascript:$.overOrder(this, \'plan\',\''+${plan.id}+'\',true);'">终止</button>
-                                    </shiro:hasPermission>
+                                    </span>    
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div class="tab-pane" id="sponsorIsMePage">
-					<input type="hidden" value="0" id="sponsorIsMeFlag" />
+				<div class="tab-pane" id="processorIsMePage">
+					<input type="hidden" value="0" id="processorIsMeFlag" />
 				</div>
 
 			</div>
@@ -326,6 +265,7 @@ span.error {
 	<script src="../../static/js/bootstrap.min.js"
 		th:src="@{/js/bootstrap.min.js}"></script>
 	<script src="../../static/js/home.js" th:src="@{/js/home.js}"></script>
+	<script src="../../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
 	<script src="../../static/js/dynamictable.js"
 		th:src="@{/js/dynamictable.js}"></script>
     <script src="../../static/js/bpmn-js/bpmn-viewer.js" th:src="@{/js/bpmn-js/bpmn-viewer.js}"></script>

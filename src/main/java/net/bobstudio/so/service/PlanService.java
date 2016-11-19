@@ -1,5 +1,6 @@
 package net.bobstudio.so.service;
 
+import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Message;
 import net.bobstudio.so.domain.Plan;
 import net.bobstudio.so.repository.MessageDao;
@@ -21,7 +22,12 @@ public class PlanService {
 
 	@Transactional(readOnly = true)
 	public Iterable<Plan> findPlansBySponsor(Long sponsorId) {
-		return planDao.findAllBySponsor(sponsorId);
+		return planDao.findAllBySponsor(new Account(sponsorId));
+	}
+
+	@Transactional(readOnly = true)
+	public Iterable<Plan> findAllInProcessing() {
+		return planDao.findAllInProcessing();
 	}
 
 	@Transactional(readOnly = true)
@@ -64,6 +70,7 @@ public class PlanService {
 
 		messageDao.save(msg);
 	}
+
 
 //	 @Transactional
 //	 public Iterable<Message> findMessagesByPlan(Long id) {
