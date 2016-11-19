@@ -4,12 +4,17 @@ import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Message;
 import net.bobstudio.so.domain.Plan;
 import net.bobstudio.so.dto.MessageVo;
+import net.bobstudio.so.dto.PlanBatchToProduct;
 import net.bobstudio.so.dto.PlanStatus;
 import net.bobstudio.so.dto.PlanVo;
 import net.bobstudio.so.service.AccountService;
 import net.bobstudio.so.service.PlanService;
 import net.bobstudio.so.service.exception.ErrorCode;
 import net.bobstudio.so.service.exception.ServiceException;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -36,9 +41,10 @@ public class PlanEndPoint {
 	@RequestMapping(value = "/api/plans/{id}", produces = MediaTypes.JSON_UTF_8)
 	public PlanVo getOnePlan(@PathVariable("id") Long id, Model model) {
 		Plan plan = planService.findOne(id);
-		
-//		Iterable<Message> messages = planService.findMessagesByLink(plan);
-//		model.addAttribute("messages", BeanMapper.mapList(messages,MessageVo.class));
+
+		// Iterable<Message> messages = planService.findMessagesByLink(plan);
+		// model.addAttribute("messages",
+		// BeanMapper.mapList(messages,MessageVo.class));
 
 		PlanVo pvo = BeanMapper.map(plan, PlanVo.class);
 		return pvo;
@@ -49,40 +55,41 @@ public class PlanEndPoint {
 	public PlanVo createPlan(@RequestBody PlanVo planVo, UriComponentsBuilder uriBuilder) {
 		Plan plan = BeanMapper.map(planVo, Plan.class);
 		plan.sponsor = getCurrentAccount();
-		//if (plan.id == null) {
-		if(PlanStatus.DRIFTING.toString().equals(planVo.getContent()) || PlanStatus.REVIEW_ORDER.toString().equals(planVo.getContent())){
-			if(plan.id == null) {
+		// 起草或重拟
+		if (PlanStatus.DRIFTING.toString().equals(planVo.getContent())
+				|| PlanStatus.REVIEW_ORDER.toString().equals(planVo.getContent())) {
+			if (plan.id == null) {
 				plan.status = PlanStatus.APPROVE_ORDER.toString();
 			}
 			planService.savePlan(plan);
-		}
-		else {
+		} else {
 			planService.workflow(plan);
 		}
 
-
-		planService.recordProcess(planVo.getContent(),plan);
+		planService.recordProcess(planVo.getContent(), plan);
 
 		return BeanMapper.map(plan, PlanVo.class);
 	}
-	
-	private Account getCurrentAccount(){
+
+	private Account getCurrentAccount() {
 		Long accountId = accountService.getCurrentUserId();
 		if (accountId == -1L) {
-			throw new ServiceException("User had session out. Please login again. ",
-			        ErrorCode.NO_TOKEN);
+			throw new ServiceException("User had session out. Please login again. ", ErrorCode.NO_TOKEN);
 		}
 		return new Account(accountId);
-		
+
 	}
-	
-	@RequestMapping(value = "/api/plans/workflow", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
-	public void workflow(@RequestBody PlanVo planVo) {
-		Plan plan = BeanMapper.map(planVo, Plan.class);
 
-		planService.workflow(plan);
+	@RequestMapping(value = "/api/plans/save/batch_to_product", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	public void workflow(@RequestBody PlanBatchToProduct batch) {
 
-		planService.recordProcess(planVo.getContent(),plan);
+		for (String id : batch.getPlanIds()) {
+			String [] ids = id.split(",");
+			Plan plan = new Plan(Long.valueOf(ids[0]), batch.getStatus());
+			plan.sponsor = new Account(Long.valueOf(ids[1]));
+			planService.workflow(plan);
+			planService.recordProcess(batch.getContent(), plan);
+		}
 
 	}
 
@@ -91,16 +98,30 @@ public class PlanEndPoint {
 	public void deletePlan(@PathVariable("id") Long id) {
 		planService.deletePlan(id);
 	}
-	
+
+	@RequestMapping("/api/plans/batch_to_product")
+	public Iterable<PlanVo> batchToProduct() {
+		Iterable<Plan> plans = planService.findPlansByStatus(PlanStatus.TO_PRODUCT.toString());
+
+		return BeanMapper.mapList(plans, PlanVo.class);
+	}
+
 	@RequestMapping("/api/plans/{planId}/bpmn")
 	public Iterable<MessageVo> view(@PathVariable("planId") Long id) {
 		Plan plan = planService.findOne(id);
-		Iterable<Message> messages = Lists.newArrayList();
-		
-		if(plan != null) {
+		List<Message> messages = Lists.newArrayList();
+
+		if (plan != null) {
 			messages = plan.messages;
+			Collections.sort(messages, new Comparator<Message>() {
+				@Override
+				public int compare(Message m1, Message m2) {
+
+					return m2.receiveDate.compareTo(m1.receiveDate);
+				}
+			});
 		}
-				
+
 		return BeanMapper.mapList(messages, MessageVo.class);
 	}
 

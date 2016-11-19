@@ -54,30 +54,40 @@ public class AccountService {
 
 	@PostConstruct
 	public void init() {
-		loginUsers = CacheBuilder.newBuilder().maximumSize(1000)
-		        .expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS).build();
+		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
+				.build();
 	}
 
 	@Transactional(readOnly = true)
-	public String login(String code, String password) {
+	public String loginWithStock(String code, String password, String right) {
 		Account account = accountDao.findByCode(code);
 
-		/*
-		 * if (account == null) { throw new ServiceException("User not exist",
-		 * ErrorCode.UNAUTHORIZED); }
-		 * 
-		 * if (!account.hashPassword.equals(hashPassword(password))) { throw new
-		 * ServiceException("Password wrong", ErrorCode.UNAUTHORIZED); }
-		 */
+		if (account == null) {
+			throw new ServiceException("User not exist", ErrorCode.FORBIDDEN);
+		}
 
-		if (account == null || !account.password.equals(hashPassword(password))) {
-			return null;
+		if (!account.password.equals(hashPassword(password)) || !hasRight(account, right)) {
+			throw new ServiceException("Wrong password or right", ErrorCode.UNAUTHORIZED);
 		}
 
 		String token = Ids.uuid2();
 		loginUsers.put(token, account);
 		counterService.increment("loginUser");
 		return token;
+	}
+
+	private boolean hasRight(Account account, String right) {
+		if(!"stock:edit".equals(right)) {
+			return false;
+		}
+		
+		for (Role role : account.roleList) {
+			if (role.priv.indexOf(right) != -1) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void logout(String token) {
@@ -119,6 +129,11 @@ public class AccountService {
 	public Iterable<Account> findAll() {
 		return accountDao.findAll();
 	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Account> findAllByStatus(String enableStatus) {
+		return accountDao.findAllByStatus(enableStatus);
+	}
 
 	@Transactional
 	public void saveAccount(Account account, Boolean update) {
@@ -127,7 +142,7 @@ public class AccountService {
 		}
 		if (!update) { // 密码单独修改，不随对象变化
 			account.password = hashPassword(account.password);
-		} else if(account.roleList != null){
+		} else if (account.roleList != null) {
 			List<Role> roles = account.roleList;
 			for (Role role : roles) { // delete remain role;
 				if (role.id < 0) {
@@ -139,6 +154,10 @@ public class AccountService {
 
 		accountDao.save(account);
 
+	}
+	
+	public boolean existsByCode(String code){
+		return accountDao.existsByCode(code) > 0;
 	}
 
 	@Transactional(readOnly = true)
@@ -152,9 +171,9 @@ public class AccountService {
 	@Transactional(readOnly = true)
 	public Account findUserByLoginName(String code) {
 		Account account = accountDao.findByCode(code);
-//		if (account != null) {
-//			Hibernate.initialize(account.roleList);
-//		}
+		// if (account != null) {
+		// Hibernate.initialize(account.roleList);
+		// }
 		return account;
 	}
 
@@ -180,12 +199,13 @@ public class AccountService {
 	 */
 	public String getCurrentUserName() {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		return user==null ? "未登陆" : user.name;
+		return user == null ? "未登陆" : user.name;
 	}
-	
+
 	public Long getCurrentUserId() {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		return user==null ? -1L : user.id;
+		return user == null ? -1L : user.id;
 	}
+
 
 }

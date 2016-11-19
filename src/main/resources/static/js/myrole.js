@@ -89,7 +89,7 @@ jQuery.extend({
 			{ id:'role:view', pId:'role', name:"查询"},
 			{ id:'role:edit', pId:'role', name:"编辑"},
 			{ id:'plan', pId:'root', name:"生产计划"},
-			{ id:'plan:view', pId:'plan', name:"查询所有计划"},
+			{ id:'plan:view', pId:'plan', name:"查询计划"},
 			{ id:'plan:create', pId:'plan', name:"创建订单"},
 			{ id:'plan:audit', pId:'plan', name:"审核订单"},
 			{ id:'plan:plan', pId:'plan', name:"订单转生产"},

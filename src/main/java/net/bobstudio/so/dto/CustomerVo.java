@@ -26,6 +26,10 @@ public class CustomerVo {
 	public CustomerVo() {
 
 	}
+	
+	public CustomerVo(String id){
+		this.id = Long.valueOf(id);
+	}
 
 	public Long getId() {
 		return id;

@@ -27,6 +27,11 @@ public class ProductService {
 	public Iterable<Product> findAll() {
 		return productDao.findAll();
 	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Product> findAllByStatus(String enableStatus) {
+		return productDao.findAllByStatus(enableStatus);
+	}
 
 	@Transactional
 	public void saveProduct(Product product) {

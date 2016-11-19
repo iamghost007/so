@@ -85,9 +85,9 @@ jQuery
 				
 				var next = "<label class='col-md-2 control-label' id='wf_node_lable'>审核订单</label>";
 				next += "<div class='col-md-10'>";
-				next += "<input type='radio' id=status1 name=status value='TO_PRODUCT' required='required'/>审核通过 ";
+				next += "<input type='radio' id='status1' name='status' value='TO_PRODUCT' required='required'/>审核通过 ";
 				next += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				next += "<input type='radio' id=status2 name=status value='REVIEW_ORDER'/>订单退回";
+				next += "<input type='radio' id='status2' name='status' value='REVIEW_ORDER'/>订单退回";
 				next += "</div>";
 				$('#wf_node').html(next);
 				$('#wf_node').show();
@@ -98,9 +98,9 @@ jQuery
 
 				var next = "<label class='col-md-2 control-label' id='wf_node_lable'>重校订单</label>";
 				next += "<div class='col-md-10'>";
-				next += "<input type='radio' id=status1 name=status value='APPROVE_ORDER' required='required'/>修改后，重新提交 ";
+				next += "<input type='radio' id='status1' name='status' value='APPROVE_ORDER' required='required'/>修改后，重新提交 ";
 				next += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				next += "<input type='radio' id=status2 name=status value='PLAN_OVER'/>不提交，订单作废";
+				next += "<input type='radio' id='status2' name='status' value='PLAN_OVER'/>不提交，订单作废";
 				next += "</div>";
 				$('#wf_node').html(next);
 				$('#wf_node').show();
@@ -111,18 +111,88 @@ jQuery
 				
 				var next = "<label class='col-md-2 control-label' id='wf_node_lable'>计划生产</label>";
 				next += "<div class='col-md-10'>";
-				next += "<input type='radio' id=status1 name=status value='PULL_MATERIAL' required='required'/>组织生产，生成原料出库单 ";
+				next += "<input type='radio' id='status1' name='status' value='PULL_MATERIAL' required='required'/>组织生产，生成原料出库单 ";
 				next += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				next += "<input type='radio' id=status2 name=status value='PULL_PRODUCT'/>现货供应，生成产品出库单";
+				next += "<input type='radio' id='status2' name='status' value='PULL_PRODUCT'/>现货供应，生成产品出库单";
 				next += "</div>";
 				$('#wf_node').html(next);
 				$('#wf_node').show();
 			},
 			
+			overOrder : function(btn, module, moduleId, readOnly){
+				$.readPlan(btn,module, moduleId, readOnly);
+				
+				var next = "<label class='col-md-2 control-label' id='wf_node_lable'>关闭订单</label>";
+				next += "<div class='col-md-10'>";
+				next += "<input type='radio' id='status1' name='status' value='PLAN_OVER' required='required'/>关闭订单，即使没有全部生产完成。选中表示确认关闭。";
+				next += "</div>";
+				$('#wf_node').html(next);
+				$('#wf_node').show();
+			},
+			
+			batchToProduct : function() {
+				var tip = $("#errorBatchTip");
+				var module = 'plan';
+				var reqUrl = $.getRootPath() + "/api/" + module + "s/batch_to_product";
+
+				$.sendAjaxReq("GET", reqUrl, "", 
+						function(data, textStatus) {
+							$('#orderList').html('');
+							if(data.length<1){
+								tip.text('对不起，不能发现对应的记录!');
+								tip.show();
+								$('#batchSave').hide();
+							}
+							
+							if(data.length > 0){
+			                    var values = "";
+								for(var i = 0; i<data.length; i++) {
+			                    	values += "<label><input name='planIds' type='checkbox' value='"+data[i].id+","+data[i].sponsor.id+"'";
+			                    	if(i==0){
+			                    		values += " required='required' ";
+			                    	}
+			                    	values += ">"+ data[i].name+ " , " + data[i].orderType +" , "+ new Date(data[i].orderDate).Format("yy年MM月dd日hh:mm") +"</label><br/>";
+								}
+								$('#orderList').html(values);
+							}
+							
+						}, function(textStatus) {
+							tip.text('对不起，不能发现对应的记录!');
+							tip.show();
+							$('#dataSave').hide();
+						});
+				
+				$('#batchModal').modal('show');
+
+			},
+			
+			batchSave : function() {
+				var module = "plan";
+				var form = $('#batchForm');
+				if (!form.valid()) {
+					return false;
+				}
+
+				var reqUrl = $.getRootPath() + "/api/" + module + "s/save/batch_to_product";
+				var errorTip = $("#errorTip");
+				var modal = $("#" + module + "Modal");
+
+				var content = form.serializeObject();
+				$.sendAjaxReq("POST", reqUrl, content, function(data,
+						textStatus) {
+					modal.modal('hide');
+					$.loadFunction("/" + module + "s");
+				}, function(xmlhttp) {
+					errorTip.text('添加失败哦! 可能原因：1、您不具有该操作权限； 2、数据格式不对或超长。');
+					errorTip.show();
+				});
+
+			},
+			
 			bindPlanValue : function(module,data,readOnly){
 				var names,values;
-				names = ["#id","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
-				values = [data.id,data.salesman.id,data.product.id,data.productAmount,data.productLength,data.customer,data.remark, data.status];
+				names = ["#id","#name","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
+				values = [data.id,data.name,data.salesman.id,data.product.id,data.productAmount,data.productLength,data.customer.id,data.remark, data.status];
 				
 				var messages = data.messages;
 				if(messages.length > 0){
@@ -211,6 +281,7 @@ function showBpmn(BpmnViewer,planId){
 						  // add marker
 						  canvas.addMarker(data[i].content, 'needs-discussion');
 					}
+					canvas.addMarker(data[0].status, 'currentNode');
 					
 				}, function(textStatus) {
 					tip.text('对不起，不能发现对应的记录!');

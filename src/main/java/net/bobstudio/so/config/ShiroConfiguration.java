@@ -10,6 +10,7 @@ import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import net.bobstudio.so.security.MyFormAuthenticationFilter;
 import net.bobstudio.so.security.ShiroDbRealm;
 
 @Configuration
@@ -61,14 +63,16 @@ public class ShiroConfiguration {
 		LogoutFilter logoutFilter = new LogoutFilter();
 		logoutFilter.setRedirectUrl("/login");
 		filters.put("logout", logoutFilter);
+		filters.put("authc", getFormAuthenticationFilter());
 		shiroFilter.setFilters(filters);
 		
 		Map<String, String> filterChainDefinitions = new LinkedHashMap<String, String>();
 		filterChainDefinitions.put("/", "anon");
-		filterChainDefinitions.put("/logout", "logout");
-		filterChainDefinitions.put("/login", "authc");
 		filterChainDefinitions.put("/js/**", "anon");
 		filterChainDefinitions.put("/css/**", "anon");
+		filterChainDefinitions.put("/api/accounts/login", "anon");
+		filterChainDefinitions.put("/logout", "logout");
+		filterChainDefinitions.put("/login", "authc");
 		filterChainDefinitions.put("/error/**", "anon");
 		filterChainDefinitions.put("/accounts/**", "perms[account:view]");
 		filterChainDefinitions.put("/roles/**", "perms[account:view]");
@@ -120,6 +124,11 @@ public class ShiroConfiguration {
 		mappingExceptionResolver.setExceptionMappings(mappings);
 		
 		return mappingExceptionResolver;
+	}
+	
+	@Bean(name = "myFormAuthenticationFilter") 
+	public FormAuthenticationFilter getFormAuthenticationFilter(){
+		return new MyFormAuthenticationFilter();
 	}
 
 	/**

@@ -24,23 +24,21 @@ public class Plan {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
+	public String name;
+	
 	@OneToOne
 	@JoinColumn(name="productId")
 	public Product product;
 
-	//public String productName;
-
-	//public String productType;
-	
-	//public String productCode;
-	
 	public Double productAmount;
 	
 	public Double realAmount = 0d;
 	
 	public Double productLength;
 	
-	public String customer;
+	@OneToOne
+	@JoinColumn(name="customer")
+	public Customer customer;
 	
 	public String orderType;
 	
@@ -63,6 +61,11 @@ public class Plan {
 
 	public Plan() {
 
+	}
+
+	public Plan(Long id, String status) {
+		this.id = id;
+		this.status = status;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ $(function() {
 	$("#greeting").html(
 			$("#greeting").html() + "&nbsp;&nbsp;" + $.getGreetingTime());
 
-	$.loadFunction("/products");
+	$.loadFunction("/plans");
 
 	$("#tabs a").click(function() {
 		$(this).tab('show');
@@ -28,10 +28,16 @@ $.fn.serializeObject = function() {
 
 jQuery
 		.extend({
-			loadFunction : function(gotoWhere) {
+			loadFunction : function(gotoWhere, second) {
+				if(!second) {
+					second = "/main";
+				}
 				var mainUrl = $.getRootPath() + gotoWhere
-						+ "/main .mainContent";
+						+ second + " .mainContent";
 				$("#mainView").load(mainUrl);
+//				if($("#loginForm")){
+//					window.location.href=$.getRootPath()+"/logout";
+//				}
 			},
 
 			getGreetingTime : function() {
@@ -56,9 +62,9 @@ jQuery
 				var pathName = window.document.location.pathname;
 				var pos = curWwwPath.indexOf(pathName);
 				var localhostPath = curWwwPath.substring(0, pos);
-				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				//return (localhostPath + projectName);
-				return localhostPath;
+				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				return (localhostPath + projectName);
+				//return localhostPath;
 			},
 
 			gotoTAB : function(name) {
@@ -106,8 +112,15 @@ jQuery
 					$.loadFunction("/" + module + "s");
 					// var globalTip = $("#globalTip");
 					// globalTip.show();
-				}, function() {
-					errorTip.text('添加失败哦! 可能原因：1、您不具有该操作权限； 2、数据格式不对或超长。');
+				}, function(xmlhttp) {
+					var response = JSON.parse(xmlhttp.responseText);
+					var ACCOUNT_CODE_DUPLICATION = 803;
+					if(module=="account" && response.code == ACCOUNT_CODE_DUPLICATION){
+						errorTip.text('添加失败哦! 原因：员工的工号已经存在。');
+					}
+					else {
+						errorTip.text('添加失败哦! 可能原因：1、您不具有该操作权限； 2、数据格式不对或超长。');
+					}
 					errorTip.show();
 				});
 
@@ -235,7 +248,7 @@ jQuery
 						}
 						$("#roles").html(roles);
 					}
-
+					
 				}
 				else if(module == 'plan'){
 					names = ["#id","#productName","#productAmount","#productType","#customer"];
@@ -282,6 +295,11 @@ jQuery
 				if(readOnly){
 					$('#dataSave').hide();
 				}
+				
+				if(module == "account") {
+					$("#code").attr("readonly", true);
+				}
+
 			},
 			
 			showDrawingImage : function(drawingId) {

@@ -12,5 +12,7 @@ import org.springframework.data.repository.CrudRepository;
  * 2016年9月29日
  */
 public interface ProductDao extends CrudRepository<Product, Long> {
+	
+	Iterable<Product> findAllByStatus(String status);
 
 }

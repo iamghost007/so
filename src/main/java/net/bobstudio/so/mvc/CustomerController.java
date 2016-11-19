@@ -27,7 +27,7 @@ public class CustomerController {
 	
 	@GetMapping("main")
 	public ModelAndView list(@ModelAttribute CustomerVo customerVo, Model model) {
-		Iterable<Customer> customers = customerService.findCustomers();
+		Iterable<Customer> customers = customerService.findAll();
 		model.addAttribute("allStatus", Status.values());
 			
 		return new ModelAndView("customers/customerList","customers", BeanMapper.mapList(customers, CustomerVo.class));

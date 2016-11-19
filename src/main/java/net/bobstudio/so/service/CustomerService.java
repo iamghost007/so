@@ -13,12 +13,12 @@ public class CustomerService {
 	private CustomerDao customerDao;
 
 	@Transactional(readOnly = true)
-	public Iterable<Customer> findCustomers() {
+	public Iterable<Customer> findAll() {
 		return customerDao.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Iterable<Customer> findCustomersByStatus(String status) {
+	public Iterable<Customer> findAllByStatus(String status) {
 		return customerDao.findAllByStatus(status);
 	}
 

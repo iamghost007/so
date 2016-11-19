@@ -1,7 +1,10 @@
 package net.bobstudio.so.mvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +15,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
 
 import net.bobstudio.so.domain.Account;
+import net.bobstudio.so.domain.Customer;
 import net.bobstudio.so.domain.Plan;
 import net.bobstudio.so.domain.Product;
 import net.bobstudio.so.dto.AccountVo;
 import net.bobstudio.so.dto.OrderType;
 import net.bobstudio.so.dto.PlanVo;
 import net.bobstudio.so.dto.ProductVo;
+import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.AccountService;
+import net.bobstudio.so.service.CustomerService;
 import net.bobstudio.so.service.PlanService;
 import net.bobstudio.so.service.ProductService;
+
+import static net.bobstudio.so.dto.PlanStatus.*;
 
 /**
  * 
@@ -39,29 +47,82 @@ public class PlanController {
 	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
+	private CustomerService customerService;
+	
+	private static final String ENABLE_STATUS = Status.ENABLE.getDescription();
+	
 	@GetMapping("main")
 	public ModelAndView list(@ModelAttribute PlanVo planVo, Model model) {
-		Iterable<Plan> plans = planService.findPlans();
+		
+		Iterable<Plan> plans = filterMine(planService.findAllInProcessing());
 		model.addAttribute("allOrderType", Arrays.asList(OrderType.values()));
 		
-		Iterable<Product> products = productService.findAll();
+		Iterable<Product> products = productService.findAllByStatus(ENABLE_STATUS);
 		model.addAttribute("products", BeanMapper.mapList(products, ProductVo.class));
 		
-		Iterable<Account> salesmen = accountService.findAll();
+		Iterable<Account> salesmen = accountService.findAllByStatus(ENABLE_STATUS);
 		model.addAttribute("salesmen", BeanMapper.mapList(salesmen, AccountVo.class));
+		
+		Iterable<Customer> customers = customerService.findAllByStatus(ENABLE_STATUS);
+		model.addAttribute("customers", BeanMapper.mapList(customers, AccountVo.class));
 		
 		return new ModelAndView("plans/planList","plans", BeanMapper.mapList(plans, PlanVo.class));
 	}
 	
-//	@GetMapping("{planId}/bpmn")
-//	public ModelAndView view(@PathVariable("planId") Long id) {
-//		Plan plan = planService.findOne(id);
-//		Iterable<Message> messages = Lists.newArrayList();
-//		
-//		if(plan != null) {
-//			messages = plan.messages;
-//		}
-//				
-//		return new ModelAndView("plans/planBpmn","messages", BeanMapper.mapList(messages, MessageVo.class));
-//	}
+	private Iterable<Plan> filterMine(Iterable<Plan> plans) {
+		List<Plan> myPlans = new ArrayList<Plan>();
+		for(Plan plan : plans) {
+			if(processorIstMe(plan.status, plan.sponsor.id)) {
+				myPlans.add(plan);
+			}
+				
+		}
+		return myPlans;
+	}
+
+	private boolean processorIstMe(String status, Long sponsorId) {
+		//仓储处理，这里只读
+		if(status.equals(PULL_MATERIAL.toString()) || status.equals(PUSH_PRODUCT.toString()) || status.equals(PULL_PRODUCT.toString())){
+			return true;	
+		}
+		//本人的重拟
+		else if(status.endsWith(REVIEW_ORDER.toString()) && sponsorId == accountService.getCurrentUserId()) {
+			return true;
+		}
+		//有权审核
+		else if (status.endsWith(APPROVE_ORDER.toString())){
+			return SecurityUtils.getSubject().isPermitted("plan:audit");
+		}
+		//有权转产
+		else if(status.endsWith(TO_PRODUCT.toString())) {
+			return SecurityUtils.getSubject().isPermitted("plan:plan");
+		}
+		
+		return false;
+	}
+
+	@GetMapping("sponsor_is_me")
+	public ModelAndView sponsorlist(@ModelAttribute PlanVo planVo, Model model) {
+		Long myid = accountService.getCurrentUserId();
+		if(myid == -1L){ //session过期了
+			return new ModelAndView("plans/sponsorIsMe","plans", null); 
+		}
+		
+		Iterable<Plan> plans = planService.findPlansBySponsor(myid);
+		model.addAttribute("allOrderType", Arrays.asList(OrderType.values()));
+		
+		Iterable<Product> products = productService.findAllByStatus(ENABLE_STATUS);
+		model.addAttribute("products", BeanMapper.mapList(products, ProductVo.class));
+		
+		Iterable<Account> salesmen = accountService.findAllByStatus(ENABLE_STATUS);
+		model.addAttribute("salesmen", BeanMapper.mapList(salesmen, AccountVo.class));
+		
+		
+		Iterable<Customer> customers = customerService.findAllByStatus(ENABLE_STATUS);
+		model.addAttribute("customers", BeanMapper.mapList(customers, AccountVo.class));
+
+		return new ModelAndView("plans/sponsorIsMe","plans", BeanMapper.mapList(plans, PlanVo.class));
+	}
+	
 }
