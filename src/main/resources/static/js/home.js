@@ -34,10 +34,19 @@ jQuery
 				}
 				var mainUrl = $.getRootPath() + gotoWhere
 						+ second + " .mainContent";
-				$("#mainView").load(mainUrl);
+				
+				$("#mainView").load(mainUrl,function(response,status,xhr){
+					if(gotoWhere.indexOf("stocks")>0) {
+						$.showPages();
+					}
+				});
 //				if($("#loginForm")){
 //					window.location.href=$.getRootPath()+"/logout";
 //				}
+			},
+			
+			showPages : function() {
+				alert("test");
 			},
 
 			getGreetingTime : function() {
