@@ -1,6 +1,15 @@
 package net.bobstudio.so.dto;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
 public class PageVo {
+	public static final String PAGE_SIZE= "2";
+
+	private static final int PAGINATION_SIZE  = 5;
+	
 	private int number;
 	
 	private int totalPages;
@@ -9,14 +18,17 @@ public class PageVo {
 	
 	private boolean next;
 	
-	private int pageSize;
+	private String model;
 	
-	public PageVo(int number,int totalPages, boolean previous,boolean next, int pageSize){
-		this.number = number;
-		this.totalPages = totalPages;
-		this.previous = previous;
-		this.next = next;
-		this.pageSize = pageSize;
+	//private int pageSize;
+	
+	public PageVo(String model, Page<?> page){
+		this.model = model;
+		
+		this.number = page.getNumber();
+		this.totalPages = page.getTotalPages();
+		this.previous = page.hasPrevious();
+		this.next = page.hasNext();
 	}
 	
 	public int getNumber() {
@@ -40,42 +52,39 @@ public class PageVo {
 	}
 	
 	public int getBegin() {
-		return Math.max(1, getCurrent() - pageSize/2);
+		return Math.max(1, getCurrent() - PAGINATION_SIZE/2);
 	} 
 	
 	public int getEnd() {
-		return Math.min(getBegin() + (pageSize - 1), getTotalPages());
+		return Math.min(getBegin() + (PAGINATION_SIZE - 1), getTotalPages());
 	}
 
 	public String getContent(){
 		StringBuilder sb = new StringBuilder();
 		if(previous) {
-			//sb.append("<li><a href='?page=1&sortType=${sortType}&${searchParams}'>&lt;&lt;</a></li>");
-            //sb.append("<li><a href='?page=${current-1}&sortType=${sortType}&${searchParams}'>&lt;</a></li>");
-			sb.append("<li><a href='?page=1'>&lt;&lt;</a></li>");
-            sb.append("<li><a href='?page=").append(getCurrent()-1).append("'>&lt;</a></li>");
+			//sb.append("<li><a href='?page=1'>&lt;&lt;</a></li>");
+            //sb.append("<li><a href='?page=").append(getCurrent()-1).append("'>&lt;</a></li>");
+			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=1');\">&lt;&lt;</a></li>");
+            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(getCurrent()-1).append("');\">&lt;</a></li>");
 		}
 		else {
 			sb.append("<li class='disabled'><a href='#'>&lt;&lt;</a></li>");
             sb.append("<li class='disabled'><a href='#'>&lt;</a></li>");
 		}
 		
-		for(int i = getBegin();i<getEnd();i++){
+		for(int i = getBegin();i<=getEnd();i++){
 			if(i == getCurrent()) {
-				//sb.append("<li class='active'><a href='?page=${i}&sortType=${sortType}&${searchParams}'>${i}</a></li>");
-				sb.append("<li class='active'><a href='?page=").append(i).append("'>").append(i).append("</a></li>");
+				sb.append("<li class='active'>");
 			}
 			else {
-				//sb.append("<li><a href='?page=${i}&sortType=${sortType}&${searchParams}'>${i}</a></li>");
-				sb.append("<li><a href='?page=").append(i).append("'>").append(i).append("</a></li>");
+				sb.append("<li>");
 			}
+			sb.append("<a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(i).append("');\">").append(i).append("</a></li>");
 		}
 		
 		if(next) { 
-			//sb.append("<li><a href='?page=${current+1}&sortType=${sortType}&${searchParams}'>&gt;</a></li>");
-			//sb.append("<li><a href='?page=${page.totalPages}&sortType=${sortType}&${searchParams}'>&gt;&gt;</a></li>");
-			sb.append("<li><a href='?page=").append(getCurrent()+1).append("'>&gt;</a></li>");
-			sb.append("<li><a href='?page=").append(totalPages).append("'>&gt;&gt;</a></li>");
+            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(getCurrent()+1).append("');\">&gt;</a></li>");
+            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(totalPages).append("');\">&gt;&gt;</a></li>");
 		}
 		else{
 			sb.append("<li class='disabled'><a href='#'>&gt;</a></li>");
@@ -84,5 +93,19 @@ public class PageVo {
 		
 		return sb.toString();
  	}
+
+	/**
+	 * 创建分页请求.
+	 */
+	public static PageRequest buildPageRequest(int pageNumber, int pagzSize, String sortType) {
+		Sort sort = null;
+		if ("auto".equals(sortType)) {
+			sort = new Sort(Direction.DESC, "id");
+		} else if ("name".equals(sortType)) {
+			sort = new Sort(Direction.ASC, "name");
+		}
+
+		return new PageRequest(pageNumber - 1, pagzSize, sort);
+	}
 
 }

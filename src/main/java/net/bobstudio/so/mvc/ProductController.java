@@ -38,8 +38,6 @@ import com.google.common.collect.Maps;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-	// @Value("${page.size:50}")
-	private static final String PAGE_SIZE = "5";
 
 	private static Map<String, String> sortTypes = Maps.newLinkedHashMap();
 	static {
@@ -60,7 +58,7 @@ public class ProductController {
 
 	@GetMapping("/instocks/main")
 	public ModelAndView listInstock(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
-			@RequestParam(value = "page.size", defaultValue = PAGE_SIZE) int pageSize,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
@@ -69,8 +67,7 @@ public class ProductController {
 		model.addAttribute("sortTypes", sortTypes);
 		Page<ProductInstock> prodInstocks = productService.findAllInstock(searchParams, pageNumber, pageSize, sortType);
 
-		PageVo page = new PageVo(prodInstocks.getNumber(), prodInstocks.getTotalPages(), prodInstocks.hasPrevious(),
-				prodInstocks.hasNext(), Integer.valueOf(PAGE_SIZE));
+		PageVo page = new PageVo("/products/instocks",prodInstocks);
 		model.addAttribute("page", page);
 
 		return new ModelAndView("products/prodInstocksList", "prodInstocks",
@@ -78,11 +75,21 @@ public class ProductController {
 	}
 
 	@GetMapping("/outstocks/main")
-	public ModelAndView listOutstock() {
-		Iterable<ProductOutstock> prodOutstocks = productService.findAllOutstock();
+	public ModelAndView listOutstock(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+
+		model.addAttribute("sortType", sortType);
+		model.addAttribute("sortTypes", sortTypes);
+		Page<ProductOutstock> prodOutstocks = productService.findAllOutstock(searchParams, pageNumber, pageSize, sortType);
+
+		PageVo page = new PageVo("/products/outstocks", prodOutstocks);
+		model.addAttribute("page", page);
 
 		return new ModelAndView("products/prodOutstocksList", "prodOutstocks",
-				BeanMapper.mapList(prodOutstocks, ProductOutstockVo.class));
+				BeanMapper.mapList(prodOutstocks.getContent(), ProductOutstockVo.class));
 	}
 
 }

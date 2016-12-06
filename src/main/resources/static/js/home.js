@@ -28,12 +28,18 @@ $.fn.serializeObject = function() {
 
 jQuery
 		.extend({
-			loadFunction : function(gotoWhere, second) {
+			loadFunction : function(gotoWhere, second, para) {
 				if(!second) {
 					second = "/main";
 				}
 				var mainUrl = $.getRootPath() + gotoWhere
-						+ second + " .mainContent";
+						+ second;
+				
+				if(para){
+					mainUrl += para;
+				}
+				
+				mainUrl += " .mainContent";
 				
 				$("#mainView").load(mainUrl,function(response,status,xhr){
 					if(gotoWhere.indexOf("stocks")>0) {
@@ -46,7 +52,7 @@ jQuery
 			},
 			
 			showPages : function() {
-				alert("test");
+				//alert("test");
 			},
 
 			getGreetingTime : function() {
@@ -71,9 +77,9 @@ jQuery
 				var pathName = window.document.location.pathname;
 				var pos = curWwwPath.indexOf(pathName);
 				var localhostPath = curWwwPath.substring(0, pos);
-				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				return (localhostPath + projectName);
-				//return localhostPath;
+				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				//return (localhostPath + projectName);
+				return localhostPath;
 			},
 
 			gotoTAB : function(name) {

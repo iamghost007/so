@@ -5,6 +5,7 @@ import java.util.Map;
 import net.bobstudio.so.domain.Product;
 import net.bobstudio.so.domain.ProductInstock;
 import net.bobstudio.so.domain.ProductOutstock;
+import net.bobstudio.so.dto.PageVo;
 import net.bobstudio.so.repository.ProductDao;
 import net.bobstudio.so.repository.ProductInstockDao;
 import net.bobstudio.so.repository.ProductOutstockDao;
@@ -14,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,24 +70,10 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductInstock> findAllInstock(Map<String, Object> searchParams, int pageNumber, int pageSize,
 			String sortType) {
-		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
+		PageRequest pageRequest = PageVo.buildPageRequest(pageNumber, pageSize, sortType);
 		Specification<ProductInstock> spec = buildSpecification(searchParams);
 
 		return prodInstockDao.findAll(spec, pageRequest); 
-	}
-
-	/**
-	 * 创建分页请求.
-	 */
-	private PageRequest buildPageRequest(int pageNumber, int pagzSize, String sortType) {
-		Sort sort = null;
-		if ("auto".equals(sortType)) {
-			sort = new Sort(Direction.DESC, "id");
-		} else if ("name".equals(sortType)) {
-			sort = new Sort(Direction.ASC, "name");
-		}
-
-		return new PageRequest(pageNumber - 1, pagzSize, sort);
 	}
 
 	/**
@@ -124,6 +109,22 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Iterable<ProductOutstock> findAllOutstock() {
 		return prodOutstockDao.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	public Page<ProductOutstock> findAllOutstock(Map<String, Object> searchParams, int pageNumber, int pageSize,
+			String sortType) {
+		PageRequest pageRequest = PageVo.buildPageRequest(pageNumber, pageSize, sortType);
+		Specification<ProductOutstock> spec = buildOutstockSpecification(searchParams);
+
+		return prodOutstockDao.findAll(spec, pageRequest); 
+	}
+	
+	private Specification<ProductOutstock> buildOutstockSpecification(Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		//filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
+		Specification<ProductOutstock> spec = DynamicSpecifications.bySearchFilter(filters.values(), ProductOutstock.class);
+		return spec;
 	}
 
 	@Transactional
