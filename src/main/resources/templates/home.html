@@ -70,16 +70,167 @@ span.error {
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Settings</a></li>
-					<li><a href="#">Profile</a></li>
+					<li><a href="#" onclick="$.editSelf();">个人信息</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#editPwdModal">修改密码</a></li>
 					<li><a href="/logout">退出</a></li>
 				</ul>
-				<form class="navbar-form navbar-right">
+				<!-- form class="navbar-form navbar-right">
 					<input type="text" class="form-control" placeholder="Search..." />
-				</form>
+				</form -->
 			</div>
 		</div>
 	</nav>
+		<!--self edit start-->
+		<div class="modal fade" data-backdrop="false" id="selfModal"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title btn grey radius_l" >当前操作--修改个人信息</h4>
+					</div>
+					<div class="alert alert-danger" id="selfErrorTip"
+						style='display: none;' onclick="$(this).hide();">错误提示区</div>
+					<div class="modal-body">
+						<form action="#" id="selfForm" method="post" >
+                            <input type="hidden" id="self_id" name="id"  />
+                            <input type="hidden" id="self_password" name="password"  />
+                            <input type="hidden" id="self_update" name="update" />
+                            <div id="self_roles"><!-- role temporary save area --></div>
+							<div class="form-body">
+								<div class="row">
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>工号</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" readonly="readonly"
+												placeholder="工号" id="self_code" name="code" 
+												required="required" />
+										</div>
+										<label class="col-md-2 control-label"> <span>姓名</span><span
+											class="required">*</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" 
+												placeholder="姓名" id="self_name" name="name" required="required" autofocus="autofocus"/>
+										</div>
+									</div>
+
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>职务</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="self_duty" name="duty"/>
+										</div>
+										<label class="col-md-2 control-label"> <span>手机</span>
+										</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="self_phone"
+												name="phone" data-rule-mobile="true" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>E-Mail</span>
+										</label>
+										<div class="col-md-10">
+											<input type="email" class="form-control" id="self_email" name="email" />
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>家庭住址</span>
+										</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" id="self_family_addr" name="family_addr"/>
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label class="col-md-2 control-label"> <span>简介</span>
+										</label>
+										<div class="col-md-10">
+											<textarea class="form-control" id="self_remark" name="remark"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="selfSave"
+							onclick="$.selfSave();">
+							<span>确认</span>
+						</button>
+						<button type="button" class="btn default" data-dismiss="modal">
+							<span>取消</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--self edit end  -->
+		<!--password edit start-->
+		<div class="modal fade" data-backdrop="false" id="editPwdModal"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title btn grey radius_l">当前操作--修改密码</h4>
+					</div>
+					<div class="alert alert-danger" id="pwdErrorTip"
+						style='display: none;' onclick="$(this).hide();">错误提示区</div>
+					<div class="modal-body">
+						<form action="#" id="editPwdForm" method="post">
+							<input type="hidden" id="editPwd_id" name="id" value="-8" />
+							<div class="form-body">
+								<div class="row">
+									<div class="form-group col-md-12" >
+										<label class="col-md-2 control-label"> <span>原 密 码</span>
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-10">
+											<input type="password" class="form-control" id="self_oldPwd"
+												name="oldPassword" required="required"
+												autocomplete="off" />
+										</div>
+									</div>
+									<div class="form-group col-md-12" >
+										<label class="col-md-2 control-label"> <span>新 密 码</span>
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-10">
+											<input type="password" class="form-control" id="self_newPwd"
+												name="newPassword" required="required"
+												autocomplete="off" />
+										</div>
+									</div>
+									<div class="form-group col-md-12" >
+										<label class="col-md-2 control-label"> <span>密码确认</span>
+										</label>
+										<div class="col-md-10">
+											<input type="password" class="form-control" id="self_newPwd2"
+												autocomplete="off" required="required" equalTo="#self_newPwd" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" 
+							onclick="$.editPwd();">
+							<span>确认</span>
+						</button>
+						<button type="button" class="btn default" data-dismiss="modal">
+							<span>取消</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--password edit end  -->
 
 	<div class="container-fluid">
 		<div class="row">
@@ -125,7 +276,7 @@ span.error {
 	<script src="../static/js/jquery.ztree.core.min.js" th:src="@{/js/jquery.ztree.core.min.js}"></script>
 	<script src="../static/js/jquery.ztree.excheck.min.js" th:src="@{/js/jquery.ztree.excheck.min.js}"></script>
 	<script src="../static/js/myrole.js" th:src="@{/js/myrole.js}"></script>
-    <script src="../../static/js/bpmn-js/bpmn-viewer.js" th:src="@{/js/bpmn-js/bpmn-viewer.js}"></script>
-	<script src="../../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
+    <script src="../static/js/bpmn-js/bpmn-viewer.js" th:src="@{/js/bpmn-js/bpmn-viewer.js}"></script>
+	<script src="../static/js/workflow.js" th:src="@{/js/workflow.js}"></script>
 </body>
 </html>

@@ -52,7 +52,14 @@ public class PageVo {
 	}
 	
 	public int getBegin() {
-		return Math.max(1, getCurrent() - PAGINATION_SIZE/2);
+		int half = PAGINATION_SIZE/2;
+		int begin = Math.max(1, getCurrent() - half);
+		if(getCurrent() > half && (getTotalPages() - half) < getCurrent() ) {
+			begin = Math.min(getTotalPages() - PAGINATION_SIZE +1,begin);
+			begin = Math.max(1, begin);
+		}
+		
+		return begin;
 	} 
 	
 	public int getEnd() {

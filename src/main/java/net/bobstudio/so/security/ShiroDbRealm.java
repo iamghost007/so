@@ -46,11 +46,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		
 		Account user = accountService.findUserByLoginName(token.getUsername());
 		if (user != null) {
-			if ("失效".equals(user.status)) {
+			if ("无效".equals(user.status)) {
 				throw new DisabledAccountException();
 			}
 
-			return new SimpleAuthenticationInfo(new ShiroUser(user.id, user.code, user.name), user.password, getName());
+			return new SimpleAuthenticationInfo(new ShiroUser(user.id, user.code, user.name, user.password), user.password, getName());
 		}
 		return null;
 	}
@@ -89,11 +89,13 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		public String loginName;
 		public String name;
 		public Long id;
+		public String password;
 
-		public ShiroUser(Long id, String loginName, String name) {
+		public ShiroUser(Long id, String loginName, String name, String password) {
 			this.loginName = loginName;
 			this.name = name;
 			this.id = id;
+			this.password = password;
 		}
 
 		public String getName() {

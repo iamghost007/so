@@ -242,6 +242,98 @@ jQuery
 
 			},
 			
+			editSelf : function() {
+				$('#selfSave').show();
+				$('#selfForm')[0].reset();
+				$('#selfModal').modal('show');
+				
+				var tip = $("#selfErrorTip");
+				tip.hide();
+				var reqUrl = $.getRootPath() + "/api/accounts/-8";
+				$.sendAjaxReq("GET", reqUrl, "", function(data, textStatus) {
+					if(data.length<1){
+						tip.text('对不起，不能发现对应的记录!');
+						tip.show();
+						$('#selfSave').hide();
+					}
+					
+					$.bindSelfValue('account',data,false);
+					
+				}, function(textStatus) {
+					tip.text('对不起，不能发现对应的记录!');
+					tip.show();
+					$('#selfSave').hide();
+				});				
+			},
+			
+			selfSave : function() {
+				var form = $('#selfForm');
+				if (!form.valid()) {
+					return false;
+				}
+
+				var reqUrl = $.getRootPath() + "/api/accounts/create";
+				var errorTip = $("#selfErrorTip");
+				var modal = $("#selfModal");
+
+				var content = form.serializeObject();
+				$.sendAjaxReq("POST", reqUrl, content, function(data,
+						textStatus) {
+					alert("修改个人信息成功!")
+					modal.modal('hide');					
+				}, function(xmlhttp) {
+					errorTip.text('添加失败哦! 可能原因：数据格式不对或超长。');
+					
+					errorTip.show();
+				});
+
+			},
+			
+			editPwd : function() {
+				var form = $('#editPwdForm');
+				if (!form.valid()) {
+					return false;
+				}
+				var reqUrl = $.getRootPath() + "/api/accounts/edit_password";
+				var errorTip = $("#pwdErrorTip");
+
+				var content = form.serializeObject();
+				$.sendAjaxReq("POST", reqUrl, content, function(data,
+						textStatus) {
+					alert("修改密码成功!需要重新登陆才能生效!")
+					$("#editPwdModal").modal('hide');
+				}, function(xmlhttp) {
+					var response = JSON.parse(xmlhttp.responseText);
+					var ACCOUNT_PASSWORD_INCORRECT = 903;
+					if(response.code == ACCOUNT_PASSWORD_INCORRECT){
+						errorTip.text('修改失败哦! 原因：旧密码输入错误。');
+					}
+					else {
+						errorTip.text('修改失败哦! 可能原因：1、您不具有该操作权限； 2、数据格式不对或超长。');
+					}
+					errorTip.show();
+				});
+			},
+			
+			bindSelfValue : function(module,data,readOnly){
+				names =["#self_id","#self_code","#self_name","#self_duty","#self_phone","#self_email","#self_family_addr","#self_remark","#self_password"];
+				values =[data.id, data.code, data.name, data.duty, data.phone, data.email, data.family_addr, data.remark,data.password];
+				
+				$("#self_update").val(true);
+				
+				var rList = data.roleList;
+				if(rList.length > 0){	//角色不修改，值要回传
+					var roles = "<input type='hidden' id='self_roleList' name='roleList' value='-1'/> "; 
+					for(var i=0;i<rList.length;i++) {
+						roles += "<input type='hidden' id='self_roleList"+i+"' name='roleList' value='"+rList[i].id+"'/> ";
+					}
+					$("#self_roles").html(roles);
+				}
+				for(var i=0;i<names.length;i++) {
+					$(names[i]).val(values[i]);
+				}
+			},
+			
 			bindFormValue : function(module,data,readOnly){
 				var names,values;
 				if(module == 'role'){

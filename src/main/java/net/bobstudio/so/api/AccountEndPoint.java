@@ -7,6 +7,7 @@ import java.util.Map;
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Role;
 import net.bobstudio.so.dto.AccountVo;
+import net.bobstudio.so.dto.PasswordVo;
 import net.bobstudio.so.dto.RoleVo;
 import net.bobstudio.so.service.AccountService;
 import net.bobstudio.so.service.RoleService;
@@ -59,6 +60,19 @@ public class AccountEndPoint {
 		accountService.saveAccount(account, accountVo.getUpdate());
 
 		return BeanMapper.map(account, AccountVo.class);
+	}
+
+	@RequestMapping(value = "/api/accounts/edit_password", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	public String editPassword(@RequestBody PasswordVo passwordVo) {
+		Long id = passwordVo.getId();
+		
+		if(!accountService.checkPassword(passwordVo.getOldPassword(),id)){
+			throw new ServiceException("OldPassword is incorrect::", ErrorCode.ACCOUNT_PASSWORD_INCORRECT);
+		}
+		
+		accountService.updatePassword(passwordVo.getNewPassword(), id);
+		
+		return "success";
 	}
 
 	//@RequiresPermissions("account:edit")

@@ -155,13 +155,36 @@ public class AccountService {
 		accountDao.save(account);
 
 	}
+
+	public boolean checkPassword(String oldPassword, Long id) {
+		if(id == -8L) {
+			return getCurrentPassword().equals(hashPassword(oldPassword));					
+		}
+		return false;
+	}
 	
+	@Transactional
+	public void updatePassword(String password, Long id) {
+		if(id == -8L){
+			id = getCurrentUserId();
+		}
+
+		//fuck: accountDao.updatePasswordById(hashPassword(password), id);
+		Account account = accountDao.findOne(id);
+		account.password = hashPassword(password);
+		accountDao.save(account);
+		
+	}
+
 	public boolean existsByCode(String code){
 		return accountDao.existsByCode(code) > 0;
 	}
 
 	@Transactional(readOnly = true)
 	public Account findOne(Long id) {
+		if(id == -8L){
+			id = this.getCurrentUserId();
+		}
 		return accountDao.findOne(id);
 	}
 
@@ -193,7 +216,7 @@ public class AccountService {
 		}
 		return account;
 	}
-
+	
 	/**
 	 * 取出Shiro中的当前用户LoginName.
 	 */
@@ -206,6 +229,12 @@ public class AccountService {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		return user == null ? -1L : user.id;
 	}
+	
+	public String getCurrentPassword() {
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		return user == null ? "" : user.password;
+	}
+
 
 
 }
