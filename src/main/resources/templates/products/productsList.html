@@ -135,11 +135,18 @@ span.error {
 		<div
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
-			<div class="pull-right">
-				<!-- a href="#productModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a -->
+			<!-- div class="pull-right">
+				<a href="#productModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a>
 				 <a href="#"
 					class="btn blue1 radius_l" onclick="$.loadFunction('/products');">刷新</a>
-			</div>
+			</div -->
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#productPage" onclick="$.gotoTAB('产品');">产品信息</a></li>
 				<!-- li><a href="#instockPage"  onclick="$.gotoTAB();">入库产品</a></li>

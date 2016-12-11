@@ -44,50 +44,57 @@ public class MaterialController {
 	private MaterialService materialService;
 
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute MaterialVo materialVo, Model model) {
-		Iterable<Material> materials = materialService.findAll();
-		model.addAttribute("allStatus", Status.values());
+	public ModelAndView list(@ModelAttribute MaterialVo materialVo,
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
-		return new ModelAndView("products/materialsList", "materials", BeanMapper.mapList(
-		        materials, MaterialVo.class));
+		Page<Material> materials = materialService.findAll(searchParams, pageNumber, pageSize,
+				sortType);
+		model.addAttribute("allStatus", Status.values());
+		model.addAttribute("sortType", sortType);
+		model.addAttribute("sortTypes", sortTypes);
+		model.addAttribute("page", new PageVo("/materials", materials));
+
+		return new ModelAndView("products/materialsList", "materials", BeanMapper.mapList(materials.getContent(), MaterialVo.class));
 	}
 
 	@GetMapping("/instocks/main")
-	public ModelAndView listInstock(
-	        @RequestParam(value = "page", defaultValue = "1") int pageNumber,
-	        @RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
-	        @RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
-	        ServletRequest request) {
+	public ModelAndView listInstock(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
-		Page<MaterialInstock> mateInstocks = materialService.findAllInstock(searchParams,
-		        pageNumber, pageSize, sortType);
+		Page<MaterialInstock> mateInstocks = materialService.findAllInstock(searchParams, pageNumber, pageSize,
+				sortType);
 
 		model.addAttribute("sortType", sortType);
 		model.addAttribute("sortTypes", sortTypes);
 		model.addAttribute("page", new PageVo("/materials/instocks", mateInstocks));
 
-		return new ModelAndView("products/mateInstocksList", "mateInstocks", BeanMapper.mapList(
-		        mateInstocks.getContent(), MaterialInstockVo.class));
+		return new ModelAndView("products/mateInstocksList", "mateInstocks",
+				BeanMapper.mapList(mateInstocks.getContent(), MaterialInstockVo.class));
 	}
 
 	@GetMapping("/outstocks/main")
-	public ModelAndView listOutstock(
-	        @RequestParam(value = "page", defaultValue = "1") int pageNumber,
-	        @RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
-	        @RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
-	        ServletRequest request) {
+	public ModelAndView listOutstock(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
-		Page<MaterialOutstock> mateOutstocks = materialService.findAllOutstock(searchParams,
-		        pageNumber, pageSize, sortType);
+		Page<MaterialOutstock> mateOutstocks = materialService.findAllOutstock(searchParams, pageNumber, pageSize,
+				sortType);
 
 		model.addAttribute("sortType", sortType);
 		model.addAttribute("sortTypes", sortTypes);
 		model.addAttribute("page", new PageVo("/materials/outstocks", mateOutstocks));
 
-		return new ModelAndView("products/mateOutstocksList", "mateOutstocks", BeanMapper.mapList(
-		        mateOutstocks.getContent(), MaterialOutstockVo.class));
+		return new ModelAndView("products/mateOutstocksList", "mateOutstocks",
+				BeanMapper.mapList(mateOutstocks.getContent(), MaterialOutstockVo.class));
 	}
 
 }

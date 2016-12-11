@@ -51,6 +51,10 @@ jQuery
 //				}
 			},
 			
+			logout : function(){
+				window.location.href=$.getRootPath()+"/logout";
+			},
+			
 			showPages : function() {
 				//alert("test");
 			},
@@ -77,9 +81,13 @@ jQuery
 				var pathName = window.document.location.pathname;
 				var pos = curWwwPath.indexOf(pathName);
 				var localhostPath = curWwwPath.substring(0, pos);
-				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				//return (localhostPath + projectName);
-				return localhostPath;
+				
+				//for tomcat
+				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				return (localhostPath + projectName);
+				
+				//spring-boot
+				//return localhostPath;
 			},
 
 			gotoTAB : function(name) {
@@ -314,6 +322,27 @@ jQuery
 					errorTip.show();
 				});
 			},
+			resetPassword : function(accountId){
+				if(!confirm("重置后，该员工的密码会更新为默认的‘12345678’，您确认要继续吗？")){
+					return;
+				}
+				
+				var reqUrl = $.getRootPath() + "/api/accounts/edit_password";
+
+				var tip = $("#globalTip");
+
+				var content = {id:accountId, newPassword:"12345678"};
+				$.sendAjaxReq("POST", reqUrl, content, function(data,
+						textStatus) {
+					tip.text("重置密码成功!")
+					tip.show();
+				}, function(xmlhttp) {
+					tip.text('修改失败哦! 可能原因：1、您不具有该操作权限； ');
+					tip.show();
+				});
+
+			},
+			
 			
 			bindSelfValue : function(module,data,readOnly){
 				names =["#self_id","#self_code","#self_name","#self_duty","#self_phone","#self_email","#self_family_addr","#self_remark","#self_password"];

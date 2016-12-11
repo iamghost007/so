@@ -232,6 +232,9 @@ span.error {
 									<button type="button" class="btn btn-sm btn-warning"
 										onclick="$.editData(this, 'account','1',false);"
 										th:onclick="'javascript:$.editData(this, \'account\',\''+${account.id}+'\',false);'">修改</button>
+									<button type="button" class="btn btn-sm btn-warning"
+										onclick="$.resetPassword('1');"
+										th:onclick="'javascript:$.resetPassword(\''+${account.id}+'\');'">重置</button>
 									<button type="button" class="btn btn-sm btn-danger"
 										onclick="$.dataDelete(this,'account','1');"
 										th:onclick="'javascript:$.dataDelete(this, \'account\',\''+${account.id}+'\');'">删除</button>

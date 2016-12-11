@@ -2,9 +2,10 @@ package net.bobstudio.so.repository;
 
 import net.bobstudio.so.domain.Role;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * 基于Spring Data JPA的Dao接口, 自动根据接口生成实现.
@@ -13,7 +14,7 @@ import org.springframework.data.repository.CrudRepository;
  * 
  * Spring Data JPA 还会解释新增方法名生成新方法的实现.
  */
-public interface RoleDao extends CrudRepository<Role, Long> {
+public interface RoleDao extends PagingAndSortingRepository<Role, Long>, JpaSpecificationExecutor<Role> {
 
 	//Role findByEmail(String email);
 	

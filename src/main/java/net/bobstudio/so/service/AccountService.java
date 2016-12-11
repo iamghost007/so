@@ -160,7 +160,7 @@ public class AccountService {
 		if(id == -8L) {
 			return getCurrentPassword().equals(hashPassword(oldPassword));					
 		}
-		return false;
+		return true;
 	}
 	
 	@Transactional

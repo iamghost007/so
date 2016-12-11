@@ -9,6 +9,6 @@ if "%1" == "%TOMCAT%" (
     copy %HTML1%\plans\planList.html %HTML2%\plans\planList.html /Y
     xcopy target\classes\net  F:\tools\camunda-bpm-tomcat-7.5.0\server\apache-tomcat-8.0.24\webapps\so\WEB-INF\classes\net  /s/e/y
 )else (
-    del \git\proj\so\log\so.log
+    del \smartoffice\log\so.log
     mvn spring-boot:run
 )

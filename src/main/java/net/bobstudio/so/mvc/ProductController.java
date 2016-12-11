@@ -18,7 +18,6 @@ import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,11 +48,20 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute ProductVo productVo, Model model) {
-		Iterable<Product> products = productService.findAll();
-		model.addAttribute("allStatus", Status.values());
+	public ModelAndView list(@ModelAttribute ProductVo productVo,
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
-		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products, ProductVo.class));
+		Page<Product> products = productService.findAll(searchParams, pageNumber, pageSize, sortType);
+		model.addAttribute("allStatus", Status.values());
+		model.addAttribute("sortType", sortType);
+		model.addAttribute("sortTypes", sortTypes);
+		model.addAttribute("page", new PageVo("/products", products));
+
+		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products.getContent(), ProductVo.class));
 	}
 
 	@GetMapping("/instocks/main")
@@ -63,12 +71,12 @@ public class ProductController {
 			ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
 		Page<ProductInstock> prodInstocks = productService.findAllInstock(searchParams, pageNumber, pageSize, sortType);
 
-		PageVo page = new PageVo("/products/instocks",prodInstocks);
+		PageVo page = new PageVo("/products/instocks", prodInstocks);
 		model.addAttribute("page", page);
+		model.addAttribute("sortType", sortType);
+		model.addAttribute("sortTypes", sortTypes);
 
 		return new ModelAndView("products/prodInstocksList", "prodInstocks",
 				BeanMapper.mapList(prodInstocks.getContent(), ProductInstockVo.class));
@@ -83,7 +91,8 @@ public class ProductController {
 
 		model.addAttribute("sortType", sortType);
 		model.addAttribute("sortTypes", sortTypes);
-		Page<ProductOutstock> prodOutstocks = productService.findAllOutstock(searchParams, pageNumber, pageSize, sortType);
+		Page<ProductOutstock> prodOutstocks = productService.findAllOutstock(searchParams, pageNumber, pageSize,
+				sortType);
 
 		PageVo page = new PageVo("/products/outstocks", prodOutstocks);
 		model.addAttribute("page", page);

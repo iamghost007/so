@@ -2,9 +2,10 @@ package net.bobstudio.so.repository;
 
 import net.bobstudio.so.domain.Account;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
@@ -14,7 +15,8 @@ import org.springframework.data.repository.query.Param;
  * 
  * Spring Data JPA 还会解释新增方法名生成新方法的实现.
  */
-public interface AccountDao extends CrudRepository<Account, Long> {
+public interface AccountDao extends PagingAndSortingRepository<Account, Long>, JpaSpecificationExecutor<Account> {
+//extends CrudRepository<Account, Long> {
 
 	Account findByEmail(String email);
 	

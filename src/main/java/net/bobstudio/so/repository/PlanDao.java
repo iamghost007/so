@@ -3,12 +3,13 @@ package net.bobstudio.so.repository;
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Plan;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface PlanDao  extends CrudRepository<Plan, Long>{
+public interface PlanDao extends PagingAndSortingRepository<Plan, Long>, JpaSpecificationExecutor<Plan> {
 
 	@Query("from Plan plan where plan.sponsor=:sponsor")
 	Iterable<Plan> findAllBySponsor(@Param("sponsor")Account sponsor);

@@ -37,6 +37,15 @@ public class MaterialService {
 		return materialDao.findAll();
 	}
 
+	@Transactional(readOnly = true)
+	public Page<Material> findAll(Map<String, Object> searchParams, int pageNumber, int pageSize,
+			String sortType) {
+		PageRequest pageRequest = PageVo.buildPageRequest(pageNumber, pageSize, sortType);
+		Specification<Material> spec = buildMaterialSpecification(searchParams);
+
+		return materialDao.findAll(spec, pageRequest); 
+	}
+
 
 	public void saveMaterial(Material material) {
 		materialDao.save(material);
@@ -76,6 +85,13 @@ public class MaterialService {
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 		//filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
 		Specification<MaterialInstock> spec = DynamicSpecifications.bySearchFilter(filters.values(), MaterialInstock.class);
+		return spec;
+	}
+
+	private Specification<Material> buildMaterialSpecification(Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		//filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
+		Specification<Material> spec = DynamicSpecifications.bySearchFilter(filters.values(), Material.class);
 		return spec;
 	}
 

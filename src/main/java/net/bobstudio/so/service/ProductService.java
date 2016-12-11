@@ -38,6 +38,15 @@ public class ProductService {
 	}
 	
 	@Transactional(readOnly = true)
+	public Page<Product> findAll(Map<String, Object> searchParams, int pageNumber, int pageSize,
+			String sortType) {
+		PageRequest pageRequest = PageVo.buildPageRequest(pageNumber, pageSize, sortType);
+		Specification<Product> spec = buildProductSpecification(searchParams);
+
+		return productDao.findAll(spec, pageRequest); 
+	}
+	
+	@Transactional(readOnly = true)
 	public Iterable<Product> findAllByStatus(String enableStatus) {
 		return productDao.findAllByStatus(enableStatus);
 	}
@@ -79,6 +88,13 @@ public class ProductService {
 	/**
 	 * 创建动态查询条件组合.
 	 */
+	private Specification<Product> buildProductSpecification(Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		//filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
+		Specification<Product> spec = DynamicSpecifications.bySearchFilter(filters.values(), Product.class);
+		return spec;
+	}
+
 	private Specification<ProductInstock> buildSpecification(Map<String, Object> searchParams) {
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 		//filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
