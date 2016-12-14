@@ -49,14 +49,14 @@
 							<td colspan="9">没有记录</td>
 						</tr>
 						<tr th:each="oustock : ${mateOutstocks}">
-							<td th:text="${oustock.material.name}">抽屉</td>
+							<td th:text="${oustock.material} ? ${oustock.material.name} : ''">抽屉</td>
 							<td th:text="${oustock.standard}">50*30CM</td>
 							<td th:text="${oustock.barcode}">LZ22334444201611</td>
 							<td th:text="${oustock.receipt}">单据</td>
 							<td th:text="${oustock.numStock}">1000</td>
-							<td th:text="${oustock.outstocker.name}">Bob</td>
+							<td th:text="${oustock.outstocker} ? ${oustock.outstocker.name} : ''">Bob</td>
 							<td th:text="${oustock.mosDate}">2016-10-10 10:10</td>
-							<td th:text="${oustock.consumer.name}">Bob</td>
+							<td th:text="${oustock.consumer} ? ${oustock.consumer.name} : ''">Bob</td>
 							<td th:text="${oustock.remark}">这里是说明</td>
 						</tr>
 					</tbody>

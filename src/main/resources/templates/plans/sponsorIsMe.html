@@ -228,11 +228,11 @@ span.error {
 							</tr>
 							<tr th:each="plan : ${plans}">
 								<td th:text="${plan.name}">BX</td>
-								<td th:text="${plan.product.name}">冰箱</td>
+								<td th:text="${plan.product} ? ${plan.product.name} : ''">冰箱</td>
 								<td th:text="${plan.productLength}">100</td>
 								<td th:text="${plan.productAmount}">200</td>
-								<td th:text="${plan.customer.name}">乐视网</td>
-								<td th:text="${plan.salesman.name}">马小驹</td>
+								<td th:text="${plan.customer} ? ${plan.customer.name} : ''">乐视网</td>
+								<td th:text="${plan.salesman} ? ${plan.salesman.name} : ''">马小驹</td>
 								<td th:text="${plan.orderDate}">2016-11-11</td>
                                 <td th:text="${plan.orderType.description}">销售</td>
                                 <td th:text="${plan.status_cn}">待审核</td>

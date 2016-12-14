@@ -48,12 +48,12 @@
 							<td colspan="8">没有记录</td>
 						</tr>
 						<tr th:each="instock : ${prodInstocks}">
-							<td th:text="${instock.product.name}">冰箱</td>
+							<td th:text="${instock.product} ? ${instock.product.name} : ''">冰箱</td>
 							<td th:text="${instock.standard}">350L</td>
 							<td th:text="${instock.barcode}">LZ22334444201611</td>
 							<td th:text="${instock.receipt}">单据</td>
 							<td th:text="${instock.numStock}">1000</td>
-							<td th:text="${instock.instocker.name}">Bob</td>
+							<td th:text="${instock.instocker} ? ${instock.instocker.name} : ''">Bob</td>
 							<td th:text="${instock.pisDate}">2016-10-10 10:10</td>
 							<td th:text="${instock.remark}">这里是说明</td>
 						</tr>

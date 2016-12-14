@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 // JPA实体类的标识
 @Entity
@@ -24,6 +26,7 @@ public class Message {
 
 	@ManyToOne
 	@JoinColumn(name = "sender")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Account sender;
 
 	public String content;
@@ -32,6 +35,7 @@ public class Message {
 	
 	@ManyToOne
 	@JoinColumn(name = "plan")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Plan plan;
 
 	public Date receiveDate;

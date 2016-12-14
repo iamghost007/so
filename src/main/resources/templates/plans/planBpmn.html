@@ -182,7 +182,7 @@ span.error {
 								<td th:text="${plan.productType}">家用</td>
 								<td th:text="${plan.customer}">乐视网</td>
 								<td th:text="${plan.orderDate}">2016-11-11</td>
-                                <td th:text="${plan.sponsor.name}">Bob</td>
+                                <td th:text="${plan.sponsor} ? ${plan.sponsor.name} : ''">Bob</td>
                                 <td th:text="${plan.status_cn}">待审核</td>
 								<td>
                                     <button type="button" class="btn btn-sm btn-info" onclick="$.viewBpmn('1');"

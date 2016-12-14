@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 // JPA实体类的标识
 @Entity
@@ -39,6 +41,7 @@ public class Customer {
 
 	@OneToOne
 	@JoinColumn(name="sales_person_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Account salesman;
 	
 	public String remark;

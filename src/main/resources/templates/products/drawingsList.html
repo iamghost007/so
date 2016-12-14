@@ -98,9 +98,9 @@ span.error {
 							</tr>
 							<tr th:each="drawing : ${drawings}">
 								<td th:text="${drawing.name}">冰箱设计图</td>
-								<td th:text="${drawing.designer.name}">Bob</td>
+								<td th:text="${drawing.designer} ? ${drawing.designer.name} : ''">Bob</td>
 								<td th:text="${drawing.date}">2016-10-10</td>
-                                <td th:text="${drawing.product.name}">双门冰箱</td>
+                                <td th:text="${drawing.product} ? ${drawing.product.name} : ''">双门冰箱</td>
                                 <td th:text="${drawing.status}">有效</td>
 								<td th:text="${drawing.remark}">用于双门冰箱设计</td>
 								<td>

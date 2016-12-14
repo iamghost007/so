@@ -50,15 +50,15 @@
 							<td colspan="10">没有记录</td>
 						</tr>
 						<tr th:each="outstock : ${prodOutstocks}">
-							<td th:text="${outstock.product.name}">冰箱</td>
+							<td th:text="${outstock.product} ? ${outstock.product.name} : ''">冰箱</td>
 							<td th:text="${outstock.standard}">350L</td>
 							<td th:text="${outstock.barcode}">LZ22334444201611</td>
 							<td th:text="${outstock.receipt}">单据</td>
 							<td th:text="${outstock.numStock}">1000</td>
-							<td th:text="${outstock.outstocker.name}">路人甲</td>
+							<td th:text="${outstock.outstocker} ? ${outstock.outstocker.name} : ''">路人甲</td>
 							<td th:text="${outstock.posDate}">2011-11-11</td>
-							<td th:text="${outstock.salesman.name}">业务员甲</td>
-							<td th:text="${outstock.customer.name}">金主</td>
+							<td th:text="${outstock.salesman} ? ${outstock.salesman.name} : ''">业务员甲</td>
+							<td th:text="${outstock.customer} ? ${outstock.customer.name} : ''">金主</td>
 							<td th:text="${outstock.remark}">这里是说明</td>
 						</tr>
 					</tbody>

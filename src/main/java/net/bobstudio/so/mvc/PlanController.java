@@ -73,7 +73,7 @@ public class PlanController {
 	private Iterable<Plan> filterMine(Iterable<Plan> plans) {
 		List<Plan> myPlans = new ArrayList<Plan>();
 		for(Plan plan : plans) {
-			if(processorIstMe(plan.status, plan.sponsor.id)) {
+			if(plan.sponsor != null && processorIstMe(plan.status, plan.sponsor.id)) {
 				myPlans.add(plan);
 			}
 				

@@ -163,7 +163,7 @@ span.error {
 								<td th:text="${customer.phone}">13912345678</td>
 								<td th:text="${customer.address}">软件大道</td>
                                 <td th:text="${customer.enabledDate}">2016-11-11</td>
-                                <td th:text="${customer.salesman.name}">金三胖</td>
+                                <td th:text="${customer.salesman} ? ${customer.salesman.name} : ''">金三胖</td>
 								<td th:text="${customer.status}">有效</td>
 								<td>
 									<button type="button" class="btn btn-sm btn-info"

@@ -1,3 +1,5 @@
+var lostName = '未发现'
+
 $(function() {
 	$("#greeting").html(
 			$("#greeting").html() + "&nbsp;&nbsp;" + $.getGreetingTime());
@@ -365,6 +367,8 @@ jQuery
 			
 			bindFormValue : function(module,data,readOnly){
 				var names,values;
+				
+				var salesman = data.salesman ? data.salesman.name : lostName;
 				if(module == 'role'){
 					names =["#id","#name","#priv","#remark"];
 					values =[data.id, data.name,data.priv,data.remark];
@@ -403,11 +407,11 @@ jQuery
 				}
 				else if(module == 'customer') {
 					names=["#id","#name","#address","#contacter","#phone","#remark","#salesman"];
-					values=[data.id, data.name, data.address,data.contacter,data.phone,data.remark,data.salesman.name];
+					values=[data.id, data.name, data.address,data.contacter,data.phone,data.remark,salesman];
 				}
 				else if(module == 'supplier') {
 					names=["#id","#code","#name","#address","#contacter","#phone","#remark","#salesman"];
-					values=[data.id, data.code, data.name, data.address,data.contacter,data.phone,data.remark,data.salesman.name];
+					values=[data.id, data.code, data.name, data.address,data.contacter,data.phone,data.remark,salesman];
 				}
 				else if(module == 'product') {
 					names=["#id","#code","#name","#standard","#type","#numStock","#numAlarm","#remark"];
@@ -451,7 +455,7 @@ jQuery
 					}
 					
 					$("#name").html(data.name);
-					$("#designer").html(data.designer.name);
+					$("#designer").html(data.designer ? data.designer.name : lostName);
 					$("#date").html(new Date(data.date).Format("yy年MM月dd日hh:mm"));
 					$("#remark").html(data.remark);
 					

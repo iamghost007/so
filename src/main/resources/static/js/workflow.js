@@ -191,8 +191,11 @@ jQuery
 			
 			bindPlanValue : function(module,data,readOnly){
 				var names,values;
+				var salesmanid = data.salesman ? data.salesman.id : '';
+				var productid = data.product ? data.product.id : '';
+				var customerid = data.customer ? data.customer.id : '';
 				names = ["#id","#name","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
-				values = [data.id,data.name,data.salesman.id,data.product.id,data.productAmount,data.productLength,data.customer.id,data.remark, data.status];
+				values = [data.id,data.name,salesmanid,productid,data.productAmount,data.productLength,customerid,data.remark, data.status];
 				
 				var messages = data.messages;
 				if(messages.length > 0){

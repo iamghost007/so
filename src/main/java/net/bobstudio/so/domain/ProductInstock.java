@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 /**
  * @author Bob Zhang
@@ -26,6 +28,7 @@ public class ProductInstock {
 
 	@ManyToOne
 	@JoinColumn(name = "prod_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Product product;
 	
 	@Column(name="gb_standard")
@@ -42,6 +45,7 @@ public class ProductInstock {
 	
 	@ManyToOne
 	@JoinColumn(name="pis_em_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Account instocker;	//入库人
 	
 	@Column(name="pis_receipt")

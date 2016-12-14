@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.google.common.collect.Lists;
 
@@ -28,6 +30,7 @@ public class Plan {
 	
 	@OneToOne
 	@JoinColumn(name="productId")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Product product;
 
 	public Double productAmount;
@@ -38,6 +41,7 @@ public class Plan {
 	
 	@OneToOne
 	@JoinColumn(name="customer")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Customer customer;
 	
 	public String orderType;
@@ -48,15 +52,18 @@ public class Plan {
 
 	@OneToOne
 	@JoinColumn(name="salesman")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Account salesman;
 	
 	@OneToOne
 	@JoinColumn(name="sponsor")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Account sponsor;
 
 	public Date orderDate;
 	
 	@OneToMany(mappedBy = "plan")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public List<Message> messages = Lists.newArrayList();
 
 	public Plan() {

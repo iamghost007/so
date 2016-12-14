@@ -50,14 +50,14 @@
 							<td colspan="10">没有记录</td>
 						</tr>
 						<tr th:each="instock : ${mateInstocks}">
-							<td th:text="${instock.material.name}">抽屉</td>
+							<td th:text="${instock.material} ? ${instock.material.name} : ''">抽屉</td>
 							<td th:text="${instock.standard}">50*30CM</td>
 							<td th:text="${instock.barcode}">LZ22334444201611</td>
 							<td th:text="${instock.receipt}">单据</td>
 							<td th:text="${instock.numStock}">1000</td>
-							<td th:text="${instock.instocker.name}">Bob</td>
+							<td th:text="${instock.instocker} ? ${instock.instocker.name} : ''">Bob</td>
 							<td th:text="${instock.misDate}">2016-10-10 10:10</td>
-							<td th:text="${instock.purchase.name}">Bob</td>
+							<td th:text="${instock.purchase} ? ${instock.purchase.name} : ''">Bob</td>
 							<td th:text="${instock.purchaseDatetime}">2016-10-10 10:10</td>
 							<td th:text="${instock.remark}">这里是说明</td>
 						</tr>

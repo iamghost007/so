@@ -14,6 +14,9 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  * @author Bob Zhang[zzb205@163.com] 2016年9月29日
  */
@@ -29,6 +32,7 @@ public class Drawing {
 
 	@OneToOne
 	@JoinColumn(name="drw_designer_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Account designer;
 
 	@Column(name = "drw_date")
@@ -36,6 +40,7 @@ public class Drawing {
 
 	@OneToOne
 	@JoinColumn(name = "prod_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	public Product product;
 
 	public String remark;

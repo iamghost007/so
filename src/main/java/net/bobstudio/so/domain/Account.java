@@ -18,6 +18,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 //import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.google.common.collect.Lists;
 
@@ -47,6 +49,7 @@ public class Account {
 	@OrderBy("id ASC")
 	// 缓存策略
 	//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@NotFound(action=NotFoundAction.IGNORE)
 	public List<Role> roleList = Lists.newArrayList(); // 有序的关联对象集合
 
 	public Account() {
