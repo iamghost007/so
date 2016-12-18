@@ -1,12 +1,14 @@
 package net.bobstudio.so.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Role;
+import net.bobstudio.so.dto.PageVo;
 import net.bobstudio.so.repository.AccountDao;
 import net.bobstudio.so.security.ShiroDbRealm.ShiroUser;
 import net.bobstudio.so.service.exception.ErrorCode;
@@ -20,8 +22,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.CounterService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springside.modules.persistence.DynamicSpecifications;
+import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.utils.Ids;
 //import org.springside.modules.persistence.Hibernates;
 
@@ -130,6 +137,22 @@ public class AccountService {
 		return accountDao.findAll();
 	}
 	
+	@Transactional(readOnly = true)
+	public Page<Account> findAll(Map<String, Object> searchParams, int pageNumber, int pageSize,
+			String sortType) {
+		PageRequest pageRequest = PageVo.buildPageRequest(pageNumber, pageSize, sortType);
+		Specification<Account> spec = buildSpecification(searchParams);
+
+		return accountDao.findAll(spec, pageRequest); 
+	}
+
+	private Specification<Account> buildSpecification(Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		//filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
+		Specification<Account> spec = DynamicSpecifications.bySearchFilter(filters.values(), Account.class);
+		return spec;
+	}
+
 	@Transactional(readOnly = true)
 	public Iterable<Account> findAllByStatus(String enableStatus) {
 		return accountDao.findAllByStatus(enableStatus);

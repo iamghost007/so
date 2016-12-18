@@ -127,7 +127,7 @@ span.error {
 			<!-- div class="pull-right">
 				<a href="#materialModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增原料</a> <a href="#"
 					class="btn blue1 radius_l" onclick="$.loadFunction('/materials');">刷新</a>
-			</div -->
+			</div --><!-- TODO 按代码/规格过滤 -->
             <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
                 <li class="disabled"><a href="#">&lt;&lt;</a></li>
                 <li class="disabled"><a href="#">&lt;</a></li>
@@ -154,7 +154,7 @@ span.error {
 				<table id="materialTable" class="table table-striped " >
 					<thead>
 						<tr>
-							<th>编码</th>
+							<th>代号</th>
 							<th>名称</th>
 							<th>规格</th>
 							<th>规格编码</th>

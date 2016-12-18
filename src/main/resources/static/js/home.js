@@ -85,11 +85,11 @@ jQuery
 				var localhostPath = curWwwPath.substring(0, pos);
 				
 				//for tomcat
-				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				return (localhostPath + projectName);
+				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				//return (localhostPath + projectName);
 				
 				//spring-boot
-				//return localhostPath;
+				return localhostPath;
 			},
 
 			gotoTAB : function(name) {

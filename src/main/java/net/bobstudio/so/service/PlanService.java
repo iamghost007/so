@@ -3,12 +3,21 @@ package net.bobstudio.so.service;
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Message;
 import net.bobstudio.so.domain.Plan;
+import net.bobstudio.so.dto.PageVo;
 import net.bobstudio.so.repository.MessageDao;
 import net.bobstudio.so.repository.PlanDao;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springside.modules.persistence.DynamicSpecifications;
+import org.springside.modules.persistence.SearchFilter;
+import org.springside.modules.persistence.SearchFilter.Operator;
 
 @Service
 public class PlanService {
@@ -23,6 +32,22 @@ public class PlanService {
 	@Transactional(readOnly = true)
 	public Iterable<Plan> findPlansBySponsor(Long sponsorId) {
 		return planDao.findAllBySponsor(new Account(sponsorId));
+	}
+
+	@Transactional(readOnly = true)
+	public Page<Plan> findPlansBySponsor(Long sponsorId, Map<String, Object> searchParams, int pageNumber, int pageSize,
+			String sortType) {
+		PageRequest pageRequest = PageVo.buildPageRequest(pageNumber, pageSize, sortType);
+		Specification<Plan> spec = buildSpecification(sponsorId,searchParams);
+
+		return planDao.findAll(spec, pageRequest); 
+	}
+
+	private Specification<Plan> buildSpecification(Long sponsorId, Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		filters.put("sponsor.id", new SearchFilter("sponsor.id", Operator.EQ, sponsorId));
+		Specification<Plan> spec = DynamicSpecifications.bySearchFilter(filters.values(), Plan.class);
+		return spec;
 	}
 
 	@Transactional(readOnly = true)

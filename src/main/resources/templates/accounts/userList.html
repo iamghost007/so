@@ -179,8 +179,15 @@ span.error {
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
 				<a href="#" onclick="$.newData('account','新增员工');" class="btn blue1 radius_l" id="_add">新增员工</a> 
-				<a href="#"	class="btn blue1 radius_l" onclick="$.loadFunction('/accounts');">刷新</a>
+				<!-- a href="#"	class="btn blue1 radius_l" onclick="$.loadFunction('/accounts');">刷新</a -->
 			</div>
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#accountPage"
 					onclick="$.gotoTAB('员工');">员工管理</a></li>

@@ -16,21 +16,26 @@
 
 package net.bobstudio.so.mvc;
 
-import java.util.Arrays;
+import java.util.Map;
+
+import javax.servlet.ServletRequest;
 
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.dto.AccountVo;
-import net.bobstudio.so.dto.Status;
+import net.bobstudio.so.dto.PageVo;
 import net.bobstudio.so.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
+import org.springside.modules.web.Servlets;
 
 /**
  * 
@@ -44,12 +49,17 @@ public class AccountController {
 	private AccountService accountService;
 
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute AccountVo accountVo, Model model) {
-		Iterable<Account> accounts = accountService.findAll();
-		model.addAttribute("allStatus", Arrays.asList(Status.ENABLE,Status.DISABLE));
+	public ModelAndView list(@ModelAttribute AccountVo accountVo, @RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		
+		Page<Account> accounts = accountService.findAll(searchParams, pageNumber, pageSize, sortType);
+		
+		PageModel.setModelForPage(sortType, model, new PageVo("/accounts", accounts));
 
-		return new ModelAndView("accounts/userList", "accounts", BeanMapper.mapList(accounts,
-		        AccountVo.class));
+		return new ModelAndView("accounts/userList", "accounts", BeanMapper.mapList(accounts.getContent(), AccountVo.class));
 	}
 
 }

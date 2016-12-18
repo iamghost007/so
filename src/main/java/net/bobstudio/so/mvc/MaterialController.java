@@ -16,8 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
 import org.springside.modules.web.Servlets;
 
-import com.google.common.collect.Maps;
-
 import net.bobstudio.so.domain.Material;
 import net.bobstudio.so.domain.MaterialInstock;
 import net.bobstudio.so.domain.MaterialOutstock;
@@ -25,7 +23,6 @@ import net.bobstudio.so.dto.MaterialVo;
 import net.bobstudio.so.dto.MaterialInstockVo;
 import net.bobstudio.so.dto.MaterialOutstockVo;
 import net.bobstudio.so.dto.PageVo;
-import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.MaterialService;
 
 /**
@@ -34,12 +31,6 @@ import net.bobstudio.so.service.MaterialService;
 @Controller
 @RequestMapping("/materials")
 public class MaterialController {
-	private static Map<String, String> sortTypes = Maps.newLinkedHashMap();
-	static {
-		sortTypes.put("auto", "自动");
-		sortTypes.put("name", "名称");
-	}
-
 	@Autowired
 	private MaterialService materialService;
 
@@ -53,10 +44,7 @@ public class MaterialController {
 
 		Page<Material> materials = materialService.findAll(searchParams, pageNumber, pageSize,
 				sortType);
-		model.addAttribute("allStatus", Status.values());
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
-		model.addAttribute("page", new PageVo("/materials", materials));
+		PageModel.setModelForPage(sortType, model, new PageVo("/materials", materials));
 
 		return new ModelAndView("products/materialsList", "materials", BeanMapper.mapList(materials.getContent(), MaterialVo.class));
 	}
@@ -71,9 +59,7 @@ public class MaterialController {
 		Page<MaterialInstock> mateInstocks = materialService.findAllInstock(searchParams, pageNumber, pageSize,
 				sortType);
 
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
-		model.addAttribute("page", new PageVo("/materials/instocks", mateInstocks));
+		PageModel.setModelForPage(sortType, model, new PageVo("/materials/instocks", mateInstocks));
 
 		return new ModelAndView("products/mateInstocksList", "mateInstocks",
 				BeanMapper.mapList(mateInstocks.getContent(), MaterialInstockVo.class));
@@ -89,9 +75,7 @@ public class MaterialController {
 		Page<MaterialOutstock> mateOutstocks = materialService.findAllOutstock(searchParams, pageNumber, pageSize,
 				sortType);
 
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
-		model.addAttribute("page", new PageVo("/materials/outstocks", mateOutstocks));
+		PageModel.setModelForPage(sortType, model, new PageVo("/materials/outstocks", mateOutstocks));
 
 		return new ModelAndView("products/mateOutstocksList", "mateOutstocks",
 				BeanMapper.mapList(mateOutstocks.getContent(), MaterialOutstockVo.class));

@@ -15,7 +15,7 @@
 		<!-- Material View Start -->
 		<div
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
-			<h3 class="sub-header"></h3>
+			<h3 class="sub-header"></h3><!-- TODO 按代码/规格过滤 -->
             <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
                 <li class="disabled"><a href="#">&lt;&lt;</a></li>
                 <li class="disabled"><a href="#">&lt;</a></li>
@@ -33,7 +33,7 @@
 				<table class="table table-striped table-bordered table-condensed" >
 					<thead>
 						<tr>
-							<th>原料名称</th>
+							<th>原料代号</th>
 							<th>规格</th>
 							<th>原料条码</th>
 							<th>入库单据</th>
@@ -42,7 +42,6 @@
 							<th>入库时间</th>
 							<th>进货人</th>
 							<th>进货时间</th>
-							<th>说明</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,7 +49,7 @@
 							<td colspan="10">没有记录</td>
 						</tr>
 						<tr th:each="instock : ${mateInstocks}">
-							<td th:text="${instock.material} ? ${instock.material.name} : ''">抽屉</td>
+							<td th:text="${instock.material} ? ${instock.material.code} : ''">抽屉</td>
 							<td th:text="${instock.standard}">50*30CM</td>
 							<td th:text="${instock.barcode}">LZ22334444201611</td>
 							<td th:text="${instock.receipt}">单据</td>
@@ -59,7 +58,6 @@
 							<td th:text="${instock.misDate}">2016-10-10 10:10</td>
 							<td th:text="${instock.purchase} ? ${instock.purchase.name} : ''">Bob</td>
 							<td th:text="${instock.purchaseDatetime}">2016-10-10 10:10</td>
-							<td th:text="${instock.remark}">这里是说明</td>
 						</tr>
 					</tbody>
 				</table>

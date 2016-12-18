@@ -59,11 +59,18 @@ span.error {
 		<div
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
-			<div class="pull-right">
-				<!-- a href="#drawingModal" data-toggle="modal"
-					class="btn blue1 radius_l" id="_add">新增图纸</a --> <a href="#"
+			<!-- div class="pull-right">
+				<a href="#drawingModal" data-toggle="modal"
+					class="btn blue1 radius_l" id="_add">新增图纸</a> <a href="#"
 					class="btn blue1 radius_l" onclick="$.loadFunction('/drawings');">刷新</a>
-			</div>
+			</div -->
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#drawingPage"
 					onclick="$.gotoTAB('图纸');">图纸管理</a></li>
@@ -86,7 +93,7 @@ span.error {
 								<th>图纸名称</th>
 								<th>设计师</th>
 								<th>出图日期</th>
-								<th>相关产品</th>
+								<th>产品代号</th>
                                 <th>状态</th>
                                 <th>备注</th>
 								<th>操作</th>
@@ -100,9 +107,9 @@ span.error {
 								<td th:text="${drawing.name}">冰箱设计图</td>
 								<td th:text="${drawing.designer} ? ${drawing.designer.name} : ''">Bob</td>
 								<td th:text="${drawing.date}">2016-10-10</td>
-                                <td th:text="${drawing.product} ? ${drawing.product.name} : ''">双门冰箱</td>
+                                <td th:text="${drawing.product} ? ${drawing.product.code} : ''">双门冰箱</td>
                                 <td th:text="${drawing.status}">有效</td>
-								<td th:text="${drawing.remark}">用于双门冰箱设计</td>
+								<td th:text="${drawing.limitRemark}">用于双门冰箱设计</td>
 								<td>
 									<button type="button" class="btn btn-sm btn-info" onclick="$.showDrawingImage('1');"
                                         th:onclick="'javascript:$.showDrawingImage(\''+${drawing.id}+'\');'">查看图纸</button>

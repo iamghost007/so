@@ -59,6 +59,14 @@ public class DrawingVo {
 	public String getRemark() {
 		return remark;
 	}
+	
+	public String getLimitRemark(){
+		if(remark == null) {
+			return "";
+		}
+		
+		return remark.length() > 15 ? remark.substring(0,14) + "..." : remark;
+	}
 
 	public void setRemark(String remark) {
 		this.remark = remark;

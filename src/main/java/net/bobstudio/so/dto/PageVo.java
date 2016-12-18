@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 public class PageVo {
-	public static final String PAGE_SIZE= "20";
+	public static final String PAGE_SIZE= "2";
 
 	private static final int PAGINATION_SIZE  = 5;
 	
@@ -18,21 +18,32 @@ public class PageVo {
 	
 	private boolean next;
 	
-	private String model;
+	private String model;;
+	
+	private String second;
 	
 	//private int pageSize;
 	
-	public PageVo(String model, Page<?> page){
+	public PageVo(String model, String second, Page<?> page){
 		this.model = model;
 		
 		this.number = page.getNumber();
 		this.totalPages = page.getTotalPages();
 		this.previous = page.hasPrevious();
 		this.next = page.hasNext();
+		this.second = second;
+	}
+	
+	public PageVo(String model, Page<?> page){
+		this(model, "/main", page);
 	}
 	
 	public int getNumber() {
 		return number;
+	}
+	
+	public String getSecond(){
+		return second;
 	}
 
 	public int getTotalPages() {
@@ -71,8 +82,8 @@ public class PageVo {
 		if(previous) {
 			//sb.append("<li><a href='?page=1'>&lt;&lt;</a></li>");
             //sb.append("<li><a href='?page=").append(getCurrent()-1).append("'>&lt;</a></li>");
-			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=1');\">&lt;&lt;</a></li>");
-            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(getCurrent()-1).append("');\">&lt;</a></li>");
+			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=1');\">&lt;&lt;</a></li>");
+            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(getCurrent()-1).append("');\">&lt;</a></li>");
 		}
 		else {
 			sb.append("<li class='disabled'><a href='#'>&lt;&lt;</a></li>");
@@ -86,12 +97,12 @@ public class PageVo {
 			else {
 				sb.append("<li>");
 			}
-			sb.append("<a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(i).append("');\">").append(i).append("</a></li>");
+			sb.append("<a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(i).append("');\">").append(i).append("</a></li>");
 		}
 		
 		if(next) { 
-            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(getCurrent()+1).append("');\">&gt;</a></li>");
-            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','/main','?page=").append(totalPages).append("');\">&gt;&gt;</a></li>");
+            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(getCurrent()+1).append("');\">&gt;</a></li>");
+            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(totalPages).append("');\">&gt;&gt;</a></li>");
 		}
 		else{
 			sb.append("<li class='disabled'><a href='#'>&gt;</a></li>");

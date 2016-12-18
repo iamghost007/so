@@ -10,8 +10,8 @@ import net.bobstudio.so.repository.ProductDao;
 import net.bobstudio.so.repository.ProductInstockDao;
 import net.bobstudio.so.repository.ProductOutstockDao;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +27,7 @@ import org.springside.modules.persistence.SearchFilter;
  */
 @Service
 public class ProductService {
-	private static Logger logger = LoggerFactory.getLogger(AccountService.class);
+	//private static Logger logger = LoggerFactory.getLogger(AccountService.class);
 
 	@Autowired
 	private ProductDao productDao;

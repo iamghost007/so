@@ -14,7 +14,6 @@ import net.bobstudio.so.dto.PageVo;
 import net.bobstudio.so.dto.ProductInstockVo;
 import net.bobstudio.so.dto.ProductOutstockVo;
 import net.bobstudio.so.dto.ProductVo;
-import net.bobstudio.so.dto.Status;
 import net.bobstudio.so.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,21 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springside.modules.mapper.BeanMapper;
 import org.springside.modules.web.Servlets;
 
-import com.google.common.collect.Maps;
-
 /**
  * @author Walter <zhanggx2003@126.com> 2016年9月29日
  */
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-
-	private static Map<String, String> sortTypes = Maps.newLinkedHashMap();
-	static {
-		sortTypes.put("auto", "自动");
-		sortTypes.put("name", "名称");
-	}
-
 	@Autowired
 	private ProductService productService;
 
@@ -56,10 +46,7 @@ public class ProductController {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
 		Page<Product> products = productService.findAll(searchParams, pageNumber, pageSize, sortType);
-		model.addAttribute("allStatus", Status.values());
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
-		model.addAttribute("page", new PageVo("/products", products));
+		PageModel.setModelForPage(sortType, model, new PageVo("/products", products));
 
 		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products.getContent(), ProductVo.class));
 	}
@@ -73,10 +60,7 @@ public class ProductController {
 
 		Page<ProductInstock> prodInstocks = productService.findAllInstock(searchParams, pageNumber, pageSize, sortType);
 
-		PageVo page = new PageVo("/products/instocks", prodInstocks);
-		model.addAttribute("page", page);
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
+		PageModel.setModelForPage(sortType, model, new PageVo("/products/instocks", prodInstocks));
 
 		return new ModelAndView("products/prodInstocksList", "prodInstocks",
 				BeanMapper.mapList(prodInstocks.getContent(), ProductInstockVo.class));
@@ -89,13 +73,10 @@ public class ProductController {
 			ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
-		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
 		Page<ProductOutstock> prodOutstocks = productService.findAllOutstock(searchParams, pageNumber, pageSize,
 				sortType);
 
-		PageVo page = new PageVo("/products/outstocks", prodOutstocks);
-		model.addAttribute("page", page);
+		PageModel.setModelForPage(sortType, model, new PageVo("/products/outstocks", prodOutstocks));
 
 		return new ModelAndView("products/prodOutstocksList", "prodOutstocks",
 				BeanMapper.mapList(prodOutstocks.getContent(), ProductOutstockVo.class));

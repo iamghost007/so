@@ -87,7 +87,7 @@ span.error {
 									</div>
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>产品</span>
-										</label>
+										</label><!-- TODO:代码code，规格下拉prod_gb_standard，联动 -->
 										<div class="col-md-10">
 								            <select th:field="*{product}" th:remove="all-but-first">
 								                <option th:each="product : ${products}"
@@ -191,9 +191,16 @@ span.error {
 				<a href="#" onclick="$.newData('plan','新增订单');$.setPlanDisabled(false);" class="btn blue1 radius_l"
 					id="_add">新增订单</a> 
 				</shiro:hasPermission>
-				<a href="#" class="btn blue1 radius_l"
-					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a>
-			</div>
+				<!-- a href="#" class="btn blue1 radius_l"
+					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a -->
+			</div><!-- TODO销售员，产品代号 搜索 -->
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#sponsorIsMePage" onclick="$.loadFunction('/plans','/sponsor_is_me');">由我发起</a></li>
 				<li><a href="#processorIsMePage"
