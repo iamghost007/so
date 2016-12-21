@@ -45,12 +45,12 @@ span.error {
 							<div class="form-body">
 								<div class="row ">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>编码</span>
+										<label class="col-md-2 control-label"> <span>代号</span>
 											<span class="required">*</span>
 										</label>
 										<div class="col-md-4">
 											<input type="text" id="code" name="code" class="form-control" th:field="*{name}"
-												required="required" placeholder="产品编码" />
+												required="required" placeholder="产品代号" />
 										</div>
 										<label class="col-md-2 control-label"> <span>名称</span>
 											<span class="required">*</span>
@@ -140,13 +140,15 @@ span.error {
 				 <a href="#"
 					class="btn blue1 radius_l" onclick="$.loadFunction('/products');">刷新</a>
 			</div --><!-- TODO 按代码/规格过滤 -->
-            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
-                <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                <li class="disabled"><a href="#">&lt;</a></li>
-                <li class="active"><a href="?page=1">1</a></li>
-                <li><a href="?page=2">&gt;</a></li>
-                <li><a href="?page=3">&gt;&gt;</a></li>
-            </ul>
+			<div class="pull-right" >
+			<form id="searchForm" action="" method="post" >
+			<input type="text" name="code"  placeholder="代号" style="width:120px;height:25px;"/>
+			<input type="text" name="standard"  placeholder="规格" style="width:120px;height:25px;"/>
+			<button type="button" class="btn btn-primary btn-sm " id="search">
+								<span >搜索</span>
+			</button>
+			</form>
+			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#productPage" onclick="$.gotoTAB('产品');">产品信息</a></li>
 				<!-- li><a href="#instockPage"  onclick="$.gotoTAB();">入库产品</a></li>
@@ -198,6 +200,14 @@ span.error {
 					</tbody>
 				</table>
 				</div>
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 
 			  <div class="tab-pane" id="instockPage">
 			  	<input type="hidden" value="0" id="instockFlag"/>
