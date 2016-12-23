@@ -6,43 +6,63 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 public class PageVo {
-	public static final String PAGE_SIZE= "2";
+	public static final String PAGE_SIZE = "2";
 
-	private static final int PAGINATION_SIZE  = 5;
-	
+	private static final int PAGINATION_SIZE = 5;
+
 	private int number;
-	
+
 	private int totalPages;
-	
+
 	private boolean previous;
-	
+
 	private boolean next;
-	
+
 	private String model;;
-	
+
 	private String second;
-	
-	//private int pageSize;
-	
-	public PageVo(String model, String second, Page<?> page){
+
+	private String searchConditions;
+
+	// private int pageSize;
+
+	public PageVo(String model, String second, Page<?> page, String searchConditions) {
 		this.model = model;
-		
+
 		this.number = page.getNumber();
 		this.totalPages = page.getTotalPages();
 		this.previous = page.hasPrevious();
 		this.next = page.hasNext();
 		this.second = second;
+
+		this.searchConditions = searchConditions;
 	}
-	
-	public PageVo(String model, Page<?> page){
+
+	public PageVo(String model, Page<?> page, String searchConditions) {
+		this(model, "/main", page, searchConditions);
+	}
+
+	public PageVo(String model, String second, Page<?> page) {
+		this(model, second, page, "");
+	}
+
+	public PageVo(String model, Page<?> page) {
 		this(model, "/main", page);
 	}
-	
+
 	public int getNumber() {
 		return number;
 	}
-	
-	public String getSecond(){
+
+	public String getSearchConditions() {
+		return searchConditions == null ? "" : searchConditions;
+	}
+
+	public String getSearchParams() {
+		return getSearchConditions().length() > 0 ? "&" + searchConditions : "";
+	}
+
+	public String getSecond() {
 		return second;
 	}
 
@@ -61,56 +81,63 @@ public class PageVo {
 	public int getCurrent() {
 		return number + 1;
 	}
-	
+
 	public int getBegin() {
-		int half = PAGINATION_SIZE/2;
+		int half = PAGINATION_SIZE / 2;
 		int begin = Math.max(1, getCurrent() - half);
-		if(getCurrent() > half && (getTotalPages() - half) < getCurrent() ) {
-			begin = Math.min(getTotalPages() - PAGINATION_SIZE +1,begin);
+		if (getCurrent() > half && (getTotalPages() - half) < getCurrent()) {
+			begin = Math.min(getTotalPages() - PAGINATION_SIZE + 1, begin);
 			begin = Math.max(1, begin);
 		}
-		
+
 		return begin;
-	} 
-	
+	}
+
 	public int getEnd() {
 		return Math.min(getBegin() + (PAGINATION_SIZE - 1), getTotalPages());
 	}
 
-	public String getContent(){
+	public String getContent() {
 		StringBuilder sb = new StringBuilder();
-		if(previous) {
-			//sb.append("<li><a href='?page=1'>&lt;&lt;</a></li>");
-            //sb.append("<li><a href='?page=").append(getCurrent()-1).append("'>&lt;</a></li>");
-			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=1');\">&lt;&lt;</a></li>");
-            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(getCurrent()-1).append("');\">&lt;</a></li>");
-		}
-		else {
+		if (previous) {
+			// sb.append("<li><a href='?page=1'>&lt;&lt;</a></li>");
+			// sb.append("<li><a href='?page=").append(getCurrent()-1).append("'>&lt;</a></li>");
+			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','")
+			        .append(second).append("','?page=1").append(getSearchParams())
+			        .append("');\">&lt;&lt;</a></li>");
+			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','")
+			        .append(second).append("','?page=").append(getCurrent() - 1)
+			        .append(getSearchParams()).append("');\">&lt;</a></li>");
+		} else {
 			sb.append("<li class='disabled'><a href='#'>&lt;&lt;</a></li>");
-            sb.append("<li class='disabled'><a href='#'>&lt;</a></li>");
+			sb.append("<li class='disabled'><a href='#'>&lt;</a></li>");
 		}
-		
-		for(int i = getBegin();i<=getEnd();i++){
-			if(i == getCurrent()) {
+
+		for (int i = getBegin(); i <= getEnd(); i++) {
+			if (i == getCurrent()) {
 				sb.append("<li class='active'>");
-			}
-			else {
+			} else {
 				sb.append("<li>");
 			}
-			sb.append("<a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(i).append("');\">").append(i).append("</a></li>");
+			sb.append("<a href='#' onclick=\"$.loadFunction('").append(model).append("','")
+			        .append(second).append("','?page=").append(i).append(getSearchParams())
+			        .append("');\">").append(i).append("</a></li>");
 		}
-		
-		if(next) { 
-            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(getCurrent()+1).append("');\">&gt;</a></li>");
-            sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','").append(second).append("','?page=").append(totalPages).append("');\">&gt;&gt;</a></li>");
-		}
-		else{
+
+		if (next) {
+			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','")
+			        .append(second).append("','?page=").append(getCurrent() + 1)
+			        .append(getSearchParams()).append("');\">&gt;</a></li>");
+			sb.append("<li><a href='#' onclick=\"$.loadFunction('").append(model).append("','")
+			        .append(second).append("','?page=").append(totalPages)
+			        .append(getSearchParams()).append("');\">&gt;&gt;</a></li>");
+		} else {
 			sb.append("<li class='disabled'><a href='#'>&gt;</a></li>");
 			sb.append("<li class='disabled'><a href='#'>&gt;&gt;</a></li>");
 		}
-		
+
 		return sb.toString();
- 	}
+	}
 
 	/**
 	 * 创建分页请求.

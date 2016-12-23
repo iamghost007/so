@@ -142,9 +142,13 @@ span.error {
 			</div --><!-- TODO 按代码/规格过滤 -->
 			<div class="pull-right" >
 			<form id="searchForm" action="" method="post" >
-			<input type="text" name="code"  placeholder="代号" style="width:120px;height:25px;"/>
-			<input type="text" name="standard"  placeholder="规格" style="width:120px;height:25px;"/>
-			<button type="button" class="btn btn-primary btn-sm " id="search">
+			<!-- ${#httpServletRequest.getParameter('page')}
+            <input type="text" name="search_LIKE_code" th:field="${searchParams.search_LIKE_code}" id="search_1" placeholder="代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_standard" th:field="${searchParams.search_LIKE_standard}" id="search_2"  placeholder="规格" style="width:120px;height:25px;"/>
+            -->
+            <input type="text" name="search_LIKE_code" th:field="${#httpServletRequest.getParameter('search_LIKE_code')}" id="search_1" placeholder="代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_standard" th:field="${#httpServletRequest.getParameter('search_LIKE_standard')}"  id="search_2"  placeholder="规格" style="width:120px;height:25px;"/>
+			<button type="button" class="btn btn-primary btn-sm " id="search" onclick="$.search('/products');">
 								<span >搜索</span>
 			</button>
 			</form>

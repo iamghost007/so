@@ -21,5 +21,6 @@ public class PageModel {
 		model.addAttribute("sortType", sortType);
 		model.addAttribute("sortTypes", sortTypes);
 		model.addAttribute("page", page);
+		
 	}
 }

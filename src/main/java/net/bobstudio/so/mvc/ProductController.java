@@ -46,7 +46,9 @@ public class ProductController {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 
 		Page<Product> products = productService.findAll(searchParams, pageNumber, pageSize, sortType);
-		PageModel.setModelForPage(sortType, model, new PageVo("/products", products));
+		String searchConditions = Servlets.encodeParameterStringWithPrefix(searchParams, "search_");
+		PageModel.setModelForPage(sortType, model, new PageVo("/products", products,searchConditions));
+		//model.addAttribute("searchParams", searchConditions);
 
 		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products.getContent(), ProductVo.class));
 	}

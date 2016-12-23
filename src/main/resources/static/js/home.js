@@ -299,6 +299,21 @@ jQuery
 
 			},
 			
+			search : function(module){
+				var form = $('#searchForm');
+				var value1 = $.trim($("#search_1").val());
+				var value2 = $.trim($("#search_2").val());
+				if(value1.length == 0 && value2.length == 0) {
+					alert('您没有输入要查询的数据');
+					return false;
+				}
+				var name1= $("#search_1").attr("name");
+				var name2= $("#search_2").attr("name");
+				var para = "?"+name1+"="+value1+"&"+name2+"="+value2;
+				//alert('module:'+module+'; para:'+para);
+				$.loadFunction(module,'/main',para);
+			},
+			
 			editPwd : function() {
 				var form = $('#editPwdForm');
 				if (!form.valid()) {
@@ -324,6 +339,7 @@ jQuery
 					errorTip.show();
 				});
 			},
+			
 			resetPassword : function(accountId){
 				if(!confirm("重置后，该员工的密码会更新为默认的‘12345678’，您确认要继续吗？")){
 					return;
