@@ -51,6 +51,16 @@ public class PlanService {
 	}
 
 	@Transactional(readOnly = true)
+	public Iterable<Plan> findAllInProcessing(Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		//"from Plan plan where plan.status!='PLAN_OVER'"
+		filters.put("status", new SearchFilter("status", Operator.NE, "PLAN_OVER"));
+		Specification<Plan> spec = DynamicSpecifications.bySearchFilter(filters.values(), Plan.class);
+		
+		return planDao.findAll(spec);
+	}
+
+	@Transactional(readOnly = true)
 	public Iterable<Plan> findAllInProcessing() {
 		return planDao.findAllInProcessing();
 	}

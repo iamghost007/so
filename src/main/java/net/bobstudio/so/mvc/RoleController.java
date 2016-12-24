@@ -38,11 +38,11 @@ public class RoleController {
 			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 		
 		Page<Role> roles = roleService.findRoles(searchParams, pageNumber, pageSize, sortType);
 		
-		PageModel.setModelForPage(sortType, model, new PageVo("/roles", roles));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/roles", roles));
 		
 		return new ModelAndView("accounts/roleList", "roles", BeanMapper.mapList(roles.getContent(), RoleVo.class));
 	}

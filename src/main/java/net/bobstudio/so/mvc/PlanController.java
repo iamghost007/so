@@ -60,9 +60,9 @@ public class PlanController {
 	private static final String ENABLE_STATUS = Status.ENABLE.getDescription();
 
 	@GetMapping("main")
-	public ModelAndView list(@ModelAttribute PlanVo planVo, Model model) {
-
-		Iterable<Plan> plans = filterMine(planService.findAllInProcessing());
+	public ModelAndView list(@ModelAttribute PlanVo planVo, Model model, ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
+		Iterable<Plan> plans = filterMine(planService.findAllInProcessing(searchParams));
 		setModelForPlan(model);
 
 		return new ModelAndView("plans/planList", "plans", BeanMapper.mapList(plans, PlanVo.class));
@@ -112,9 +112,9 @@ public class PlanController {
 			return new ModelAndView("plans/sponsorIsMe", "plans", null);
 		}
 
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 		Page<Plan> plans = planService.findPlansBySponsor(myid, searchParams, pageNumber, pageSize, sortType);
-		PageModel.setModelForPage(sortType, model, new PageVo("/plans", "/sponsor_is_me", plans));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/plans", "/sponsor_is_me", plans));
 		setModelForPlan(model);
 
 		return new ModelAndView("plans/sponsorIsMe", "plans", BeanMapper.mapList(plans.getContent(), PlanVo.class));

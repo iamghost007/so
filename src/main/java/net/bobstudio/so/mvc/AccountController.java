@@ -53,11 +53,11 @@ public class AccountController {
 			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 		
 		Page<Account> accounts = accountService.findAll(searchParams, pageNumber, pageSize, sortType);
 		
-		PageModel.setModelForPage(sortType, model, new PageVo("/accounts", accounts));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/accounts", accounts));
 
 		return new ModelAndView("accounts/userList", "accounts", BeanMapper.mapList(accounts.getContent(), AccountVo.class));
 	}

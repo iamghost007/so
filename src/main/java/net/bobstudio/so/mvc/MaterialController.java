@@ -40,11 +40,12 @@ public class MaterialController {
 			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 
 		Page<Material> materials = materialService.findAll(searchParams, pageNumber, pageSize,
 				sortType);
-		PageModel.setModelForPage(sortType, model, new PageVo("/materials", materials));
+		
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/materials", materials));
 
 		return new ModelAndView("products/materialsList", "materials", BeanMapper.mapList(materials.getContent(), MaterialVo.class));
 	}
@@ -59,7 +60,7 @@ public class MaterialController {
 		Page<MaterialInstock> mateInstocks = materialService.findAllInstock(searchParams, pageNumber, pageSize,
 				sortType);
 
-		PageModel.setModelForPage(sortType, model, new PageVo("/materials/instocks", mateInstocks));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/materials/instocks", mateInstocks));
 
 		return new ModelAndView("products/mateInstocksList", "mateInstocks",
 				BeanMapper.mapList(mateInstocks.getContent(), MaterialInstockVo.class));
@@ -75,7 +76,7 @@ public class MaterialController {
 		Page<MaterialOutstock> mateOutstocks = materialService.findAllOutstock(searchParams, pageNumber, pageSize,
 				sortType);
 
-		PageModel.setModelForPage(sortType, model, new PageVo("/materials/outstocks", mateOutstocks));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/materials/outstocks", mateOutstocks));
 
 		return new ModelAndView("products/mateOutstocksList", "mateOutstocks",
 				BeanMapper.mapList(mateOutstocks.getContent(), MaterialOutstockVo.class));

@@ -128,18 +128,15 @@ span.error {
 		<!-- Customer View Start -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
-			<!-- div class="pull-right">
-				<a href="#" onclick="$.newData('supplier','新增供应商');"
-					class="btn blue1 radius_l" id="_add">新增供应商</a> <a href="#"
-					class="btn blue1 radius_l" onclick="$.loadFunction('/suppliers');">刷新</a>
-			</div -->
-            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
-                <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                <li class="disabled"><a href="#">&lt;</a></li>
-                <li class="active"><a href="?page=1">1</a></li>
-                <li><a href="?page=2">&gt;</a></li>
-                <li><a href="?page=3">&gt;&gt;</a></li>
-            </ul>
+			<div class="pull-right">
+			<form id="searchForm" action="" method="post" >
+            <input type="text" name="search_LIKE_name" th:value="${#httpServletRequest.getParameter('search_LIKE_name')}" id="search_1" placeholder="供应商名称" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_salesman.name" th:value="${#httpServletRequest.getParameter('search_LIKE_salesman.name')}"  id="search_2"  placeholder="业务员" style="width:120px;height:25px;"/>
+			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/suppliers');"><span >搜索</span></button>
+			<!-- a href="#" onclick="$.newData('supplier','新增供应商');" class="btn blue1 radius_l" id="_add">新增供应商</a -->
+			<a href="#" class="btn blue1 radius_l btn-sm" onclick="$.loadFunction('/suppliers');">刷新</a>
+			</form>
+			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#supplierPage"
 					onclick="$.gotoTAB('供应商');">供应商管理</a></li>
@@ -194,6 +191,13 @@ span.error {
 						</tbody>
 					</table>
 				</div>
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 				<div class="tab-pane" id="rolePage">
 					<input type="hidden" value="0" id="roleFlag" />
 				</div>

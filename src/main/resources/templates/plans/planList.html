@@ -235,11 +235,16 @@ span.error {
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
-			    <shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.batchToProduct();" class="btn blue1 radius_l"
+			<form id="searchForm" action="" method="post" >
+            <input type="text" name="search_LIKE_product.code" th:value="${#httpServletRequest.getParameter('search_LIKE_product.code')}" id="search_1" placeholder="产品代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_salesman.name" th:value="${#httpServletRequest.getParameter('search_LIKE_salesman.name')}"  id="search_2"  placeholder="业务员" style="width:120px;height:25px;"/>
+			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/plans');"><span >搜索</span></button>
+			<a href="#" class="btn blue1 radius_l btn-sm"	onclick="$.loadFunction('/plans');">刷新</a>
+			<shiro:hasPermission name="plan:create">
+				<a href="#" onclick="$.batchToProduct();" class="btn blue1 radius_l btn-sm"
 					id="_add">批量转产</a> 
-				</shiro:hasPermission>
-				<a href="#" class="btn blue1 radius_l"	onclick="$.loadFunction('/plans');">刷新</a>
+			</shiro:hasPermission>
+			</form>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li><a href="#sponsorIsMePage" onclick="$.loadFunction('/plans', '/sponsor_is_me');">由我发起</a></li>

@@ -42,7 +42,7 @@ public class SupplierController {
 
 		Page<Supplier> suppliers = supplierService.findSuppliers(searchParams, pageNumber, pageSize, sortType);
 		
-		PageModel.setModelForPage(sortType, model, new PageVo("/suppliers", suppliers));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/suppliers", suppliers));
 
 		return new ModelAndView("suppliers/supplierList", "suppliers", BeanMapper.mapList(suppliers.getContent(), SupplierVo.class));
 	}

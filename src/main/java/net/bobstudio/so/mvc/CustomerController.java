@@ -41,7 +41,7 @@ public class CustomerController {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		
 		Page<Customer> customers = customerService.findAll(searchParams, pageNumber, pageSize, sortType);
-		PageModel.setModelForPage(sortType, model, new PageVo("/customers", customers));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/customers", customers));
 
 		return new ModelAndView("customers/customerList", "customers", BeanMapper.mapList(customers.getContent(), CustomerVo.class));
 	}

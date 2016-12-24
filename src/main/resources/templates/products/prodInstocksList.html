@@ -16,13 +16,14 @@
 		<div
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3><!-- TODO 按代码/规格过滤 -->
-            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
-                <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                <li class="disabled"><a href="#">&lt;</a></li>
-                <li class="active"><a href="?page=1">1</a></li>
-                <li><a href="?page=2">&gt;</a></li>
-                <li><a href="?page=3">&gt;&gt;</a></li>
-            </ul>
+            <div class="pull-right" >
+			<form id="searchForm" action="" method="post" >
+            <input type="text" name="search_LIKE_product.code" th:value="${#httpServletRequest.getParameter('search_LIKE_product.code')}" id="search_1" placeholder="代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_standard" th:value="${#httpServletRequest.getParameter('search_LIKE_standard')}"  id="search_2"  placeholder="规格" style="width:120px;height:25px;"/>
+			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/products/instocks');"><span >搜索</span></button>
+			<a href="#" class="btn blue1 radius_l btn-sm" onclick="$.loadFunction('/products/instocks');">刷新</a>
+			</form>
+			</div>
  			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#instockPage" onclick="$.loadFunction('/products/instocks');">入库产品</a></li>
 				<li><a href="#mateInstockPage"  onclick="$.loadFunction('/materials/instocks');">入库原料</a></li>
@@ -58,6 +59,13 @@
 					</tbody>
 				</table>
 				</div>
+			<ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 
 			  <div class="tab-pane" id="mateInstockPage">
 			  	<input type="hidden" value="0" id="mateInstockFlag"/>

@@ -43,7 +43,7 @@ public class DrawingController {
 			ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		Page<Drawing> drawings = drawingService.findAll(searchParams, pageNumber, pageSize, sortType);
-		PageModel.setModelForPage(sortType, model, new PageVo("/drawings", drawings));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/drawings", drawings));
 
 		if (!"message".equals(message)) {
 			redirect.addFlashAttribute("globalTip", message);

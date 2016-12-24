@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort.Direction;
 
 public class PageVo {
 	public static final String PAGE_SIZE = "2";
+	
+	public static final String SEARCH_PERFIX="search_";
 
 	private static final int PAGINATION_SIZE = 5;
 
@@ -26,7 +28,7 @@ public class PageVo {
 
 	// private int pageSize;
 
-	public PageVo(String model, String second, Page<?> page, String searchConditions) {
+	public PageVo(String model, String second, Page<?> page) {
 		this.model = model;
 
 		this.number = page.getNumber();
@@ -35,15 +37,6 @@ public class PageVo {
 		this.next = page.hasNext();
 		this.second = second;
 
-		this.searchConditions = searchConditions;
-	}
-
-	public PageVo(String model, Page<?> page, String searchConditions) {
-		this(model, "/main", page, searchConditions);
-	}
-
-	public PageVo(String model, String second, Page<?> page) {
-		this(model, second, page, "");
 	}
 
 	public PageVo(String model, Page<?> page) {
@@ -56,6 +49,10 @@ public class PageVo {
 
 	public String getSearchConditions() {
 		return searchConditions == null ? "" : searchConditions;
+	}
+	
+	public void setSearchConditions(String searchConditions){
+		this.searchConditions = searchConditions;
 	}
 
 	public String getSearchParams() {
@@ -98,6 +95,10 @@ public class PageVo {
 	}
 
 	public String getContent() {
+		if(getTotalPages()==0) {
+			return "";
+		}
+		
 		StringBuilder sb = new StringBuilder();
 		if (previous) {
 			// sb.append("<li><a href='?page=1'>&lt;&lt;</a></li>");

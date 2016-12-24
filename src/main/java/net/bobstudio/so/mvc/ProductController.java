@@ -43,12 +43,11 @@ public class ProductController {
 			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 
 		Page<Product> products = productService.findAll(searchParams, pageNumber, pageSize, sortType);
-		String searchConditions = Servlets.encodeParameterStringWithPrefix(searchParams, "search_");
-		PageModel.setModelForPage(sortType, model, new PageVo("/products", products,searchConditions));
-		//model.addAttribute("searchParams", searchConditions);
+		
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/products", products));
 
 		return new ModelAndView("products/productsList", "products", BeanMapper.mapList(products.getContent(), ProductVo.class));
 	}
@@ -58,11 +57,11 @@ public class ProductController {
 			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 
 		Page<ProductInstock> prodInstocks = productService.findAllInstock(searchParams, pageNumber, pageSize, sortType);
 
-		PageModel.setModelForPage(sortType, model, new PageVo("/products/instocks", prodInstocks));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/products/instocks", prodInstocks));
 
 		return new ModelAndView("products/prodInstocksList", "prodInstocks",
 				BeanMapper.mapList(prodInstocks.getContent(), ProductInstockVo.class));
@@ -73,12 +72,12 @@ public class ProductController {
 			@RequestParam(value = "page.size", defaultValue = PageVo.PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, PageVo.SEARCH_PERFIX);
 
 		Page<ProductOutstock> prodOutstocks = productService.findAllOutstock(searchParams, pageNumber, pageSize,
 				sortType);
 
-		PageModel.setModelForPage(sortType, model, new PageVo("/products/outstocks", prodOutstocks));
+		PageModel.setModelForPage(sortType, model, searchParams, new PageVo("/products/outstocks", prodOutstocks));
 
 		return new ModelAndView("products/prodOutstocksList", "prodOutstocks",
 				BeanMapper.mapList(prodOutstocks.getContent(), ProductOutstockVo.class));

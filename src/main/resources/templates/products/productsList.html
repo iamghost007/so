@@ -135,22 +135,13 @@ span.error {
 		<div
 			class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main show-grid">
 			<h3 class="sub-header"></h3>
-			<!-- div class="pull-right">
-				<a href="#productModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a>
-				 <a href="#"
-					class="btn blue1 radius_l" onclick="$.loadFunction('/products');">刷新</a>
-			</div --><!-- TODO 按代码/规格过滤 -->
 			<div class="pull-right" >
 			<form id="searchForm" action="" method="post" >
-			<!-- ${#httpServletRequest.getParameter('page')}
-            <input type="text" name="search_LIKE_code" th:field="${searchParams.search_LIKE_code}" id="search_1" placeholder="代号" style="width:120px;height:25px;"/>
-            <input type="text" name="search_LIKE_standard" th:field="${searchParams.search_LIKE_standard}" id="search_2"  placeholder="规格" style="width:120px;height:25px;"/>
-            -->
-            <input type="text" name="search_LIKE_code" th:field="${#httpServletRequest.getParameter('search_LIKE_code')}" id="search_1" placeholder="代号" style="width:120px;height:25px;"/>
-            <input type="text" name="search_LIKE_standard" th:field="${#httpServletRequest.getParameter('search_LIKE_standard')}"  id="search_2"  placeholder="规格" style="width:120px;height:25px;"/>
-			<button type="button" class="btn btn-primary btn-sm " id="search" onclick="$.search('/products');">
-								<span >搜索</span>
-			</button>
+            <input type="text" name="search_LIKE_code" th:value="${#httpServletRequest.getParameter('search_LIKE_code')}" id="search_1" placeholder="代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_standard" th:value="${#httpServletRequest.getParameter('search_LIKE_standard')}"  id="search_2"  placeholder="规格" style="width:120px;height:25px;"/>
+			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/products');"><span >搜索</span></button>
+			<!-- a href="#productModal" data-toggle="modal" class="btn blue1 radius_l" id="_add">新增产品</a -->
+			<a href="#" class="btn blue1 radius_l btn-sm" onclick="$.loadFunction('/products');">刷新</a>
 			</form>
 			</div>
 			<ul class="nav-tabs nav" id="tabs">

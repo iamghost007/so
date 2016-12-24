@@ -299,7 +299,11 @@ jQuery
 
 			},
 			
-			search : function(module){
+			search : function(module, second){
+				if(!second) {
+					second = "/main";
+				}
+				
 				var form = $('#searchForm');
 				var value1 = $.trim($("#search_1").val());
 				var value2 = $.trim($("#search_2").val());
@@ -311,7 +315,7 @@ jQuery
 				var name2= $("#search_2").attr("name");
 				var para = "?"+name1+"="+value1+"&"+name2+"="+value2;
 				//alert('module:'+module+'; para:'+para);
-				$.loadFunction(module,'/main',para);
+				$.loadFunction(module, second, para);
 			},
 			
 			editPwd : function() {

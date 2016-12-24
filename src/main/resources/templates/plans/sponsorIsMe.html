@@ -91,7 +91,7 @@ span.error {
 										<div class="col-md-10">
 								            <select th:field="*{product}" th:remove="all-but-first">
 								                <option th:each="product : ${products}"
-								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;名称：'+${product.name}+', &nbsp;&nbsp;&nbsp;类型：'+${product.type}">产品一</option>
+								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;规格：'+${product.standard}">产品一</option>
 								                <option>产品二</option>
 								                <option>产品三</option>
 								            </select>
@@ -186,21 +186,19 @@ span.error {
 		<!-- plan View Start -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h3 class="sub-header"></h3>
-			<div class="pull-right">
-			    <shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.newData('plan','新增订单');$.setPlanDisabled(false);" class="btn blue1 radius_l"
+			<div class="pull-right"><!-- 销售员，产品代号 搜索 -->
+			<form id="searchForm" action="" method="post" >
+            <input type="text" name="search_LIKE_product.code" th:value="${#httpServletRequest.getParameter('search_LIKE_product.code')}" id="search_1" placeholder="产品代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_salesman.name" th:value="${#httpServletRequest.getParameter('search_LIKE_salesman.name')}"  id="search_2"  placeholder="业务员" style="width:120px;height:25px;"/>
+			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/plans','/sponsor_is_me');"><span >搜索</span></button>
+			<a href="#" class="btn blue1 radius_l btn-sm"
+					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a>
+			<shiro:hasPermission name="plan:create">
+				<a href="#" onclick="$.newData('plan','新增订单');$.setPlanDisabled(false);" class="btn blue1 radius_l btn-sm"
 					id="_add">新增订单</a> 
-				</shiro:hasPermission>
-				<!-- a href="#" class="btn blue1 radius_l"
-					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a -->
-			</div><!-- TODO销售员，产品代号 搜索 -->
-            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
-                <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                <li class="disabled"><a href="#">&lt;</a></li>
-                <li class="active"><a href="?page=1">1</a></li>
-                <li><a href="?page=2">&gt;</a></li>
-                <li><a href="?page=3">&gt;&gt;</a></li>
-            </ul>
+			</shiro:hasPermission>
+			</form>
+			</div>
 			<ul class="nav-tabs nav" id="tabs">
 				<li class="active"><a href="#sponsorIsMePage" onclick="$.loadFunction('/plans','/sponsor_is_me');">由我发起</a></li>
 				<li><a href="#processorIsMePage"
@@ -218,7 +216,7 @@ span.error {
 						<thead>
 							<tr>
 								<th>订单名称</th>
-								<th>产品名称</th>
+								<th>产品代号</th>
 								<th>长度</th>
 								<th>数量</th>
 								<th>客户</th>
@@ -235,7 +233,7 @@ span.error {
 							</tr>
 							<tr th:each="plan : ${plans}">
 								<td th:text="${plan.name}">BX</td>
-								<td th:text="${plan.product} ? ${plan.product.name} : ''">冰箱</td>
+								<td th:text="${plan.product} ? ${plan.product.code} : ''">冰箱</td>
 								<td th:text="${plan.productLength}">100</td>
 								<td th:text="${plan.productAmount}">200</td>
 								<td th:text="${plan.customer} ? ${plan.customer.name} : ''">乐视网</td>
@@ -255,6 +253,13 @@ span.error {
 						</tbody>
 					</table>
 				</div>
+            <ul class="pull-right pagination pagination-sm" th:utext="${page.content}"> 
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+                <li class="active"><a href="?page=1">1</a></li>
+                <li><a href="?page=2">&gt;</a></li>
+                <li><a href="?page=3">&gt;&gt;</a></li>
+            </ul>
 				<div class="tab-pane" id="processorIsMePage">
 					<input type="hidden" value="0" id="processorIsMeFlag" />
 				</div>
