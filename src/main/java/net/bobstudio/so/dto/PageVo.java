@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 public class PageVo {
-	public static final String PAGE_SIZE = "2";
+	public static final String PAGE_SIZE = "20";
 	
 	public static final String SEARCH_PERFIX="search_";
 

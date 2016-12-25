@@ -89,11 +89,21 @@ span.error {
 										<label class="col-md-2 control-label"> <span>产品</span>
 										</label><!-- TODO:代码code，规格下拉prod_gb_standard，联动 -->
 										<div class="col-md-10">
-								            <select th:field="*{product}" th:remove="all-but-first">
+								            <select id="product_data" th:remove="all-but-first" style="display:none">
 								                <option th:each="product : ${products}"
-								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;规格：'+${product.standard}">产品一</option>
-								                <option>产品二</option>
-								                <option>产品三</option>
+								                        th:text="${product.id}+','+${product.code}+','+${product.standard}" >1,code1,standard1</option>
+								                <option >2,c2,s2</option>
+								                <option >3,c2,s3</option>
+								                <option >4,c2,s4</option>
+								                <option >5,c3,s5</option>
+								                <option >6,c3,s6</option>
+								                <option >7,c5,s7</option>
+								            </select>
+								            <select id="product_code"  onchange="$.linkageCodeSelected();" required="required">
+								            	<option value="">请选择代码</option>
+								            </select>
+								            <select id="product" name="product" required="required">
+								            	<option value="">请选择规格</option>
 								            </select>
 										</div>
 									</div>
@@ -153,7 +163,7 @@ span.error {
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="dataSave"
-							onclick="$.dataSave('plan');">
+							onclick="if($('#product').val()==''){alert('请选择规格');}else{$.dataSave('plan');}">
 							<span>确认</span>
 						</button>
 						<button type="button" class="btn default" data-dismiss="modal">
@@ -194,7 +204,7 @@ span.error {
 			<a href="#" class="btn blue1 radius_l btn-sm"
 					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a>
 			<shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.newData('plan','新增订单');$.setPlanDisabled(false);" class="btn blue1 radius_l btn-sm"
+				<a href="#" onclick="$.linkageCodeToStandard();$.newData('plan','新增订单');$.setPlanDisabled(false);" class="btn blue1 radius_l btn-sm"
 					id="_add">新增订单</a> 
 			</shiro:hasPermission>
 			</form>

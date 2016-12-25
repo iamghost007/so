@@ -89,9 +89,9 @@ span.error {
 										<label class="col-md-2 control-label"> <span>产品</span>
 										</label>
 										<div class="col-md-10">
-								            <select th:field="*{product}" th:remove="all-but-first">
+								            <select  th:field="*{product}" th:remove="all-but-first">
 								                <option th:each="product : ${products}"
-								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;名称：'+${product.name}+', &nbsp;&nbsp;&nbsp;类型：'+${product.type}">产品一</option>
+								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;规格：'+${product.standard}">产品一</option>
 								                <option>产品二</option>
 								                <option>产品三</option>
 								            </select>

@@ -85,11 +85,11 @@ jQuery
 				var localhostPath = curWwwPath.substring(0, pos);
 				
 				//for tomcat
-				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				//return (localhostPath + projectName);
+				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				return (localhostPath + projectName);
 				
 				//spring-boot
-				return localhostPath;
+				//return localhostPath;
 			},
 
 			gotoTAB : function(name) {
@@ -201,6 +201,50 @@ jQuery
 					$("#"+id).attr("readonly", false);
 				}  
 
+			},
+			
+			linkageCodeToStandard : function(){
+				//$.preLink();
+				var item = {
+				        id:0,
+				        code:"", 
+				        standard:"", 
+				    };
+				var i=0,j=0,data = new Array(),code=new Array();
+				$("#product_data option").each(function() { 
+					var values= $(this).text().split(',');
+					item.id=values[0];
+					item.code=values[1];
+					item.standard=values[2];
+					data[i++] = item;
+					if(j==0){
+						code[j++] = values[1];
+					}
+					if(j>0 && code[j-1] != values[1]) {
+						code[j++] = values[1];
+					}
+
+				});
+				for(var i=0;i<code.length;i++){
+					$("#product_code").append("<option>"+code[i]+"</option>"); 
+				}
+				
+				
+			},
+			
+			linkageCodeSelected : function(){
+				$("#product").empty(); 
+				$("#product").append("<option value=''>请选择规格</option>"); 
+
+				$("#product option[index='0']").remove(); 
+				
+				var selectedCode = $("#product_code").val();
+				$("#product_data option").each(function() { 
+					var values= $(this).text().split(',');
+					if(values[1] == selectedCode) {
+						$("#product").append("<option value='"+values[0]+"'>"+values[2]+"</option>"); 
+					}
+				});
 			},
 			
 			showModule : function(module, title) {
