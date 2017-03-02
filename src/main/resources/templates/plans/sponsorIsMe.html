@@ -65,14 +65,12 @@ span.error {
 							<div class="form-body">
 								<div class="row">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>订单名称</span>
+										<label class="col-md-2 control-label"> <span>订单编号</span>
 										</label>
-										<div class="col-md-10">
+										<div class="col-md-4">
 											<input type="text" class="form-control" th:field="*{name}"
-												id="name" name="name" required="required"  data-msg-minlength="请输入最小5位字符" minlength="5" maxlength="50"/>
+												id="name" name="name" required="required"  data-msg-minlength="请输入最小2位字符" minlength="2" maxlength="50"/>
 										</div>
-									</div>
-									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>订单类型</span>
 										</label>
 										<div class="col-md-4">
@@ -83,28 +81,6 @@ span.error {
 											<label th:remove="all" class="radio inline">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="type"/> <span>生产</span>
 											</label>
-										</div>
-									</div>
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>产品</span>
-										</label><!-- TODO:代码code，规格下拉prod_gb_standard，联动 -->
-										<div class="col-md-10">
-								            <select id="product_data" th:remove="all-but-first" style="display:none">
-								                <option th:each="product : ${products}"
-								                        th:text="${product.id}+','+${product.code}+','+${product.standard}" >1,code1,standard1</option>
-								                <option >2,c2,s2</option>
-								                <option >3,c2,s3</option>
-								                <option >4,c2,s4</option>
-								                <option >5,c3,s5</option>
-								                <option >6,c3,s6</option>
-								                <option >7,c5,s7</option>
-								            </select>
-								            <select id="product_code"  onchange="$.linkageCodeSelected();" required="required">
-								            	<option value="">请选择代码</option>
-								            </select>
-								            <select id="product" name="product" required="required">
-								            	<option value="">请选择规格</option>
-								            </select>
 										</div>
 									</div>
 									<div class="form-group col-md-12">
@@ -130,23 +106,90 @@ span.error {
 										</div>
 									</div>
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>长度</span><span
-											class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{productLength}"
+										<div class="pull-left"><span>1.</span></div>
+								            <select id="product_data" th:remove="all-but-first" style="display:none">
+								                <option th:each="product : ${products}"
+								                        th:text="${product.id}+','+${product.code}+','+${product.standard}" >1,code1,standard1</option>
+								                <option >2,c2,s2</option>
+								                <option >3,c2,s3</option>
+								                <option >4,c2,s4</option>
+								                <option >5,c3,s5</option>
+								                <option >6,c3,s6</option>
+								                <option >7,c5,s7</option>
+								            </select>
+								         <div class="col-md-2">
+								            <select id="product_code"  onchange="$.linkageCodeSelected();" required="required">
+								            	<option value="">产品代码</option>
+								            </select>
+								            </div>
+								       <div class="col-md-1">
+								            <select id="product" name="product" required="required">
+								            	<option value="">规格</option>
+								            </select>
+								       </div>
+								       <div class="col-md-2" style="margin-left:10px;">
+											<input type="text" class="form-control" placeholder="价格"
 												id="productLength" name="productLength" required="required" data-rule-number="true" 
-												data-msg-number="请输入正确的数字" data-msg-minlength="请输入最小6位" minlength="1" maxlength="6"/>
-										</div>
-										<label class="col-md-2 control-label"> <span>数量</span><span
-											class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{productAmount}"
+												data-msg-number="请输入正确的数字"  minlength="1" maxlength="6" style="width:85px;height:24px"/>
+								       </div>
+								       <div class="col-md-1">
+											<input type="text" class="form-control" th:field="*{productAmount}"  placeholder="数量"
 												id="productAmount" name="productAmount" required="required" data-rule-number="true" 
-												data-msg-number="请输入正确的数字" data-msg-minlength="请输入最小6位" minlength="1" maxlength="8"/>
+												data-msg-number="请输入正确的数字"  minlength="1" maxlength="8" style="width:65px;height:24px"/>
+										</div>
+								       <div class="col-md-1"  style="margin-left:25px;">
+											<input type="text" class="form-control" th:field="*{productLength}" placeholder="长度"
+												id="productLength" name="productLength" required="required" data-rule-number="true" 
+												data-msg-number="请输入正确的数字"  minlength="1" maxlength="6" style="width:65px;height:24px"/>
+								       </div>
+										<div class="col-md-3" style="margin-left:25px;">
+											<input type="text" class="form-control"  placeholder="备注"
+												id="productAmount" name="productAmount" required="required" 
+												maxlength="100" style="width:125px;height:24px"/>
+										</div>
+										<div class="pull-right">
+												<img th:src="@{/img/delete24.gif}" src="../../static/img/delete24.gif" width="16" height="16" border="0" alt="delete"></img>
 										</div>
 									</div>
+<!-- +++++++++++++++ -->
+									<div class="form-group col-md-12">
+										<div class="pull-left"><span>2.</span></div>
+								            
+								         <div class="col-md-2">
+								            <select id="product_code"   required="required">
+								            	<option value="">产品代码</option>
+								            </select>
+								            </div>
+								       <div class="col-md-1">
+								            <select id="product" name="product" required="required">
+								            	<option value="">规格</option>
+								            </select>
+								       </div>
+								       <div class="col-md-2" style="margin-left:10px;">
+											<input type="text" class="form-control" placeholder="价格"
+												 required="required" data-rule-number="true" 
+												data-msg-number="请输入正确的数字"  minlength="1" maxlength="6" style="width:85px;height:24px"/>
+								       </div>
+								       <div class="col-md-1">
+											<input type="text" class="form-control"   placeholder="数量"
+												 required="required" data-rule-number="true" 
+												data-msg-number="请输入正确的数字"  minlength="1" maxlength="8" style="width:65px;height:24px"/>
+										</div>
+								       <div class="col-md-1"  style="margin-left:25px;">
+											<input type="text" class="form-control"  placeholder="长度"
+												required="required" data-rule-number="true" 
+												data-msg-number="请输入正确的数字"  minlength="1" maxlength="6" style="width:65px;height:24px"/>
+								       </div>
+										<div class="col-md-3" style="margin-left:25px;">
+											<input type="text" class="form-control"  placeholder="备注"
+												required="required" data-rule-number="true" 
+												maxlength="100s" style="width:125px;height:24px"/>
+										</div>
+										<div class="pull-right">
+												<img th:src="@{/img/delete24.gif}" src="../../static/img/delete24.gif" width="16" height="16" border="0" alt="delete"></img>
+										</div>
+									</div>
+<!-- +++++++++++++++ -->
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>订单描述</span>
 										</label>
