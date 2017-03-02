@@ -84,7 +84,7 @@ jQuery.validator.addMethod("gt",function(value, element){
         returnVal = true;
     }
     return returnVal;
-},"不能小于0 或空");
+},"不能小于0或空");
 
 //汉字
 jQuery.validator.addMethod("chinese", function (value, element) {

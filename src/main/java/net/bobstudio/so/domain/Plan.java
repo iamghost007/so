@@ -3,6 +3,7 @@ package net.bobstudio.so.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,17 +28,6 @@ public class Plan {
 	public Long id;
 	
 	public String name;
-	
-	@OneToOne
-	@JoinColumn(name="productId")
-	@NotFound(action=NotFoundAction.IGNORE)
-	public Product product;
-
-	public Double productAmount;
-	
-	public Double realAmount = 0d;
-	
-	public Double productLength;
 	
 	@OneToOne
 	@JoinColumn(name="customer")
@@ -65,6 +55,10 @@ public class Plan {
 	@OneToMany(mappedBy = "plan")
 	@NotFound(action=NotFoundAction.IGNORE)
 	public List<Message> messages = Lists.newArrayList();
+	
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE },mappedBy = "plan")
+	@NotFound(action=NotFoundAction.IGNORE)
+	public List<ProductInPlan> planProducts = Lists.newArrayList();
 
 	public Plan() {
 

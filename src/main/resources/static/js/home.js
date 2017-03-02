@@ -85,11 +85,11 @@ jQuery
 				var localhostPath = curWwwPath.substring(0, pos);
 				
 				//for tomcat
-				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				return (localhostPath + projectName);
+				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				//return (localhostPath + projectName);
 				
 				//spring-boot
-				//return localhostPath;
+				return localhostPath;
 			},
 
 			gotoTAB : function(name) {
@@ -130,7 +130,25 @@ jQuery
 				var errorTip = $("#errorTip");
 				var modal = $("#" + module + "Modal");
 
-				var content = form.serializeObject();
+				var content = form.serializeObject();  //form.serializeJSON();  
+				if(module == "plan") {
+					
+					var prod = content.product;
+					var planProducts = [];
+					for(var i=0;i <prod.length;i++){
+						var planProduct = { 
+								product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
+						}
+						planProduct.product=prod[i];
+						planProduct.productPrice=content.productPrice[i];
+						planProduct.productAmount=content.productAmount[i];
+						planProduct.productLength=content.productLength[i];
+						planProduct.productRemark=content.productRemark[i];
+						planProducts.push(planProduct);
+					}
+					content.planProducts=planProducts;
+					//return;
+				}
 				$.sendAjaxReq("POST", reqUrl, content, function(data,
 						textStatus) {
 					modal.modal('hide');
@@ -177,7 +195,7 @@ jQuery
 				$.ajax({
 					type : requestType,
 					url : restUrl,
-					data : JSON.stringify(content),
+					data : JSON.stringify(content), 	//data : JSON.stringify(content),
 					contentType : "application/json",
 					success : function(data, textStatus) {
 						if (tCallBack) {
@@ -198,54 +216,118 @@ jQuery
 				var values = $('#' + module + 'Form').serializeArray();  	
 				for (index = 0; index < values.length; ++index) {  
 					var id = values[index].name;
-					$("#"+id).attr("readonly", false);
+					if(id.indexOf("[") == -1) {
+						$("#"+id).attr("readonly", false);
+					}
 				}  
 
 			},
-			
+//================For Order Begin==========================			
 			linkageCodeToStandard : function(){
-				//$.preLink();
-				var item = {
-				        id:0,
-				        code:"", 
-				        standard:"", 
-				    };
-				var i=0,j=0,data = new Array(),code=new Array();
-				$("#product_data option").each(function() { 
-					var values= $(this).text().split(',');
-					item.id=values[0];
-					item.code=values[1];
-					item.standard=values[2];
-					data[i++] = item;
-					if(j==0){
-						code[j++] = values[1];
+				if($(".productItemIndex").length == 1) {	//仅当只有一个产品时才取数据
+					if($("#product_code option").length == 1) {  	//仅当未进行过split操作
+						var item = {
+						        id:0,
+						        code:"", 
+						        standard:"", 
+						    };
+						var i=0,j=0,data = new Array(),code=new Array();
+						$("#product_data option").each(function() { 
+							var values= $(this).text().split(',');
+							item.id=values[0];
+							item.code=values[1];
+							item.standard=values[2];
+							data[i++] = item;
+							if(j==0){
+								code[j++] = values[1];
+							}
+							if(j>0 && code[j-1] != values[1]) {
+								code[j++] = values[1];
+							}
+		
+						});
+						for(var i=0;i<code.length;i++){
+							$("#product_code").append("<option>"+code[i]+"</option>"); 
+						}
 					}
-					if(j>0 && code[j-1] != values[1]) {
-						code[j++] = values[1];
-					}
-
-				});
-				for(var i=0;i<code.length;i++){
-					$("#product_code").append("<option>"+code[i]+"</option>"); 
 				}
 				
+				$(".productItemIndex").each(function() {
+					var standard = $(this).parent().parent().find("#product");
+					$.emptyProductStandardInOrder(standard);
+				});
 				
 			},
 			
-			linkageCodeSelected : function(){
-				$("#product").empty(); 
-				$("#product").append("<option value=''>请选择规格</option>"); 
+			linkageCodeSelected : function(self){
+				var currentItem = $(self).parent().parent();
+				var standard = currentItem.find("#product");
+				$.emptyProductStandardInOrder(standard);
 
-				$("#product option[index='0']").remove(); 
-				
-				var selectedCode = $("#product_code").val();
+				var selectedCode = currentItem.find("#product_code").val();
 				$("#product_data option").each(function() { 
 					var values= $(this).text().split(',');
 					if(values[1] == selectedCode) {
-						$("#product").append("<option value='"+values[0]+"'>"+values[2]+"</option>"); 
+						standard.append("<option value='"+values[0]+"'>"+values[2]+"</option>"); 
 					}
 				});
 			},
+			
+			emptyProductStandardInOrder : function(self){
+				self.empty(); 
+				self.append("<option value=''>规格</option>"); 
+			},
+			
+			cloneProductItemInOrder : function() {
+				var items = $('#productNumInOrder').val();
+				for(var i=1;i<items;i++){
+					var srcItem = $('#productItem');
+					var newItem = srcItem.clone(true);
+					srcItem.before(newItem);
+
+					newItem.find("#productPrice").val("");
+					newItem.find("#productAmount").val("");
+					newItem.find("#productLength").val("");
+					newItem.find("#productRemark").val("");
+					$.emptyProductStandardInOrder(newItem.find("#product"));
+				};
+				
+				$.numberingProductItemInOrder();
+			},
+			
+			removeProductItemInOrder : function(self){
+				if($(".productItemIndex").length == 1) {
+					alert('亲，不能删除了，订单中至少需要包含一款产品。');
+					return;
+				}
+				$(self).parent().parent().remove();
+				$.numberingProductItemInOrder();
+			},
+			
+			numberingProductItemInOrder : function(){
+				var index = 1;
+				$(".productItemIndex").each(function() {
+					$(this).html(index ++);
+				});
+			},
+			
+			createNewOrder : function(){
+				var isSave = true;
+				$(".productItemIndex").each(function() {
+					var standard = $(this).parent().parent().find("#product");
+					if(standard.val() == '') {
+						isSave = false;
+						return false;	//break:return false; continue:return true;
+					}
+				});
+				if(isSave){
+					$.dataSave('plan');
+				}
+				else{
+					alert('请选择规格。所有产品的代码和规格都要选择，不能为空');
+				}
+			},
+//================For Order End==========================			
 			
 			showModule : function(module, title) {
 				$("#status1").attr("checked", false);

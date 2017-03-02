@@ -10,14 +10,6 @@ public class PlanVo {
 	
 	private String name;
 	
-	private ProductVo product;
-
-	private Double productAmount;
-
-	private Double realAmount = 0d;;
-	
-	private Double productLength;
-
 	private CustomerVo customer;
 	
 	private OrderType orderType;
@@ -34,6 +26,8 @@ public class PlanVo {
 	
 	private String content = "DRIFTING";
 	
+	private List<ProductInPlanVo> planProducts;
+	
 	private List<MessageVo> messages;
 
 	public PlanVo() {
@@ -45,38 +39,6 @@ public class PlanVo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public ProductVo getProduct() {
-		return product;
-	}
-
-	public void setProduct(ProductVo product) {
-		this.product = product;
-	}
-
-	public Double getProductAmount() {
-		return productAmount;
-	}
-
-	public void setProductAmount(Double productAmount) {
-		this.productAmount = productAmount;
-	}
-
-	public Double getRealAmount() {
-		return realAmount;
-	}
-
-	public void setRealAmount(Double realAmount) {
-		this.realAmount = realAmount;
-	}
-
-	public Double getProductLength() {
-		return productLength;
-	}
-
-	public void setProductLength(Double productLength) {
-		this.productLength = productLength;
 	}
 
 	public CustomerVo getCustomer() {
@@ -141,6 +103,14 @@ public class PlanVo {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public List<ProductInPlanVo> getPlanProducts() {
+		return planProducts;
+	}
+
+	public void setPlanProducts(List<ProductInPlanVo> planProducts) {
+		this.planProducts = planProducts;
 	}
 
 	public List<MessageVo> getMessages() {

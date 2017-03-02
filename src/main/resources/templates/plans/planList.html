@@ -60,12 +60,12 @@ span.error {
 					<div class="modal-body">
 						<form action="#" id="planForm" method="post" th:object="${planVo}">
 						    <input type="hidden" id="id" name="id" th:field="*{id}"/>
-                            <input type="hidden" id="productId" name="productId" th:field="*{product.id}"/>
+                            <!-- input type="hidden" id="productId" name="productId" th:field="*{product.id}"/ -->
                             <input type="hidden" id="content" name="content" th:field="*{content}"/>
 							<div class="form-body">
 								<div class="row">
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>订单名称</span>
+										<label class="col-md-2 control-label"> <span>订单编号</span>
 										</label>
 										<div class="col-md-10">
 											<input type="text" class="form-control" th:field="*{name}"
@@ -89,7 +89,7 @@ span.error {
 										<label class="col-md-2 control-label"> <span>产品</span>
 										</label>
 										<div class="col-md-10">
-								            <select  th:field="*{product}" th:remove="all-but-first">
+								            <select id="product" name="product" th:remove="all-but-first">
 								                <option th:each="product : ${products}"
 								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;规格：'+${product.standard}">产品一</option>
 								                <option>产品二</option>
@@ -124,7 +124,7 @@ span.error {
 											class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{productLength}"
+											<input type="text" class="form-control" 
 												id="productLength" name="productLength" required="required" data-rule-number="true" 
 												data-msg-number="请输入正确的数字" data-msg-minlength="请输入最小6位" minlength="1" maxlength="6"/>
 										</div>
@@ -132,7 +132,7 @@ span.error {
 											class="required">*</span>
 										</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" th:field="*{productAmount}"
+											<input type="text" class="form-control" 
 												id="productAmount" name="productAmount" required="required" data-rule-number="true" 
 												data-msg-number="请输入正确的数字" data-msg-minlength="请输入最小6位" minlength="1" maxlength="8"/>
 										</div>
@@ -262,10 +262,10 @@ span.error {
 					<table id="planTable" class="table table-striped">
 						<thead>
 							<tr>
-								<th>订单名称</th>
-								<th>产品名称</th>
+								<th>订单编号</th>
+								<!-- th>产品名称</th>
 								<th>长度</th>
-								<th>数量</th>
+								<th>数量</th -->
 								<th>客户</th>
                                 <th>业务员</th>
 								<th>创建时间</th>
@@ -280,9 +280,9 @@ span.error {
 							</tr>
 							<tr th:each="plan : ${plans}">
 								<td th:text="${plan.name}">订单A</td>
-								<td th:text="${plan.product} ? ${plan.product.name} : ''">冰箱</td>
+								<!-- td th:text="${plan.product} ? ${plan.product.name} : ''">冰箱</td>
 								<td th:text="${plan.productLength}">100</td>
-								<td th:text="${plan.productAmount}">200</td>
+								<td th:text="${plan.productAmount}">200</td -->
 								<td th:text="${plan.customer} ? ${plan.customer.name} : ''">乐视网</td>
 								<td th:text="${plan.salesman} ? ${plan.salesman.name} : ''">马小驹</td>
 								<td th:text="${plan.orderDate}">2016-11-11</td>
