@@ -132,7 +132,6 @@ jQuery
 
 				var content = form.serializeObject();  //form.serializeJSON();  
 				if(module == "plan") {
-					
 					var prod = content.product;
 					var planProducts = [];
 					for(var i=0;i <prod.length;i++){
