@@ -131,8 +131,7 @@ jQuery
 				var modal = $("#" + module + "Modal");
 
 				var content = form.serializeObject();  //form.serializeJSON();  
-				if(module == "plan") {
-					
+				if(module == "plan" && content.productAmount) {
 					var prod = content.product;
 					var planProducts = [];
 					for(var i=0;i <prod.length;i++){
@@ -279,20 +278,41 @@ jQuery
 			},
 			
 			cloneProductItemInOrder : function() {
-				var items = $('#productNumInOrder').val();
-				for(var i=1;i<items;i++){
-					var srcItem = $('#productItem');
-					var newItem = srcItem.clone(true);
-					srcItem.before(newItem);
+				var todoItemNum = $('#productNumInOrder').val();
+				var currentItemNum = $(".productItemIndex").length;
 
-					newItem.find("#productPrice").val("");
-					newItem.find("#productAmount").val("");
-					newItem.find("#productLength").val("");
-					newItem.find("#productRemark").val("");
-					$.emptyProductStandardInOrder(newItem.find("#product"));
-				};
+				if(todoItemNum < 1){
+					alert('亲，订单中至少需要包含一款产品。');
+					$('#productNumInOrder').val(currentItemNum);
+					return;
+				}
+				
+				if(todoItemNum>currentItemNum){	//clone
+					for(var i=currentItemNum;i<todoItemNum;i++){
+						$.cloneOneProductItemInOrder();
+					};
+				}
+				else if(todoItemNum<currentItemNum){//remove
+					for(var i=currentItemNum;i>todoItemNum;i--){
+						$('#productItem').remove();
+					}
+				}
+				
 				
 				$.numberingProductItemInOrder();
+			},
+			
+			cloneOneProductItemInOrder : function() {
+				var srcItem = $('#productItem');
+				var newItem = srcItem.clone(true);
+				srcItem.before(newItem);
+
+				newItem.find("#productPrice").val("");
+				newItem.find("#productAmount").val("");
+				newItem.find("#productLength").val("");
+				newItem.find("#productRemark").val("");
+				$.emptyProductStandardInOrder(newItem.find("#product"));
+				
 			},
 			
 			removeProductItemInOrder : function(self){
@@ -301,6 +321,10 @@ jQuery
 					return;
 				}
 				$(self).parent().parent().remove();
+				
+				var currentItemNum = $(".productItemIndex").length;
+				$('#productNumInOrder').val(currentItemNum);
+				
 				$.numberingProductItemInOrder();
 			},
 			
@@ -308,6 +332,18 @@ jQuery
 				var index = 1;
 				$(".productItemIndex").each(function() {
 					$(this).html(index ++);
+				});
+			},
+			
+			openNewOrder : function() {
+				$.linkageCodeToStandard();
+				$.newData('plan','新增订单');
+				$.setPlanDisabled(false);
+				var currentItemNum = $(".productItemIndex").length;
+				$('#productNumInOrder').val(currentItemNum);
+				
+				$('#productNumInOrder').blur(function(){
+					$.cloneProductItemInOrder();
 				});
 			},
 			

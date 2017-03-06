@@ -128,6 +128,10 @@ public class PlanVo {
 	public String getOrderType_cn(){
 		return orderType != null ? orderType.getDescription() : "";
 	}
+	
+	public int getProductNumInOrder(){
+		return planProducts != null ? planProducts.size() : 0;
+	}
 
 	public String getName() {
 		return name;

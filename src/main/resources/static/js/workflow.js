@@ -192,10 +192,12 @@ jQuery
 			bindPlanValue : function(module,data,readOnly){
 				var names,values;
 				var salesmanid = data.salesman ? data.salesman.id : '';
-				var productid = data.product ? data.product.id : '';
+				//var productid = data.product ? data.product.id : '';
 				var customerid = data.customer ? data.customer.id : '';
-				names = ["#id","#name","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
-				values = [data.id,data.name,salesmanid,productid,data.productAmount,data.productLength,customerid,data.remark, data.status];
+//				names = ["#id","#name","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
+//				values = [data.id,data.name,salesmanid,productid,data.productAmount,data.productLength,customerid,data.remark, data.status];
+				names = ["#id","#name","#salesman","#customer","#productNumInOrder","#remark","#content"];
+				values = [data.id,data.name,salesmanid,customerid,data.productNumInOrder, data.remark, data.status];
 				
 				var messages = data.messages;
 				if(messages.length > 0){
@@ -206,10 +208,38 @@ jQuery
 					$("#workflow").html(wf);
 					$('#workflow').show();
 				}
+				
+				var currentItemNum = $(".productItemIndex").length;
+				if(currentItemNum > 1) {	//only remain one
+					for(var i=0;i<currentItemNum-1;i++){
+						$('#productItem').remove();
+					}
+				}
+
+				for(var i=0;i<data.productNumInOrder;i++){
+					var productItem = $("#productItem");
+
+					if(i>0){
+						var newItem = productItem.clone(true);
+						productItem.before(newItem);
+						productItem = newItem;
+					}
+					var planProduct = data.planProducts[i];
+					productItem.find("#product").html("代号:"+planProduct.product.code+"，规格:"+planProduct.product.standard+",");
+					productItem.find("#productPrice").html("价格:"+planProduct.productPrice+",");
+					productItem.find("#productAmount").html("数量:"+planProduct.productAmount+",");
+					productItem.find("#productLength").html("长度:"+planProduct.productLength+",");
+					productItem.find("#productRemark").val(planProduct.productRemark);
+					productItem.find("#productRemark").attr("readonly",true);
+
+				}
+				
+				$.numberingProductItemInOrder();
 					
 
 				var orderType = (data.orderType == 'SALE') ? "#orderType1" :"#orderType2";
 				$(orderType).attr("checked","checked");
+				
 				for(var i=0;i<names.length;i++) {
 					$(names[i]).val(values[i]);
 					if(i>0){
@@ -226,7 +256,6 @@ jQuery
 				$("#orderType1").attr("disabled",isDisabled);
 				$("#orderType2").attr("disabled",isDisabled);
 				$("#salesman").attr("disabled",isDisabled);
-				$("#product").attr("disabled",isDisabled);
 				$("#customer").attr("disabled",isDisabled);
 			}
 

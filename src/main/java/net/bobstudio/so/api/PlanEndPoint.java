@@ -3,6 +3,7 @@ package net.bobstudio.so.api;
 import net.bobstudio.so.domain.Account;
 import net.bobstudio.so.domain.Message;
 import net.bobstudio.so.domain.Plan;
+import net.bobstudio.so.domain.ProductInPlan;
 import net.bobstudio.so.dto.MessageVo;
 import net.bobstudio.so.dto.PlanBatchToProduct;
 import net.bobstudio.so.dto.PlanStatus;
@@ -60,6 +61,9 @@ public class PlanEndPoint {
 				|| PlanStatus.REVIEW_ORDER.toString().equals(planVo.getContent())) {
 			if (plan.id == null) {
 				plan.status = PlanStatus.APPROVE_ORDER.toString();
+				for(ProductInPlan planProduct : plan.planProducts) {
+					planProduct.plan = plan;
+				}
 			}
 			planService.savePlan(plan);
 		} else {

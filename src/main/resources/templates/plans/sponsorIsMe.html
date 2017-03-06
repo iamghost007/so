@@ -109,7 +109,7 @@ span.error {
 										<label class="col-md-2 control-label" style='white-space: nowrap;'> <span>订单涵盖如下</span></label>
 										<div class="col-md-1">
 										<input type="text" class="form-control" placeholder="数字"
-												id="productNumInOrder" name="productNum" required="required" data-rule-number="true" value="1"
+												id="productNumInOrder" name="productNumInOrder" required="required" data-rule-number="true" value="1"
 												 data-msg-required="不能为空" data-rule-gt="true" data-gt="0" minlength="1" maxlength="3" style="width:55px;height:24px"/>
 										</div>
 										<label class="col-md-3 control-label" style="margin-left:18px;"> <span>款产品：</span>	</label>
@@ -227,7 +227,7 @@ span.error {
 			<a href="#" class="btn blue1 radius_l btn-sm"
 					onclick="$.loadFunction('/plans','/sponsor_is_me');">刷新</a>
 			<shiro:hasPermission name="plan:create">
-				<a href="#" onclick="$.linkageCodeToStandard();$.newData('plan','新增订单');$.setPlanDisabled(false);$('#productNumInOrder').blur(function(){$.cloneProductItemInOrder();});" class="btn blue1 radius_l btn-sm"
+				<a href="#" onclick="$.openNewOrder();" class="btn blue1 radius_l btn-sm"
 					id="_add">新增订单</a> 
 			</shiro:hasPermission>
 			</form>

@@ -119,24 +119,35 @@ span.error {
                                             </select>
 										</div>
 									</div>
+<!-- =========Product start============== -->
 									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>长度</span><span
-											class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" 
-												id="productLength" name="productLength" required="required" data-rule-number="true" 
-												data-msg-number="请输入正确的数字" data-msg-minlength="请输入最小6位" minlength="1" maxlength="6"/>
+										<label class="col-md-2 control-label" style='white-space: nowrap;'> <span>订单涵盖如下</span></label>
+										<div class="col-md-1">
+										<input type="text" class="form-control" placeholder="数字" th:field="*{productNumInOrder}"
+												id="productNumInOrder" name="productNumInOrder" required="required" style="width:55px;height:24px"/>
 										</div>
-										<label class="col-md-2 control-label"> <span>数量</span><span
-											class="required">*</span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" 
-												id="productAmount" name="productAmount" required="required" data-rule-number="true" 
-												data-msg-number="请输入正确的数字" data-msg-minlength="请输入最小6位" minlength="1" maxlength="8"/>
+										<label class="col-md-3 control-label" style="margin-left:18px;"> <span>款产品：</span>	</label>
+									</div>
+									<div class="form-group col-md-12" id="productItem" >
+										<div class="pull-left"><span class="productItemIndex">1</span></div>
+								         <div class="col-md-3" style='white-space: nowrap;'>
+								            <span id="product">代号:LM，规格:QC-8c</span>
+								            </div>
+								       <div class="col-md-2"  style='white-space: nowrap;margin-left:15px;'>
+											<span id="productPrice">价格:11.88,</span>
+								       </div>
+								       <div class="col-md-1"  style='white-space: nowrap;'>
+								       		<span id="productAmount">数量:200,</span>
+										</div>
+								       <div class="col-md-1"   style='white-space: nowrap;margin-left:25px;'>
+											<span id="productLength">长度:150,</span>
+								       </div>
+										<div class="col-md-2" style="margin-left:25px;">
+											<input type="text" class="form-control"  placeholder="备注" 
+												id="productRemark" name="productRemark" style="width:125px;height:24px"/>
 										</div>
 									</div>
+<!-- =========Product end  ============== -->
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>订单描述</span>
 										</label>
