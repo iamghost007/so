@@ -67,12 +67,10 @@ span.error {
 									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>订单编号</span>
 										</label>
-										<div class="col-md-10">
+										<div class="col-md-4">
 											<input type="text" class="form-control" th:field="*{name}"
 												id="name" name="name" required="required"  data-msg-minlength="请输入最小5位字符" minlength="5" maxlength="50"/>
 										</div>
-									</div>
-									<div class="form-group col-md-12">
 										<label class="col-md-2 control-label"> <span>订单类型</span>
 										</label>
 										<div class="col-md-4">
@@ -83,18 +81,6 @@ span.error {
 											<label th:remove="all" class="radio inline">
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="type"/> <span>生产</span>
 											</label>
-										</div>
-									</div>
-									<div class="form-group col-md-12">
-										<label class="col-md-2 control-label"> <span>产品</span>
-										</label>
-										<div class="col-md-10">
-								            <select id="product" name="product" th:remove="all-but-first">
-								                <option th:each="product : ${products}"
-								                        th:value="${product.id}" th:text="'代码：'+${product.code}+', &nbsp;&nbsp;&nbsp;规格：'+${product.standard}">产品一</option>
-								                <option>产品二</option>
-								                <option>产品三</option>
-								            </select>
 										</div>
 									</div>
 									<div class="form-group col-md-12">
@@ -247,7 +233,7 @@ span.error {
 			<h3 class="sub-header"></h3>
 			<div class="pull-right">
 			<form id="searchForm" action="" method="post" >
-            <input type="text" name="search_LIKE_product.code" th:value="${#httpServletRequest.getParameter('search_LIKE_product.code')}" id="search_1" placeholder="产品代号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_name" th:value="${#httpServletRequest.getParameter('search_LIKE_name')}" id="search_1" placeholder="订单编号" style="width:120px;height:25px;"/>
             <input type="text" name="search_LIKE_salesman.name" th:value="${#httpServletRequest.getParameter('search_LIKE_salesman.name')}"  id="search_2"  placeholder="业务员" style="width:120px;height:25px;"/>
 			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/plans');"><span >搜索</span></button>
 			<a href="#" class="btn blue1 radius_l btn-sm"	onclick="$.loadFunction('/plans');">刷新</a>
@@ -289,7 +275,7 @@ span.error {
 							<tr th:if="${plans.empty}">
 								<td colspan="10">没有记录</td>
 							</tr>
-							<tr th:each="plan : ${plans}">
+							<tr th:each="plan : ${plans}" th:title="${plan.productsText}">
 								<td th:text="${plan.name}">订单A</td>
 								<!-- td th:text="${plan.product} ? ${plan.product.name} : ''">冰箱</td>
 								<td th:text="${plan.productLength}">100</td>
@@ -308,10 +294,10 @@ span.error {
                                         th:onclick="'javascript:$.auditOrder(this, \'plan\',\''+${plan.id}+'\',true);'">审核</button>
                                     </span>    
                                     </shiro:hasPermission>
-                                    <span th:if="${#strings.equals(plan.status, 'REVIEW_ORDER')}">
+                                    <!-- span th:if="${#strings.equals(plan.status, 'REVIEW_ORDER')}">
                                     <button type="button" class="btn btn-sm btn-warning" onclick="$.reviewOrder(this, 'plan','1',false);"
                                         th:onclick="'javascript:$.reviewOrder(this, \'plan\',\''+${plan.id}+'\',true);'">重拟</button>
-                                    </span>   
+                                    </span -->   
                                     <shiro:hasPermission name="plan:plan"> 
                                     <span th:if="${#strings.equals(plan.status, 'TO_PRODUCT')}">
 									<button type="button" class="btn btn-sm btn-warning" onclick="$.planOrder(this, 'plan','1',true);"

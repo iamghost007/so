@@ -132,6 +132,27 @@ public class PlanVo {
 	public int getProductNumInOrder(){
 		return planProducts != null ? planProducts.size() : 0;
 	}
+	
+	public String getProductsText(){
+		if(getPlanProducts() == null || getPlanProducts().size()==0){
+			return "本订单不包含产品信息";
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		int index = 1;
+		sb.append("订单涵盖如下").append(getPlanProducts().size()).append("款产品：\n");
+		for(ProductInPlanVo product : getPlanProducts()){
+			//1代号:LZ，规格:OC-8, 价格:7, 数量:8, 长度:9
+			sb.append(index++).append(". ").append("代号:").append(product.getProduct().getCode());
+			sb.append(", 规格:").append(product.getProduct().getStandard());
+			sb.append(", 价格:").append(product.getProductPrice());
+			sb.append(", 数量:").append(product.getProductAmount());
+			sb.append(", 长度:").append(product.getProductLength());
+			sb.append(", 备注:").append(product.getProductRemark()).append("\n");
+		}
+		
+		return sb.toString();
+	}
 
 	public String getName() {
 		return name;

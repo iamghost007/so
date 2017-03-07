@@ -22,5 +22,9 @@ public interface PlanDao extends PagingAndSortingRepository<Plan, Long>, JpaSpec
 	@Modifying
 	@Query("update Plan p set p.status=:status where p.id=:id")
 	void updateStatusById(@Param("status")String status, @Param("id")Long id);
+	
+	@Modifying
+	@Query("delete ProductInPlan p where p.plan=:plan")
+	void deleteProductsById(@Param("plan")Plan plan);
 
 }

@@ -61,9 +61,12 @@ public class PlanEndPoint {
 				|| PlanStatus.REVIEW_ORDER.toString().equals(planVo.getContent())) {
 			if (plan.id == null) {
 				plan.status = PlanStatus.APPROVE_ORDER.toString();
-				for(ProductInPlan planProduct : plan.planProducts) {
-					planProduct.plan = plan;
-				}
+			}
+			else { //delete current products
+				planService.deleteProductsById(plan);
+			}
+			for(ProductInPlan planProduct : plan.planProducts) {
+				planProduct.plan = plan;
 			}
 			planService.savePlan(plan);
 		} else {

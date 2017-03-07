@@ -34,7 +34,7 @@ jQuery
 
 			},
 			
-			readPlan : function(btn, module, moduleId, readOnly) {
+			readPlan : function(btn, module, moduleId, readOnly, bindToInput) {
 				var title = $(btn).html();
 
 				$.showModule(module, "当前操作--" + title);
@@ -51,7 +51,7 @@ jQuery
 								$('#dataSave').hide();
 							}
 							
-							$.bindPlanValue(module,data,readOnly);
+							$.bindPlanValue(module,data,readOnly, bindToInput);
 							
 						}, function(textStatus) {
 							tip.text('对不起，不能发现对应的记录!');
@@ -94,7 +94,8 @@ jQuery
 			},
 			
 			reviewOrder : function(btn, module, moduleId, readOnly){
-				$.readPlan(btn,module, moduleId, false);
+				$.openNewOrder();
+				$.readPlan(btn,module, moduleId, false, true);
 
 				var next = "<label class='col-md-2 control-label' id='wf_node_lable'>重校订单</label>";
 				next += "<div class='col-md-10'>";
@@ -189,13 +190,10 @@ jQuery
 
 			},
 			
-			bindPlanValue : function(module,data,readOnly){
+			bindPlanValue : function(module,data,readOnly, bindToInput){
 				var names,values;
 				var salesmanid = data.salesman ? data.salesman.id : '';
-				//var productid = data.product ? data.product.id : '';
 				var customerid = data.customer ? data.customer.id : '';
-//				names = ["#id","#name","#salesman","#product","#productAmount","#productLength","#customer","#remark","#content"];
-//				values = [data.id,data.name,salesmanid,productid,data.productAmount,data.productLength,customerid,data.remark, data.status];
 				names = ["#id","#name","#salesman","#customer","#productNumInOrder","#remark","#content"];
 				values = [data.id,data.name,salesmanid,customerid,data.productNumInOrder, data.remark, data.status];
 				
@@ -225,12 +223,25 @@ jQuery
 						productItem = newItem;
 					}
 					var planProduct = data.planProducts[i];
-					productItem.find("#product").html("代号:"+planProduct.product.code+"，规格:"+planProduct.product.standard+",");
-					productItem.find("#productPrice").html("价格:"+planProduct.productPrice+",");
-					productItem.find("#productAmount").html("数量:"+planProduct.productAmount+",");
-					productItem.find("#productLength").html("长度:"+planProduct.productLength+",");
-					productItem.find("#productRemark").val(planProduct.productRemark);
-					productItem.find("#productRemark").attr("readonly",true);
+					if(bindToInput){	//
+						var productCode = productItem.find("#product_code");
+						productCode.val(planProduct.product.code);
+						$.linkageCodeSelected(productCode);
+						productItem.find("#product").val(planProduct.product.id);
+						productItem.find("#productPrice").val(planProduct.productPrice);
+						productItem.find("#productAmount").val(planProduct.productAmount);
+						productItem.find("#productLength").val(planProduct.productLength);
+						productItem.find("#productRemark").val(planProduct.productRemark);
+						
+					}
+					else {
+						productItem.find("#product").html("代号:"+planProduct.product.code+"，规格:"+planProduct.product.standard+",");
+						productItem.find("#productPrice").html("价格:"+planProduct.productPrice+",");
+						productItem.find("#productAmount").html("数量:"+planProduct.productAmount+",");
+						productItem.find("#productLength").html("长度:"+planProduct.productLength+",");
+						productItem.find("#productRemark").val(planProduct.productRemark);
+						productItem.find("#productRemark").attr("readonly",true);
+					}
 
 				}
 				

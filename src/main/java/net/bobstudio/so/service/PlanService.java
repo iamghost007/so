@@ -86,6 +86,12 @@ public class PlanService {
 		planDao.delete(id);
 
 	}
+	
+	@Transactional
+	public void deleteProductsById(Plan plan) {
+		planDao.deleteProductsById(plan);
+		
+	}
 
 	@Transactional
 	public void workflow(Plan plan) {
