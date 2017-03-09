@@ -224,7 +224,7 @@ jQuery
 					}
 					var planProduct = data.planProducts[i];
 					if(bindToInput){	//
-						var productCode = productItem.find("#product_code");
+						var productCode = productItem.find("#productCode");
 						productCode.val(planProduct.product.code);
 						$.linkageCodeSelected(productCode);
 						productItem.find("#product").val(planProduct.product.id);

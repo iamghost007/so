@@ -52,6 +52,8 @@ public class Plan {
 
 	public Date orderDate;
 	
+	public String productCodes;
+	
 	@OneToMany(mappedBy = "plan")
 	@NotFound(action=NotFoundAction.IGNORE)
 	public List<Message> messages = Lists.newArrayList();

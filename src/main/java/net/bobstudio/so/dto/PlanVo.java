@@ -24,6 +24,8 @@ public class PlanVo {
 	
 	private Date orderDate;
 	
+	private String productCodes;
+	
 	private String content = "DRIFTING";
 	
 	private List<ProductInPlanVo> planProducts;
@@ -160,6 +162,14 @@ public class PlanVo {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getProductCodes() {
+		return productCodes;
+	}
+
+	public void setProductCodes(String productCodes) {
+		this.productCodes = productCodes;
 	}
 
 	@Override

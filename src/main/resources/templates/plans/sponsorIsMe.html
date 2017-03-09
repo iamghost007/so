@@ -135,7 +135,7 @@ span.error {
 									<div class="form-group col-md-12" id="productItem">
 										<div class="pull-left"><span class="productItemIndex">1</span></div>
 								         <div class="col-md-2">
-								            <select id="product_code"  onchange="$.linkageCodeSelected(this);" required="required">
+								            <select id="productCode" name="productCode" onchange="$.linkageCodeSelected(this);" required="required">
 								            	<option value="">产品代码</option>
 								            </select>
 								            </div>
@@ -221,7 +221,7 @@ span.error {
 			<h3 class="sub-header"></h3>
 			<div class="pull-right"><!-- 销售员，产品代号 搜索 -->
 			<form id="searchForm" action="" method="post" >
-            <input type="text" name="search_LIKE_name" th:value="${#httpServletRequest.getParameter('search_LIKE_name')}" id="search_1" placeholder="订单编号" style="width:120px;height:25px;"/>
+            <input type="text" name="search_LIKE_productCodes" th:value="${#httpServletRequest.getParameter('search_LIKE_productCodes')}" id="search_1" placeholder="产品代号" style="width:120px;height:25px;"/>
             <input type="text" name="search_LIKE_salesman.name" th:value="${#httpServletRequest.getParameter('search_LIKE_salesman.name')}"  id="search_2"  placeholder="业务员" style="width:120px;height:25px;"/>
 			<button type="button" class="btn blue1 radius_l btn-sm " id="search" onclick="$.search('/plans','/sponsor_is_me');"><span >搜索</span></button>
 			<a href="#" class="btn blue1 radius_l btn-sm"

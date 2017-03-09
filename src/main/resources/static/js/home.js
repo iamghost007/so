@@ -1,4 +1,4 @@
-var lostName = '未发现'
+var lostName = '未发现';
 
 $(function() {
 	$("#greeting").html(
@@ -132,20 +132,7 @@ jQuery
 
 				var content = form.serializeObject();  //form.serializeJSON();  
 				if(module == "plan" && content.productAmount) {
-					var prod = content.product;
-					var planProducts = [];
-					for(var i=0;i <prod.length;i++){
-						var planProduct = { 
-								product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
-						}
-						planProduct.product=prod[i];
-						planProduct.productPrice=content.productPrice[i];
-						planProduct.productAmount=content.productAmount[i];
-						planProduct.productLength=content.productLength[i];
-						planProduct.productRemark=content.productRemark[i];
-						planProducts.push(planProduct);
-					}
-					content.planProducts=planProducts;
+					$.prePlanSave(content);
 					//return;
 				}
 				$.sendAjaxReq("POST", reqUrl, content, function(data,
@@ -165,6 +152,28 @@ jQuery
 					}
 					errorTip.show();
 				});
+
+			},
+			
+			prePlanSave : function(content) {
+				var prod = content.product;
+				var planProducts = [];
+				var productCodes="";
+				for(var i=0;i <prod.length;i++){
+					var planProduct = { 
+							product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
+					};
+					planProduct.product=prod[i];
+					planProduct.productPrice=content.productPrice[i];
+					planProduct.productAmount=content.productAmount[i];
+					planProduct.productLength=content.productLength[i];
+					planProduct.productRemark=content.productRemark[i];
+					planProducts.push(planProduct);
+					
+					productCodes += content.productCode[i]+",";
+				}
+				content.planProducts = planProducts;
+				content.productCodes = productCodes;
 
 			},
 
@@ -213,7 +222,7 @@ jQuery
 				$.showModule(module,title);
 				
 				var values = $('#' + module + 'Form').serializeArray();  	
-				for (index = 0; index < values.length; ++index) {  
+				for (var index = 0; index < values.length; ++index) {  
 					var id = values[index].name;
 					if(id.indexOf("[") == -1) {
 						$("#"+id).attr("readonly", false);
@@ -224,7 +233,7 @@ jQuery
 //================For Order Begin==========================			
 			linkageCodeToStandard : function(){
 				if($(".productItemIndex").length == 1) {	//仅当只有一个产品时才取数据
-					if($("#product_code option").length == 1) {  	//仅当未进行过split操作
+					if($("#productCode option").length == 1) {  	//仅当未进行过split操作
 						var item = {
 						        id:0,
 						        code:"", 
@@ -246,7 +255,7 @@ jQuery
 		
 						});
 						for(var i=0;i<code.length;i++){
-							$("#product_code").append("<option>"+code[i]+"</option>"); 
+							$("#productCode").append("<option>"+code[i]+"</option>"); 
 						}
 					}
 				}
@@ -263,7 +272,7 @@ jQuery
 				var standard = currentItem.find("#product");
 				$.emptyProductStandardInOrder(standard);
 
-				var selectedCode = currentItem.find("#product_code").val();
+				var selectedCode = currentItem.find("#productCode").val();
 				$("#product_data option").each(function() { 
 					var values= $(this).text().split(',');
 					if(values[1] == selectedCode) {
@@ -451,7 +460,7 @@ jQuery
 				var content = form.serializeObject();
 				$.sendAjaxReq("POST", reqUrl, content, function(data,
 						textStatus) {
-					alert("修改个人信息成功!")
+					alert("修改个人信息成功!");
 					modal.modal('hide');					
 				}, function(xmlhttp) {
 					errorTip.text('添加失败哦! 可能原因：数据格式不对或超长。');
@@ -466,7 +475,7 @@ jQuery
 					second = "/main";
 				}
 				
-				var form = $('#searchForm');
+				//var form = $('#searchForm');
 				var value1 = $.trim($("#search_1").val());
 				var value2 = $.trim($("#search_2").val());
 				if(value1.length == 0 && value2.length == 0) {
@@ -491,7 +500,7 @@ jQuery
 				var content = form.serializeObject();
 				$.sendAjaxReq("POST", reqUrl, content, function(data,
 						textStatus) {
-					alert("修改密码成功!需要重新登陆才能生效!")
+					alert("修改密码成功!需要重新登陆才能生效!");
 					$("#editPwdModal").modal('hide');
 				}, function(xmlhttp) {
 					var response = JSON.parse(xmlhttp.responseText);
@@ -518,7 +527,7 @@ jQuery
 				var content = {id:accountId, newPassword:"12345678"};
 				$.sendAjaxReq("POST", reqUrl, content, function(data,
 						textStatus) {
-					tip.text("重置密码成功!")
+					tip.text("重置密码成功!");
 					tip.show();
 				}, function(xmlhttp) {
 					tip.text('修改失败哦! 可能原因：1、您不具有该操作权限； ');
@@ -669,7 +678,7 @@ function insertTable(module, content) {
 		trHtml += " <button type='button' class='btn btn-sm btn-warning'>修改</button>";
 		trHtml += " <button type='button' class='btn btn-sm btn-danger'>删除</button></td>";
 	}
-	trHtml += "</tr>"
+	trHtml += "</tr>";
 
 	addTr(tab, 0, trHtml);
 }
