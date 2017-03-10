@@ -121,9 +121,9 @@ span.error {
 								<td colspan="6">没有记录</td>
 							</tr>
 							<tr th:each="role : ${roles}">
-								<td th:text="${role.name}">Bob</td>
-								<td th:text="${role.remark}">默认角色</td>
-								<td>
+								<td th:text="${role.name}" style='white-space: nowrap;'>Bob</td>
+								<td th:text="${role.remark}">访问权限有：产品管理/原料管理/入库管理/出库管理/图纸管理/供应商管理，不包含生产计划浏览权。</td>
+								<td style='white-space: nowrap;'>
 									<button type="button" class="btn btn-sm btn-info"
 										onclick="$.setPriv('account:view,plan:plan,stock:edit');$.editData(this, 'role','1',true);"
 										th:onclick="'javascript:$.setPriv(\''+${role.priv}+'\');$.editData(this, \'role\',\''+${role.id}+'\',true);'">查看</button>

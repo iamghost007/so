@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class ProductInPlanVo {
 	private Long id;
+	
+	private String name;
 
 	private ProductVo product;
 
@@ -27,6 +29,14 @@ public class ProductInPlanVo {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setId(Long id) {

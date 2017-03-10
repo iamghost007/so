@@ -85,11 +85,11 @@ jQuery
 				var localhostPath = curWwwPath.substring(0, pos);
 				
 				//for tomcat
-				//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-				//return (localhostPath + projectName);
+				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				return (localhostPath + projectName);
 				
 				//spring-boot
-				return localhostPath;
+				//return localhostPath;
 			},
 
 			gotoTAB : function(name) {
@@ -161,9 +161,10 @@ jQuery
 				var productCodes="";
 				for(var i=0;i <prod.length;i++){
 					var planProduct = { 
-							product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
+							name:"", product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
 					};
 					planProduct.product=prod[i];
+					planProduct.name=content.name +"/"+(i+1);
 					planProduct.productPrice=content.productPrice[i];
 					planProduct.productAmount=content.productAmount[i];
 					planProduct.productLength=content.productLength[i];
@@ -371,6 +372,49 @@ jQuery
 				else{
 					alert('请选择规格。所有产品的代码和规格都要选择，不能为空');
 				}
+			},
+			
+			showOrder : function(order,remark) {
+				$('#saleOrderModal').modal('show');
+				$(".productInOrderList").each(function() {
+					if($(".productInOrderList").length>1){
+						$(this).remove();
+					}
+				});
+
+
+				var $tr = $(order).parent().parent();
+				var $tds = $tr.children('td');
+				$("#nameInOrder").html($tds.eq(0).text());
+				$("#customerInOrder").html($tds.eq(1).text());
+				$("#salemanInOrder").html($tds.eq(2).text());
+				var dd = $tds.eq(3).text();
+				$("#dateInOrder").html(dd.substring(0,dd.indexOf(' ')));
+				$("#remarkInOrder").html(remark);
+				
+				var products = $tr.attr("title").split('\n');
+				var firstItem = $('.productInOrderList');
+				var length = products.length-2;
+				while(length -- > 1){
+					firstItem.after(firstItem.clone(true));
+				}
+				
+				var index = 1;
+				$(".productInOrderList").each(function() {
+					var product = products[index];
+					var cols = product.split(',');
+					//序号，品名，规格，长度，数量，单价，金额
+					$tds=$(this).children('td');
+					$tds.eq(0).html(index ++);
+					for(var i=1;i<=5;i++){
+						$tds.eq(i).html(cols[i].substring(cols[i].indexOf(':')+1));
+					}
+					
+                    var total = $tds.eq(4).text()*$tds.eq(5).text();
+					$tds.eq(6).html(total.toFixed(2));					
+					
+				});
+				
 			},
 //================For Order End==========================			
 			
