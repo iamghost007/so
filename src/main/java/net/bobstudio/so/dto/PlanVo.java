@@ -141,11 +141,10 @@ public class PlanVo {
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		int index = 1;
 		sb.append("订单涵盖如下").append(getPlanProducts().size()).append("款产品：\n");
 		for(ProductInPlanVo product : getPlanProducts()){
 			//1代号:LZ，规格:OC-8, 价格:7, 数量:8, 长度:9
-			sb.append(index++).append(". ").append("代号:").append(product.getProduct().getCode());
+			sb.append(product.getName()).append(". ").append("代号:").append(product.getProduct().getCode());
 			sb.append(", 规格:").append(product.getProduct().getStandard());
 			sb.append(", 价格:").append(product.getProductPrice());
 			sb.append(", 数量:").append(product.getProductAmount());

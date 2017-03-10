@@ -20,6 +20,8 @@ public class ProductInPlan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
+	
+	public String name;
 
 	@OneToOne
 	@JoinColumn(name = "productId")

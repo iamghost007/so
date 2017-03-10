@@ -161,9 +161,10 @@ jQuery
 				var productCodes="";
 				for(var i=0;i <prod.length;i++){
 					var planProduct = { 
-							product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
+							name:"", product:0, productPrice:1.0, productAmount:1, productLength:1,productRemark:""
 					};
 					planProduct.product=prod[i];
+					planProduct.name=content.name +"/"+(i+1);
 					planProduct.productPrice=content.productPrice[i];
 					planProduct.productAmount=content.productAmount[i];
 					planProduct.productLength=content.productLength[i];
